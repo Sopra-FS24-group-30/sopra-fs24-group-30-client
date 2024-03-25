@@ -5,9 +5,10 @@ import {LoginGuard} from "./LoginGuard";
 
 export const RegisterGuard = () => {
   if (!localStorage.getItem("token")){
-      return <Outlet />;
+    return <Outlet />;
   }
-  return <Navigate to="/game" replace />;
+
+  return<Navigate to="/game" replace />;
 };
 
 LoginGuard.propTypes = {

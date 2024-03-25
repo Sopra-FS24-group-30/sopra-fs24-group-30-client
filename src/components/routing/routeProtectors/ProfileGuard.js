@@ -7,7 +7,7 @@ export const ProfileGuard = () => {
 
   if (localStorage.getItem("token")) {
 
-      return <Outlet />;
+    return <Outlet />;
   }
 
   return <Navigate to="/login" replace />;

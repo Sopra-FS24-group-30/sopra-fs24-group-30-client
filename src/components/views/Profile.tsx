@@ -58,28 +58,28 @@ const Profile = () => {
 
   if (user) {
     if (user.username === localStorage.getItem("username")){
-        content = (
-            <div className="Your profile">
-                <title>Hello</title>
-                <ul className="profile information-list">
-                    <li>
-                        <Information title="ID" description={user.id}/>
-                        <Information title="Name" description={user.name}/>
-                        <Information title="Username" description={user.username}/>
-                        <Information title="Birthday" description={user.birthday}/>
-                        <Information title="Creation date" description={user.creationDate}/>
-                        <Information title="Status" description={user.status}/>
-                        <Information title="Password" description={user.password}/>
-                    </li>
-                </ul>
-                <ul className="profile button-container">
-                    <Button width="100%" onClick={() => goBack()}>
-                        Go Back
-                    </Button>
-                    <Button width="100%" onClick={() => Edit(user.id)}>Edit</Button>
-                </ul>
-            </div>
-        )
+      content = (
+        <div className="Your profile">
+          <title>Hello</title>
+            <ul className="profile information-list">
+              <li>
+                <Information title="ID" description={user.id}/>
+                <Information title="Name" description={user.name}/>
+                <Information title="Username" description={user.username}/>
+                <Information title="Birthday" description={user.birthday}/>
+                <Information title="Creation date" description={user.creationDate}/>
+                <Information title="Status" description={user.status}/>
+                <Information title="Password" description={user.password}/>
+              </li>
+            </ul>
+            <ul className="profile button-container">
+              <Button width="100%" onClick={() => goBack()}>
+                Go Back
+              </Button>
+              <Button width="100%" onClick={() => Edit(user.id)}>Edit</Button>
+            </ul>
+        </div>
+      )
     }else {
       content = (
         <div className="profile">

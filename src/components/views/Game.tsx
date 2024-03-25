@@ -10,7 +10,8 @@ import { User } from "types";
 
 const Player = ({ user }: { user: User }) => {
   console.log(user)
-  return (
+  return
+  (
     <div className="player container">
       <div className="player username">{user.username}</div>
       <div className="player name">{user.name}</div>
@@ -55,8 +56,8 @@ const Game = () => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        const username = localStorage.getItem('username');
-        const response = await api.get(`/users`);
+        const username = localStorage.getItem("username");
+        const response = await api.get("/users");
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -99,11 +100,11 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map((user: User) => (
-              <li key={user.id}>
-                <Link to={`/profile/${user.id}`}>
-                  <Player user={user}/>
-                </Link>
-              </li>
+            <li key={user.id}>
+              <Link to={`/profile/${user.id}`}>
+                <Player user={user}/>
+              </Link>
+            </li>
           ))}
         </ul>
         <Button width="100%" onClick={() => logout()}>

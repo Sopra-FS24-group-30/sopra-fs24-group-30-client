@@ -32,7 +32,7 @@ const Editable = (props) =>{
         placeholder={props.placeholder}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
-        />
+      />
     </div>
   )
 }
@@ -51,10 +51,10 @@ const Edit = () => {
   const [name, setName] = useState<String>(null);
   const [username, setUsername] = useState<String>(null);
   const [password, setPassword] = useState<String>(null);
-  const [birthday, setBirthday] = useState('')
+  const [birthday, setBirthday] = useState("")
 
   const handleDate = (event) =>{
-      setBirthday(event.target.value);
+    setBirthday(event.target.value);
   };
 
   useEffect(() => {
@@ -69,17 +69,18 @@ const Edit = () => {
       } catch (error){
         console.error(`something went wrong while fetching the user:${handleError(error)}`);
       }
-      }
-      fetchData();
+    }
+    fetchData();
   }, [userid]);
 
   const doUpdate = async () => {
-      try{
-        const requestBody =JSON.stringify({name, username, birthday, password});
-        return api.put(`/profile/${userid}/edit`, requestBody);
-      } catch(error){
-        console.error(`Something went wrong while updating the user:${handleError(error)}`);
-      }
+    try{
+      const requestBody =JSON.stringify({name, username, birthday, password});
+
+      return api.put(`/profile/${userid}/edit`, requestBody);
+    } catch(error){
+      console.error(`Something went wrong while updating the user:${handleError(error)}`);
+    }
   }
 
   const Done = async (id): Promise<void> => {
@@ -119,13 +120,13 @@ const Edit = () => {
               placeholder={user.password}
               onChange={(un:string)=>setPassword(un)}
             />
-            </li>
-          </ul>
-          <Button
-            width="100%"
-            onClick={() => Done(user.id)}>
-            Done
-          </Button>
+          </li>
+        </ul>
+        <Button
+          width="100%"
+          onClick={() => Done(user.id)}>
+          Done
+        </Button>
       </div>
     )
   }
