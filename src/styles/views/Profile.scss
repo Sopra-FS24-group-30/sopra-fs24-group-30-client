@@ -1,7 +1,7 @@
 @import "../theme";
 
 .profile {
-  &.container{
+  &.container {
     background: $background;
     padding: 1.5em;
     border-radius: $borderRadius;
@@ -11,20 +11,24 @@
     box-shadow: $dropShadow;
     width: 26em;
   }
-  &.information-list{
+
+  &.information-list {
     list-style: none;
-    padding-left:0;
+    padding-left: 0;
   }
-  &.information-item{
+
+  &.information-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  &.h2{
-    margin:0.5em 0;
+
+  &.h2 {
+    margin: 0.5em 0;
   }
-  &.button-container{
+
+  &.button-container {
     display: flex;
     justify-content: center;
     column-gap: 10%;
@@ -43,15 +47,17 @@
     align-items: center;
     background: lighten($background, 5);
   }
+
   &.title {
     font-weight: 500;
     color: $accent;
     display: block;
     width: 5em;
   }
-  &.description{
+
+  &.description {
     font-weight: 300;
     margin-left: 5px;
-    display:block
+    display: block
   }
 }

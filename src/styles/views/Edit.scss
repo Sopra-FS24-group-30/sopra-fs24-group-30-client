@@ -1,7 +1,7 @@
 @import "../theme";
 
 .profile {
-  &.container{
+  &.container {
     background: $background;
     padding: 1.5em;
     border-radius: $borderRadius;
@@ -11,20 +11,24 @@
     box-shadow: $dropShadow;
     width: 26em;
   }
-  &.information-list{
+
+  &.information-list {
     list-style: none;
-    padding-left:0;
+    padding-left: 0;
   }
-  &.information-item{
+
+  &.information-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  &.h2{
-    margin:0.5em 0;
+
+  &.h2 {
+    margin: 0.5em 0;
   }
-  &.button-container{
+
+  &.button-container {
     display: flex;
     justify-content: center;
     column-gap: 10%;
@@ -43,20 +47,22 @@
     align-items: center;
     background: lighten($background, 0.5);
   }
+
   &.title {
     font-weight: 500;
     color: $accent;
     display: block;
     width: 5em;
   }
-  &.description-container{
+
+  &.description-container {
     font-weight: 300;
     margin-left: 5px;
-    display:block;
+    display: block;
   }
 }
 
-.edit{
+.edit {
   &.container {
     width: 22em;
     padding: 10px;
@@ -65,13 +71,15 @@
     align-items: center;
     background: lighten($background, 0.5);
   }
+
   &.title {
     font-weight: 500;
     color: $accent;
     display: block;
     width: 5em;
   }
-  &.input-description{
+
+  &.input-description {
     height: 35px;
     width: 17em;
     padding-left: 20px;
@@ -82,7 +90,7 @@
   }
 }
 
-.birthday{
+.birthday {
   &.container {
     width: 22em;
     padding: 10px;
@@ -91,12 +99,14 @@
     align-items: center;
     background: lighten($background, 0.5);
   }
+
   &.title {
     font-weight: 500;
     color: $accent;
     display: block;
     width: 5em;
   }
+
   &.input {
     height: 35px;
     border: none;

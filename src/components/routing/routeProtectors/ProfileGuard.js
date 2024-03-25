@@ -3,16 +3,16 @@ import {Navigate, Outlet} from "react-router-dom";
 import PropTypes from "prop-types";
 
 export const ProfileGuard = () => {
-  console.log(localStorage.getItem("token"))
+    console.log(localStorage.getItem("token"))
 
-  if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
 
-    return <Outlet />;
-  }
+        return <Outlet/>;
+    }
 
-  return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace/>;
 };
 
 ProfileGuard.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node
 }

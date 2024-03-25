@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import {LoginGuard} from "./LoginGuard";
 
 export const RegisterGuard = () => {
-  if (!localStorage.getItem("token")){
-    return <Outlet />;
-  }
+    if (!localStorage.getItem("token")) {
+        return <Outlet/>;
+    }
 
-  return<Navigate to="/game" replace />;
+    return <Navigate to="/game" replace/>;
 };
 
 LoginGuard.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node
 }

@@ -18,25 +18,28 @@
     box-shadow: $dropShadow;
     width: 20em;
   }
+
   &.user-list {
     list-style: none;
     padding-left: 0;
   }
+
   &.user-item {
     display: inline-block;
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  & p,h2 {
+
+  & p, h2 {
     margin: 0.5em 0;
   }
 }
 
 .player {
-  &.container{
+  &.container {
     padding: 6px;
-    background: lighten($background,5);
+    background: lighten($background, 5);
     border: none;
     border-radius: $borderRadius;
     display: block;
@@ -46,17 +49,21 @@
     display: flex;
     flex-direction: row;
   }
-  &:hover{
-    background: lighten($background,10);
+
+  &:hover {
+    background: lighten($background, 10);
   }
+
   &.name {
     font-weight: 300;
     margin-left: 5px;
   }
+
   &.username {
     font-weight: 500;
     color: $accent;
   }
+
   &.id {
     margin-left: auto;
     margin-right: 5px;

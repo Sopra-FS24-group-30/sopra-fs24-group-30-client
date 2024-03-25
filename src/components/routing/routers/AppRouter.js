@@ -18,40 +18,40 @@ import {EditGuard} from "../routeProtectors/EditGuard"
  * The main difference between these two routes is the following:
  * /login renders another component without any sub-route
  * /game renders a Router that contains other sub-routes that render in turn other react components
- * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial 
+ * Documentation about routing in React: https://reactrouter.com/en/main/start/tutorial
  */
 const AppRouter = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
+    return (
+        <BrowserRouter>
+            <Routes>
 
-        <Route path="/game/*" element={<GameGuard />}>
-          <Route path="/game/*" element={<GameRouter base="/game"/>} />
-        </Route>
+                <Route path="/game/*" element={<GameGuard/>}>
+                    <Route path="/game/*" element={<GameRouter base="/game"/>}/>
+                </Route>
 
-        <Route path="/login" element={<LoginGuard />}>
-          <Route path="/login" element={<Login/>} />
-        </Route>
+                <Route path="/login" element={<LoginGuard/>}>
+                    <Route path="/login" element={<Login/>}/>
+                </Route>
 
-        <Route path="/" element={
-          <Navigate to="/game" replace />
-        }/>
+                <Route path="/" element={
+                    <Navigate to="/game" replace/>
+                }/>
 
-        <Route path="/register" element={<RegisterGuard/>}>
-          <Route path ="/register" element={<Register/>}/>
-        </Route>
+                <Route path="/register" element={<RegisterGuard/>}>
+                    <Route path="/register" element={<Register/>}/>
+                </Route>
 
-        <Route path="/profile/:userid" element={<ProfileGuard/>}>
-          <Route path= "/profile/:userid" element={<Profile/>}/>
-        </Route>
+                <Route path="/profile/:userid" element={<ProfileGuard/>}>
+                    <Route path="/profile/:userid" element={<Profile/>}/>
+                </Route>
 
-        <Route path="/profile/:userid/edit" element={<EditGuard/>}>
-          <Route path="/profile/:userid/edit" element={<Edit/>}/>
-        </Route>
+                <Route path="/profile/:userid/edit" element={<EditGuard/>}>
+                    <Route path="/profile/:userid/edit" element={<Edit/>}/>
+                </Route>
 
-      </Routes>
-    </BrowserRouter>
-  );
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 /*
