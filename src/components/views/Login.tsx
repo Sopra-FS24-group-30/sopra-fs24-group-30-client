@@ -71,20 +71,20 @@ const Login = () => {
         <div className="login form">
           <h3>Login</h3>
           <FormField
-              label="Username"
-              value={username}
-              onChange={(un: string) => setUsername(un)}
+            label="Username"
+            value={username}
+            onChange={(un: string) => setUsername(un)}
           />
           <FormField
-              label="Password"
-              value={password}
-              onChange={(un: string) => setPassword(un)}
+            label="Password"
+            value={password}
+            onChange={(un: string) => setPassword(un)}
           />
           <div className="login button-container">
             <Button
-                disabled={!username || !password}
-                width="100%"
-                onClick={() => doLogin()}
+              disabled={!username || !password}
+              width="100%"
+              onClick={() => doLogin()}
             >
               Login
             </Button>
@@ -93,8 +93,8 @@ const Login = () => {
         <div className="login register">
           <h3>Not registered?</h3>
           <Button
-              width="100%"
-              onClick={() => doRegister()}
+            width="100%"
+            onClick={() => doRegister()}
           >
             Sign up
           </Button>

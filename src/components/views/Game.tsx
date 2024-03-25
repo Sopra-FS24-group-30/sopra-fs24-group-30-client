@@ -11,11 +11,11 @@ import { User } from "types";
 const Player = ({ user }: { user: User }) => {
   console.log(user)
   return (
-      <div className="player container">
-        <div className="player username">{user.username}</div>
-        <div className="player name">{user.name}</div>
-        <div className="player id">id: {user.id}</div>
-      </div>
+    <div className="player container">
+      <div className="player username">{user.username}</div>
+      <div className="player name">{user.name}</div>
+      <div className="player id">id: {user.id}</div>
+    </div>
   );
 }
 

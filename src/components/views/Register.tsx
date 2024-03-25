@@ -12,99 +12,99 @@ Using the same template as the login, and therefore using the same .scss file, a
  */
 
 const FormField = (props) => {
-    return (
-        <div className="register field">
-            <label className="register label">{props.label}</label>
-            <input
-                className="register input"
-                placeholder="enter here.."
-                value={props.value}
-                onChange={(e) => props.onChange(e.target.value)}
-            />
-        </div>
-    );
+  return (
+    <div className="register field">
+      <label className="register label">{props.label}</label>
+      <input
+        className="register input"
+        placeholder="enter here.."
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+      />
+    </div>
+  );
 };
 
 FormField.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
+  label: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 const Register = () => {
-    const navigate = useNavigate();
-    const [name, setName] = useState<string>(null);
-    const [username, setUsername] = useState<string>(null);
-    const [password, setPassword] = useState<string>(null);
+  const navigate = useNavigate();
+  const [name, setName] = useState<string>(null);
+  const [username, setUsername] = useState<string>(null);
+  const [password, setPassword] = useState<string>(null);
 
 
-    const doRegister = async () => {
-        try {
-            const requestBody = JSON.stringify({name, username, password});
-            const response = await api.post("/users", requestBody);
+  const doRegister = async () => {
+    try {
+      const requestBody = JSON.stringify({name, username, password});
+      const response = await api.post("/users", requestBody);
 
-            // Get the returned user and update a new object.
-            const user = new User(response.data);
+      // Get the returned user and update a new object.
+      const user = new User(response.data);
 
-            // Store the token into the local storage.
-            localStorage.setItem("token", user.token);
-            localStorage.setItem("username", user.username);
-            // register successfully worked --> navigate to the route /game in the GameRouter
-            navigate("/game");
-        } catch (error) {
-            alert(
-                `Something went wrong during the sign up: \n${handleError(error)}`
-            );
-        }
-    };
-
-    const doLogin = () : void => {
-        navigate("/login");
+      // Store the token into the local storage.
+      localStorage.setItem("token", user.token);
+      localStorage.setItem("username", user.username);
+      // register successfully worked --> navigate to the route /game in the GameRouter
+      navigate("/game");
+    } catch (error) {
+      alert(
+        `Something went wrong during the sign up: \n${handleError(error)}`
+      );
     }
+  };
 
-    return (
-        <BaseContainer>
-            <div className="register container">
-                <div className="register form">
-                    <h3>Sign up</h3>
-                    <FormField
-                        label="Name"
-                        value={name}
-                        onChange={(un: string) => setName(un)}
-                    />
-                    <FormField
-                        label="Username"
-                        value={username}
-                        onChange={(un: string) => setUsername(un)}
-                    />
-                    <FormField
-                        label="Password"
-                        value={password}
-                        onChange={(un: string) => setPassword(un)}
-                    />
-                    <div className="register button-container">
-                        <Button
-                            disabled={!username || !password}
-                            width="100%"
-                            onClick={() => doRegister()}
-                        >
-                            Sign up
-                        </Button>
-                    </div>
-                </div>
-                <div className="register login">
-                    <h3>Already registered?</h3>
-                    <Button
-                        width="100%"
-                        onClick={() => doLogin()}
-                    >
-                        Return to login
-                    </Button>
-                </div>
-            </div>
+  const doLogin = () : void => {
+    navigate("/login");
+  }
 
-        </BaseContainer>
-    );
+  return (
+    <BaseContainer>
+      <div className="register container">
+        <div className="register form">
+          <h3>Sign up</h3>
+          <FormField
+            label="Name"
+            value={name}
+            onChange={(un: string) => setName(un)}
+          />
+          <FormField
+            label="Username"
+            value={username}
+            onChange={(un: string) => setUsername(un)}
+          />
+          <FormField
+            label="Password"
+            value={password}
+            onChange={(un: string) => setPassword(un)}
+          />
+          <div className="register button-container">
+            <Button
+              disabled={!username || !password}
+              width="100%"
+              onClick={() => doRegister()}
+            >
+              Sign up
+            </Button>
+          </div>
+        </div>
+        <div className="register login">
+          <h3>Already registered?</h3>
+          <Button
+            width="100%"
+            onClick={() => doLogin()}
+          >
+            Return to login
+          </Button>
+        </div>
+      </div>
+
+    </BaseContainer>
+  );
 };
 
 export default Register;
