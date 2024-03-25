@@ -1,7 +1,6 @@
 import React from "react";
-import Header from "./components/views/Header";
 import AppRouter from "./components/routing/routers/AppRouter";
-
+import Header from "./components/views/Header";
 /**
  * Happy coding!
  * React Template by Lucas Pelloni
@@ -11,7 +10,7 @@ import AppRouter from "./components/routing/routers/AppRouter";
 const App = () => {
   return (
     <div>
-      <Header height="100" />
+      <Header/>
       <AppRouter />
     </div>
   );

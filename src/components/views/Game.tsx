@@ -7,14 +7,18 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 import { User } from "types";
+import { Link} from "react-router-dom";
 
-const Player = ({ user }: { user: User }) => (
-  <div className="player container">
-    <div className="player username">{user.username}</div>
-    <div className="player name">{user.name}</div>
-    <div className="player id">id: {user.id}</div>
-  </div>
-);
+const Player = ({ user }: { user: User }) => {
+  console.log(user)
+  return (
+      <div className="player container">
+        <div className="player username">{user.username}</div>
+        <div className="player name">{user.name}</div>
+        <div className="player id">id: {user.id}</div>
+      </div>
+  );
+}
 
 Player.propTypes = {
   user: PropTypes.object,
@@ -31,8 +35,16 @@ const Game = () => {
   // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState 
   const [users, setUsers] = useState<User[]>(null);
 
-  const logout = (): void => {
+  const logout = async () => {
+    try {
+      const username = localStorage.getItem("username")
+      const requestBody = JSON.stringify({username})
+      await api.put("/game", requestBody);
+    }catch (error){
+      alert(`Something went wrong during the logout: ${handleError(error)}`)
+    }
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     navigate("/login");
   };
 
@@ -44,7 +56,8 @@ const Game = () => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        const response = await api.get("/users");
+        const username = localStorage.getItem('username');
+        const response = await api.get(`/users`);
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -63,6 +76,7 @@ const Game = () => {
 
         // See here to get more data.
         console.log(response);
+        await api.put(`/status/${username}`);
       } catch (error) {
         console.error(
           `Something went wrong while fetching the users: \n${handleError(
@@ -86,9 +100,11 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map((user: User) => (
-            <li key={user.id}>
-              <Player user={user} />
-            </li>
+              <li key={user.id}>
+                <Link to={`/profile/${user.id}`}>
+                  <Player user={user}/>
+                </Link>
+              </li>
           ))}
         </ul>
         <Button width="100%" onClick={() => logout()}>
@@ -100,9 +116,9 @@ const Game = () => {
 
   return (
     <BaseContainer className="game container">
-      <h2>Happy Coding!</h2>
+      <h2>Home</h2>
       <p className="game paragraph">
-        Get all users from secure endpoint:
+        Hello {localStorage.getItem("username")}!
       </p>
       {content}
     </BaseContainer>

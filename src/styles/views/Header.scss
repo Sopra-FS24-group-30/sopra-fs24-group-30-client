@@ -10,4 +10,10 @@
     color: $background;
     text-align: center;
   }
+
+  &.logout-container{
+    display: block;
+    right: 2em;
+    margin-top: 1em;
+  }
 }
