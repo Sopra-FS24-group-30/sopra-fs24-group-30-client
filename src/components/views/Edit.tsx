@@ -104,12 +104,12 @@ const Edit = () => {
                     <li>
                         <Information title="ID" description={user.id}/>
                         <Editable editTitle="Name"
-                                  placeholder={user.name}
-                                  onChange={(un: string) => setName(un)}
+                            placeholder={user.name}
+                            onChange={(un: string) => setName(un)}
                         />
                         <Editable editTitle="Username"
-                                  placeholder={user.username}
-                                  onChange={(un: string) => setUsername(un)}
+                            placeholder={user.username}
+                            onChange={(un: string) => setUsername(un)}
                         />
                         <div className="birthday container">
                             <div className="birthday title">Birthday</div>
@@ -118,8 +118,8 @@ const Edit = () => {
                         <Information title="Creation date" description={user.creationDate}/>
                         <Information title="Status" description={user.status}/>
                         <Editable editTitle="Password"
-                                  placeholder={user.password}
-                                  onChange={(un: string) => setPassword(un)}
+                            placeholder={user.password}
+                            onChange={(un: string) => setPassword(un)}
                         />
                     </li>
                 </ul>
