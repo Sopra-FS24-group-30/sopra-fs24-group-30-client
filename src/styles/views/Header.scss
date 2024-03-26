@@ -1,19 +1,19 @@
 @import "../theme";
 
 .header {
-  &.container {
-    @include center;
-  }
+    &.container {
+        @include center;
+    }
 
-  &.title {
-    font-weight: bold;
-    color: $background;
-    text-align: center;
-  }
+    &.title {
+        font-weight: bold;
+        color: $background;
+        text-align: center;
+    }
 
-  &.logout-container {
-    display: block;
-    right: 2em;
-    margin-top: 1em;
-  }
+    &.logout-container {
+        display: block;
+        right: 2em;
+        margin-top: 1em;
+    }
 }

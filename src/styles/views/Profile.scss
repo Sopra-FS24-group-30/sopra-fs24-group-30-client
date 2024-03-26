@@ -1,63 +1,63 @@
 @import "../theme";
 
 .profile {
-  &.container {
-    background: $background;
-    padding: 1.5em;
-    border-radius: $borderRadius;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: $dropShadow;
-    width: 26em;
-  }
+    &.container {
+        background: $background;
+        padding: 1.5em;
+        border-radius: $borderRadius;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: $dropShadow;
+        width: 26em;
+    }
 
-  &.information-list {
-    list-style: none;
-    padding-left: 0;
-  }
+    &.information-list {
+        list-style: none;
+        padding-left: 0;
+    }
 
-  &.information-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+    &.information-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-  &.h2 {
-    margin: 0.5em 0;
-  }
+    &.h2 {
+        margin: 0.5em 0;
+    }
 
-  &.button-container {
-    display: flex;
-    justify-content: center;
-    column-gap: 10%;
-    margin: 2em;
-    padding: 1em;
-  }
+    &.button-container {
+        display: flex;
+        justify-content: center;
+        column-gap: 10%;
+        margin: 2em;
+        padding: 1em;
+    }
 }
 
 .user-information {
-  &.container {
-    margin: 0.5em 0;
-    width: 22em;
-    padding: 10px;
-    border-radius: $borderRadius;
-    display: flex;
-    align-items: center;
-    background: lighten($background, 5);
-  }
+    &.container {
+        margin: 0.5em 0;
+        width: 22em;
+        padding: 10px;
+        border-radius: $borderRadius;
+        display: flex;
+        align-items: center;
+        background: lighten($background, 5);
+    }
 
-  &.title {
-    font-weight: 500;
-    color: $accent;
-    display: block;
-    width: 5em;
-  }
+    &.title {
+        font-weight: 500;
+        color: $accent;
+        display: block;
+        width: 5em;
+    }
 
-  &.description {
-    font-weight: 300;
-    margin-left: 5px;
-    display: block
-  }
+    &.description {
+        font-weight: 300;
+        margin-left: 5px;
+        display: block
+    }
 }
