@@ -11,7 +11,7 @@ import Header from "./components/views/Header";
 const App = () => {
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
             <AppRouter/>
         </div>
     );
