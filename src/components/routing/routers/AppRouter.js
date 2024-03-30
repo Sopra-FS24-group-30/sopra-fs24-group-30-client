@@ -10,6 +10,7 @@ import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 import Profile from "../../views/Profile";
 import Edit from "../../views/Edit";
 import {EditGuard} from "../routeProtectors/EditGuard"
+import Board from "../../views/Board";
 
 /**
  * Main router of your application.
@@ -27,6 +28,10 @@ const AppRouter = () => {
 
                 <Route path="/game/*" element={<GameGuard/>}>
                     <Route path="/game/*" element={<GameRouter base="/game"/>}/>
+                </Route>
+
+                <Route path="/board/*"
+                    element={<Board/>}>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>

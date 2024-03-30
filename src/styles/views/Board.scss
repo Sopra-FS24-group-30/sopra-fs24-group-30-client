@@ -1,0 +1,26 @@
+@import "../theme";
+
+
+.board-background{
+    max-width: 100%;
+    max-height: 100vh; 
+    object-fit: contain;
+  }
+
+.board-container{
+    // opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    width: 100vw;
+  }
+
+// @media (min-aspect-ratio: 2792/2329) {
+//     .board-background {
+//     }
+//   }
+
+// .overlay{
+//     position: absolute
+// }
