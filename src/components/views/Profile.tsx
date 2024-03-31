@@ -94,8 +94,8 @@ const Profile = () => {
                                             <div key={index} className="achievements circle-container">
                                                 <div className="achievements circle"/>
                                                 <span className="achievements description-container">
-                                                {title}: {description}
-                                            </span>
+                                                    {title}: {description}
+                                                </span>
                                             </div>
                                         ))}
                                     </div>
@@ -117,7 +117,7 @@ const Profile = () => {
                     <title>Hello</title>
                     <ul className="profile information-list">
                         <li>
-                        <Information title="ID" description={user.id}/>
+                            <Information title="ID" description={user.id}/>
                             <Information title="Username" description={user.username}/>
                             <Information title="Birthday" description={user.birthday}/>
                             <Information title="Creation date" description={user.creationDate}/>

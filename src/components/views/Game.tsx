@@ -10,6 +10,7 @@ import {User} from "types";
 
 const Player = ({user}: { user: User }) => {
     console.log(user)
+
     return (
         <div className="player container">
             <div className="player username">{user.username}</div>
@@ -24,11 +25,7 @@ Player.propTypes = {
 
 const SearchField = (props) => {
     return (
-        <input className="game search-input"
-               placeholder = "search by username"
-               value = {props.value}
-               onChange={(e)=>props.onChange(e.target.value)}
-        />
+        <input className="game search-input" placeholder = "search by username" value = {props.value} onChange={(e)=>props.onChange(e.target.value)}/>
     )
 }
 
@@ -108,8 +105,6 @@ const Game = () => {
     }, []);
 
     let content = <Spinner/>;
-
-
 
     if (users) {
         content = (
