@@ -48,7 +48,6 @@ const Edit = () => {
     const navigate = useNavigate();
     const {userid} = useParams();
     const [user, setUser] = useState<User>(null);
-    const [name, setName] = useState<String>(null);
     const [username, setUsername] = useState<String>(null);
     const [password, setPassword] = useState<String>(null);
     const [birthday, setBirthday] = useState("")
@@ -76,7 +75,7 @@ const Edit = () => {
 
     const doUpdate = async () => {
         try {
-            const requestBody = JSON.stringify({name, username, birthday, password});
+            const requestBody = JSON.stringify({username, birthday, password});
 
             return api.put(`/profile/${userid}/edit`, requestBody);
         } catch (error) {
@@ -103,10 +102,6 @@ const Edit = () => {
                 <ul className="profile information-list">
                     <li>
                         <Information title="ID" description={user.id}/>
-                        <Editable editTitle="Name"
-                            placeholder={user.name}
-                            onChange={(un: string) => setName(un)}
-                        />
                         <Editable editTitle="Username"
                             placeholder={user.username}
                             onChange={(un: string) => setUsername(un)}

@@ -16,10 +16,12 @@
         background: $background;
         padding: 1.5em;
         border-radius: $borderRadius;
-        display: block;
+        display: flex;
+        justify-content: flex-start;
         flex-direction: column;
         align-items: center;
         box-shadow: $dropShadow;
+        position: relative;
     }
 
     &.information-list {
@@ -32,6 +34,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-left: 50px;
     }
 
     &.h2 {
@@ -78,6 +81,7 @@
         padding: 10px;
         border-radius: $borderRadius;
         display: flex;
+        justify-content: flex-start;
         align-items: center;
         background: lighten($background, 0.5);
     }
@@ -97,15 +101,17 @@
         border-radius: 0.75em;
         background: transparentize(white, 0.9);
         color: $textColor;
+        margin-left: 10px;
     }
 }
 
 .birthday {
     &.container {
-        width: 22em;
+        width: 23.7em;
         padding: 10px;
         border-radius: $borderRadius;
         display: flex;
+        justify-content: flex-start;
         align-items: center;
         background: lighten($background, 0.5);
     }
@@ -120,10 +126,11 @@
     &.input {
         height: 35px;
         border: none;
-        width: 22em;
+        width: 17em;
         border-radius: 0.75em;
         background: transparentize(white, 0.9);
         color: $textColor;
-        margin-left: 5px;
+        margin-left: 4px;
+        padding-left: 20px;
     }
 }
