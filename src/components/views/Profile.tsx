@@ -122,6 +122,21 @@ const Profile = () => {
                             <Information title="Birthday" description={user.birthday}/>
                             <Information title="Creation date" description={user.creationDate}/>
                             <Information title="Status" description={user.status}/>
+                            <div className="user-information container">
+                                <div className="user-information title">Achievements</div>
+                                <div className="user-information description">
+                                    <div className="achievements container">
+                                        {Object.entries(ACHIEVEMENTS).map(([title, description], index) => (
+                                            <div key={index} className="achievements circle-container">
+                                                <div className="achievements circle"/>
+                                                <span className="achievements description-container">
+                                                    {title}: {description}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                     <Button width="100%" onClick={() => goBack()}>
