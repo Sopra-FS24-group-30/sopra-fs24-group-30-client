@@ -10,15 +10,16 @@ const Board = () => {
 
     useEffect(() => {
 
-        document.body.classList.add("abc")
+        document.body.classList.add("scrollbar-removal")
+        // window.addEventListener("keydown", keyPressEvent);
         
         return () => {
-            document.body.classList.remove("abc")
+            document.body.classList.remove("scrollbar-removal")
+            // window.removeEventListener("keydown", keyPressEvent);
         };
     }, []);
 
     return (
-        // <div className="board">
         <div>
             Top Ui
             <div className="board-container">

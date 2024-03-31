@@ -1,10 +1,14 @@
 @import "../theme";
-
+body.scrollbar-removal{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 
 .board-background{
     max-width: 100%;
-    max-height: 100vh; 
-    object-fit: contain;
+    max-height: 100vh;
+    object-fit: contain; 
   }
 
 .board-container{
@@ -15,12 +19,3 @@
     height: 100dvh;
     width: 100vw;
   }
-
-// @media (min-aspect-ratio: 2792/2329) {
-//     .board-background {
-//     }
-//   }
-
-// .overlay{
-//     position: absolute
-// }
