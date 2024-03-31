@@ -104,11 +104,13 @@ const Profile = () => {
     }
 
     return (
-        <BaseContainer className="profile container">
-            <h2>Profile</h2>
+        <div className="profile box-image">
+            <BaseContainer className="profile container">
+                <h2>Profile</h2>
 
-            {content}
-        </BaseContainer>
+                {content}
+            </BaseContainer>
+        </div>
     )
 }
 

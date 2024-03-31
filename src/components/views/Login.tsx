@@ -99,6 +99,7 @@ const Login = () => {
                         Sign up
                     </Button>
                 </div>
+
             </div>
 
         </BaseContainer>

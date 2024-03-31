@@ -133,10 +133,12 @@ const Edit = () => {
     }
 
     return (
-        <BaseContainer className="profile container">
-            <h2>Edit your profile</h2>
-            {content}
-        </BaseContainer>
+        <div className="profile box-image">
+            <BaseContainer className="profile container">
+                <h2>Edit your profile</h2>
+                {content}
+            </BaseContainer>
+        </div>
     )
 }
 

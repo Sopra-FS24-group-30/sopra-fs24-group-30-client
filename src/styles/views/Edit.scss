@@ -1,15 +1,25 @@
 @import "../theme";
 
 .profile {
+    &.box-image{
+        @include center;
+        background-image: url("../../../assets/images/BoardgameBox.png");
+        background-size: 1165px;
+        background-repeat: no-repeat;
+        background-position: center;
+        min-height: 900px;
+        min-width: 900px;
+        margin: auto;
+    }
     &.container {
+        width: 30em;
         background: $background;
         padding: 1.5em;
         border-radius: $borderRadius;
-        display: flex;
+        display: block;
         flex-direction: column;
         align-items: center;
         box-shadow: $dropShadow;
-        width: 26em;
     }
 
     &.information-list {
