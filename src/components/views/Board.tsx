@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 
-
 const Board = () => {
     const [imageId, setImageId]=useState("0")
 
@@ -59,7 +58,7 @@ const Board = () => {
                     <KeyboardControls />
                     <TransformComponent>
                         <img
-                            src={ require("../../files/boards/board_".concat(imageId, ".png"))}
+                            src={ require((`../../../assets/boards/board_${imageId}.png`))}
                             className="board-background"
                             alt="Gameboard"
                         />

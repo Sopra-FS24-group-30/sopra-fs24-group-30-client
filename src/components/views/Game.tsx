@@ -124,7 +124,7 @@ const Game = () => {
                                     <Player user={user}/>
                                 </Link>
                             </li>
-                    ))}
+                        ))}
                 </ul>
                 <Button width="100%" onClick={() => logout()}>
                     Logout
