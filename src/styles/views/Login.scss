@@ -2,21 +2,21 @@
 
 .login {
     &.container {
-        margin-top: 2em;
-        min-height: 200px;
         /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
         @include center;
         flex-direction: column;
-        row-gap: 2em;
+        background-image: url("../../../assets/images/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 900px;
+        margin: auto;
     }
-
     &.form {
         display: block;
         flex-direction: column;
         justify-content: center;
         width: 60%;
         max-width: 30em;
-        height: 22em;
         font-size: 16px;
         font-weight: 300;
         padding-left: 37px;
@@ -25,8 +25,8 @@
         background-color: $background;
         transition: opacity 0.5s ease, transform 0.5s ease;
         box-shadow: $dropShadow;
+        margin-bottom: 2em;
     }
-
     &.register {
         display: inline-block;
         flex-direction: column;
@@ -43,13 +43,11 @@
         transition: opacity 0.5s ease, transform 0.5s ease;
         box-shadow: $dropShadow;
     }
-
     &.field {
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
-
     &.input {
         height: 35px;
         padding-left: 15px;
@@ -60,17 +58,13 @@
         background: transparentize(white, 0.85);
         color: $textColor;
     }
-
-    &.label {
-        color: $textColor;
-        margin-bottom: 10px;
-        text-transform: lowercase;
-        font-weight: 300;
-    }
-
     &.button-container {
         display: flex;
         justify-content: center;
-        margin-top: 2em;
+        margin-bottom: 2em;
+    }
+    h1{
+        color: #FFC33A;
+        font-size: 2.7em;
     }
 }

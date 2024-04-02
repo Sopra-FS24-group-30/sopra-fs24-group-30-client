@@ -1,6 +1,5 @@
 import React from "react";
 import AppRouter from "./components/routing/routers/AppRouter";
-import Header from "./components/views/Header";
 
 /**
  * Happy coding!
@@ -11,7 +10,6 @@ import Header from "./components/views/Header";
 const App = () => {
     return (
         <div>
-            {/* <Header/> */}
             <AppRouter/>
         </div>
     );

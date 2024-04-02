@@ -14,7 +14,6 @@ const Player = ({user}: { user: User }) => {
     return (
         <div className="player container">
             <div className="player username">{user.username}</div>
-            <div className="player name">{user.name}</div>
             <div className="player id">id: {user.id}</div>
         </div>
     );
@@ -23,6 +22,17 @@ const Player = ({user}: { user: User }) => {
 Player.propTypes = {
     user: PropTypes.object,
 };
+
+const SearchField = (props) => {
+    return (
+        <input className="game search-input" placeholder = "search by username" value = {props.value} onChange={(e)=>props.onChange(e.target.value)}/>
+    )
+}
+
+SearchField.propTypes = {
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+}
 
 const Game = () => {
     // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate
@@ -34,6 +44,7 @@ const Game = () => {
     // a component can have as many state variables as you like.
     // more information can be found under https://react.dev/learn/state-a-components-memory and https://react.dev/reference/react/useState
     const [users, setUsers] = useState<User[]>(null);
+    const [filter, setFilter] = useState<string>(null);
 
     const logout = async () => {
         try {
@@ -98,13 +109,21 @@ const Game = () => {
     if (users) {
         content = (
             <div className="game">
+                <SearchField
+                    value={filter}
+                    onChange={(un: string) => setFilter(un)}
+                />
                 <ul className="game user-list">
-                    {users.map((user: User) => (
-                        <li key={user.id}>
-                            <Link to={`/profile/${user.id}`}>
-                                <Player user={user}/>
-                            </Link>
-                        </li>
+                    {users
+                        .filter((user:User) =>{
+                            return !filter || user.username.toLowerCase().includes(filter.toLowerCase());
+                        })
+                        .map((user: User) => (
+                            <li key={user.id}>
+                                <Link to={`/profile/${user.id}`}>
+                                    <Player user={user}/>
+                                </Link>
+                            </li>
                     ))}
                 </ul>
                 <Button width="100%" onClick={() => logout()}>
@@ -115,13 +134,15 @@ const Game = () => {
     }
 
     return (
-        <BaseContainer className="game container">
-            <h2>Home</h2>
-            <p className="game paragraph">
-                Hello {localStorage.getItem("username")}!
-            </p>
-            {content}
-        </BaseContainer>
+        <div className="game box-image">
+            <BaseContainer className="game container">
+                <h2>Home</h2>
+                <p className="game paragraph">
+                    Hello {localStorage.getItem("username")}!
+                </p>
+                {content}
+            </BaseContainer>
+        </div>
     );
 };
 

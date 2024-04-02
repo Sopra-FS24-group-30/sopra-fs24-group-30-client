@@ -8,7 +8,18 @@
  */
 
 .game {
+    &.box-image{
+        @include center;
+        background-image: url("../../../assets/images/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        min-height: 900px;
+        min-width: 900px;
+        margin: auto;
+    }
     &.container {
+        width: 30em;
         background: $background;
         padding: 1.5em;
         border-radius: $borderRadius;
@@ -16,7 +27,6 @@
         flex-direction: column;
         align-items: center;
         box-shadow: $dropShadow;
-        width: 20em;
     }
 
     &.user-list {
@@ -29,6 +39,18 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: 1em;
+    }
+    &.search-input{
+        height: 35px;
+        padding-left: 15px;
+        margin-left: 4px;
+        border: none;
+        border-radius: 0.75em;
+        margin-bottom: 5px;
+        background: transparentize(white, 0.85);
+        color: $textColor;
+        width: 100%;
     }
 
     & p, h2 {
@@ -42,8 +64,7 @@
         background: lighten($background, 5);
         border: none;
         border-radius: $borderRadius;
-        display: block;
-        margin: 0.1em;
+        margin-bottom: 0.5em;
         width: 100%;
         color: $accent;
         display: flex;
