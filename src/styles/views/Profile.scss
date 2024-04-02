@@ -77,20 +77,23 @@
         grid-template-columns: repeat(5,3em);
         grid-template-rows: repeat(3, 30px);
     }
-    .circle-container{
+    &.circle-container{
         position:relative;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    .circle{
+    &.circle{
         width: 20px;
         height: 20px;
         border: 2px solid $accent;
         border-radius: 50%;
         background-color: #FFC33A;
     }
-    .description-container{
+    &.description-container:disabled{
+        background-color: transparent;
+    }
+    &.description-container{
         position: absolute;
         bottom: 100%;
         left: 50%;
@@ -105,7 +108,7 @@
         white-space: nowrap;
         font-size: 0.75rem;
     }
-    .circle-container:hover .description-container{
+    &.circle-container:hover .description-container{
         opacity: 1;
         visibility: visible;
     }

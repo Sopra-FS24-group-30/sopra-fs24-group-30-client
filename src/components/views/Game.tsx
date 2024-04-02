@@ -119,11 +119,11 @@ const Game = () => {
                             return !filter || user.username.toLowerCase().includes(filter.toLowerCase());
                         })
                         .map((user: User) => (
-                        <li key={user.id}>
-                            <Link to={`/profile/${user.id}`}>
-                                <Player user={user}/>
-                            </Link>
-                        </li>
+                            <li key={user.id}>
+                                <Link to={`/profile/${user.id}`}>
+                                    <Player user={user}/>
+                                </Link>
+                            </li>
                     ))}
                 </ul>
                 <Button width="100%" onClick={() => logout()}>
