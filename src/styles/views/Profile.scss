@@ -3,7 +3,7 @@
 .profile {
     &.box-image{
         @include center;
-        background-image: url("../../../assets/backgrounds/BoardgameBox.png");
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
         background-size: 900px;
         background-repeat: no-repeat;
         background-position: center;

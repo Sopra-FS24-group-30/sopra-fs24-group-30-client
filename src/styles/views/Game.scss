@@ -10,7 +10,7 @@
 .game {
     &.box-image{
         @include center;
-        background-image: url("../../../assets/backgrounds/BoardgameBox.png");
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;

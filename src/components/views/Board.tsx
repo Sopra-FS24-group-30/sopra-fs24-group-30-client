@@ -58,7 +58,7 @@ const Board = () => {
                     <KeyboardControls />
                     <TransformComponent>
                         <img
-                            src={ require((`../../../assets/boards/board_${imageId}.png`))}
+                            src={ require((`../../assets/boards/board_${imageId}.png`))}
                             className="board-background"
                             alt="Gameboard"
                         />
