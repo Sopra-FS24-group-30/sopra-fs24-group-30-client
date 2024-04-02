@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
-import {api, handleError} from "helpers/api";
-import {Button} from "components/ui/Button";
-import {useNavigate, useParams} from "react-router-dom";
 import "styles/views/Board.scss";
 
 
@@ -15,9 +12,17 @@ const Board = () => {
         useEffect(() => {
             const keyDownEvent = (event) => {
                 switch (event.key){
-                case "r": resetTransform();
+                case "r":
+                    resetTransform();
+                    break;
+                case ".":
+                    zoomOut();
+                    break;
+                case ",":
+                    zoomIn();
+                    break;
                 default:
-                    if (event.key in ["1", "2", "3", "4", "5", "6", "7", "8", "0"])
+                    if (["1", "2", "3", "4", "5", "6", "7", "8", "0"].includes(event.key))
                         setImageId(event.key);
                 }
             };
@@ -56,6 +61,7 @@ const Board = () => {
                         <img
                             src={ require("../../files/boards/board_".concat(imageId, ".png"))}
                             className="board-background"
+                            alt="Gameboard"
                         />
                     </TransformComponent>
                 </TransformWrapper>
