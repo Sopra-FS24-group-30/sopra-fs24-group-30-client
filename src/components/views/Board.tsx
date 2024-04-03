@@ -4,6 +4,7 @@ import "styles/views/Board.scss";
 
 const Board = () => {
     const [imageId, setImageId]=useState("0")
+    const [overlayActive, setOverlayActive]=useState(0)
 
     const KeyboardControls = () => {
         const { zoomIn, zoomOut, resetTransform } = useControls();
@@ -19,6 +20,9 @@ const Board = () => {
                     break;
                 case ",":
                     zoomIn();
+                    break;
+                case "Enter":
+                    setOverlayActive(1-overlayActive);
                     break;
                 default:
                     if (["1", "2", "3", "4", "5", "6", "7", "8", "0"].includes(event.key))
@@ -62,6 +66,14 @@ const Board = () => {
                             className="board-background"
                             alt="Gameboard"
                         />
+                        <div className="board-overlay">
+                            <img
+                                src={require("../../assets/boards/overlay.png")}
+                                className="board-background"
+                                alt="Overlay"
+                                style={{opacity: overlayActive}}
+                            />
+                        </div>
                     </TransformComponent>
                 </TransformWrapper>
                 Right UI
