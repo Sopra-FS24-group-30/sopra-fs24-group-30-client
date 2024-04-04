@@ -1,16 +1,16 @@
 import React from "react";
 import {Navigate, Route, Routes} from "react-router-dom";
-import Game from "../../views/Game";
+import UserOverview from "../../views/UserOverview";
 import PropTypes from "prop-types";
 
-const GameRouter = () => {
+const UserOverviewRouter = () => {
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             <Routes>
 
-                <Route path="" element={<Game/>}/>
+                <Route path="" element={<UserOverview/>}/>
 
-                <Route path="dashboard" element={<Game/>}/>
+                <Route path="dashboard" element={<UserOverview/>}/>
 
                 <Route path="*" element={<Navigate to="dashboard" replace/>}/>
 
@@ -23,8 +23,8 @@ const GameRouter = () => {
 * Don't forget to export your component!
  */
 
-GameRouter.propTypes = {
+UserOverviewRouter.propTypes = {
     base: PropTypes.string
 }
 
-export default GameRouter;
+export default UserOverviewRouter;

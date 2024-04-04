@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../../styles/views/Game.scss";
+import "../../styles/views/UserOverview.scss";
 
 export const PlayerButton = props => (
     <button

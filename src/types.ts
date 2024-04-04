@@ -5,4 +5,5 @@ export type User = {
     birthday: string;
     creationDate: string;
     status: string;
+    achievements: string[];
 };
