@@ -1,0 +1,65 @@
+@import "../theme";
+
+.home{
+    &.container {
+        /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
+        @include center;
+        flex-direction: column;
+        background-image: url("../../../assets/images/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 900px;
+        margin: auto;
+        row-gap: 2em;
+    }
+    &.form {
+        display: block;
+        flex-direction: column;
+        justify-content: center;
+        width: 50%;
+        height: 50%;
+        font-size: 16px;
+        font-weight: 300;
+        padding-left: 37px;
+        padding-right: 37px;
+        border-radius: 0.75em;
+        background-color: $background;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        box-shadow: $dropShadow;
+        margin-bottom: 1em;
+    }
+    &.button-container{
+        @include center;
+        min-height: 15em;
+        min-width: 15em;
+        display: inline-block;
+        border-radius: $borderRadius;
+        background-color: transparentize($background, 0.15);
+        position: static;
+        border: 2px solid #FFC33A;
+    }
+    &.divider{
+        height: 2px;
+        width: 100%;
+        background-color: #FFC33A;
+    }
+    &.button{
+        font-weight: 1000;
+        height: 7em;
+        width: 15em;
+        padding: 5px;
+        background-color: transparent;
+        font-size: 20px;
+        text-align: center;
+        color: #f0f0f0;
+    }
+    &.profile-button{
+        font-weight: 1000;
+        font-size: 15px;
+        background-color: transparentize($background, 0.15);
+        width: 15em;
+        min-height:3em;
+        border-radius: $borderRadius;
+        color: #f0f0f0;
+    }
+}

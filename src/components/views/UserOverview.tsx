@@ -5,7 +5,7 @@ import {Button} from "components/ui/Button";
 import {useNavigate, Link} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import "styles/views/Game.scss";
+import "styles/views/UserOverview.scss";
 import {User} from "types";
 
 const Player = ({user}: { user: User }) => {
@@ -34,7 +34,7 @@ SearchField.propTypes = {
     onChange: PropTypes.func,
 }
 
-const Game = () => {
+const UserOverview = () => {
     // use react-router-dom's hook to access navigation, more info: https://reactrouter.com/en/main/hooks/use-navigate
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const Game = () => {
     const [users, setUsers] = useState<User[]>(null);
     const [filter, setFilter] = useState<string>(null);
 
-    const logout = async () => {
+    const goBack = async () => {
         try {
             const username = localStorage.getItem("username")
             const requestBody = JSON.stringify({username})
@@ -54,9 +54,7 @@ const Game = () => {
         } catch (error) {
             alert(`Something went wrong during the logout: ${handleError(error)}`)
         }
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        navigate("/login");
+        navigate("/home");
     };
 
     // the effect hook can be used to react to change in your component.
@@ -126,8 +124,8 @@ const Game = () => {
                             </li>
                     ))}
                 </ul>
-                <Button width="100%" onClick={() => logout()}>
-                    Logout
+                <Button width="100%" onClick={() => goBack()}>
+                    Go Back
                 </Button>
             </div>
         );
@@ -146,4 +144,4 @@ const Game = () => {
     );
 };
 
-export default Game;
+export default UserOverview;
