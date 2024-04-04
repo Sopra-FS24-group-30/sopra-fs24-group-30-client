@@ -122,7 +122,7 @@ const UserOverview = () => {
                                     <Player user={user}/>
                                 </Link>
                             </li>
-                    ))}
+                        ))}
                 </ul>
                 <Button width="100%" onClick={() => goBack()}>
                     Go Back

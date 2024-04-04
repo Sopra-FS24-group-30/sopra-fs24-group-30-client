@@ -4,7 +4,7 @@
     &.container {
         @include center;
         flex-direction: column;
-        background-image: url("../../../assets/images/BoardgameBox.png");
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
         background-size: cover;
         background-repeat: no-repeat;
         min-height: 900px;
