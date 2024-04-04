@@ -1,8 +1,44 @@
 import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
-// import min from "Math";
 
+
+const FigurineText: React.FC<{
+    id: number,
+    figurineSize: string,
+    getCoord: (id: number, coordinate: string) => number,
+    playerColour: { [key: number]: string }
+}> = ({ id, figurineSize, getCoord, playerColour }) => {
+
+    function getFigurineImage(id: number): string{
+        try {
+            return require(`../../assets/figurines/${playerColour[id]}.png`)
+        }
+        catch{
+            return "";
+        }
+    }
+
+    const centering = parseFloat(figurineSize) / 2;
+
+    const image= getFigurineImage(id);
+    
+    return (<img
+        src={image}
+        style={{
+            width: figurineSize,
+            height: "auto", 
+            position: "absolute", 
+            left: `${getCoord(id, "x")}%`,
+            bottom: `${getCoord(id, "y")}%`,
+            //old code: transform: `translate(-${getCoord(id, "x")}%, -${getCoord(id, "y")}%)`
+            transform: `translate(-50%, 50%) translate(-${centering}px, ${centering}px)`
+        }}
+        className="figurine-picture"
+        alt={`${playerColour[id]} figurine`}
+    />
+    );
+}
 
 const Board = () => {
     const [imageId, setImageId]=useState("0");
@@ -43,9 +79,12 @@ const Board = () => {
                 case "Escape":
                     setOverlayActive(0);
                     break;
-                //↓ debug options, will be removed in 
+                //↓ debug options, will be removed in the production build
                 case "q":
                     setPlayerCoordinate({1:playerCoordinate[2], 2:playerCoordinate[3], 3:playerCoordinate[4], 4:playerCoordinate[5], 5:playerCoordinate[1]})
+                    break;
+                case "c":
+                    setPlayerColour({1: playerColour[2], 2: playerColour[3], 3: playerColour[4], 4: playerColour[1]})
                     break;
                 default:
 
@@ -90,46 +129,20 @@ const Board = () => {
         };
     }, []);
 
-    const FigurineText: React.FC<{id: number}> = ({id}) => {
 
-        function getFigurineImage(id: number): string{
-            try {
-                return require(`../../assets/figurines/${playerColour[id]}.png`)
-            }
-            catch{
-                return "";
-            }
-        }
-
-        const sizeAdjust = parseFloat(figurineSize) / 2
-
-        const image= getFigurineImage(id);
-        
-        return (<img
-            src={image}
-            style={{
-                width: figurineSize,
-                height: "auto", 
-                position: "absolute", 
-                left: `${getCoord(id, "x")}%`,
-                bottom: `${getCoord(id, "y")}%`,
-                //old code: transform: `translate(-${getCoord(id, "x")}%, -${getCoord(id, "y")}%)`
-                transform: `translate(-50%, 50%) translate(-${sizeAdjust}px, ${sizeAdjust}px)`
-            }}
-            className="figurine-picture"
-            alt={`${playerColour[id]} figurine`}
-        />
-        );
-    }
-
-    let figurines=(
+    let figurines = (
         <div className="figurine-overlay">
-            <FigurineText id={1}/>
-            <FigurineText id={2}/>
-            <FigurineText id={3}/>
-            <FigurineText id={4}/>
+            {[1, 2, 3, 4].map(id => (
+                <FigurineText
+                    key={id}
+                    id={id}
+                    figurineSize={figurineSize}
+                    getCoord={getCoord}
+                    playerColour={playerColour}
+                />
+            ))}
         </div>
-    )
+    );
 
     return (
         <div>
