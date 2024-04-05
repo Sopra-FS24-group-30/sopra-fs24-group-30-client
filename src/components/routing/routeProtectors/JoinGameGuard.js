@@ -8,6 +8,7 @@ export const JoinGameGuard = () => {
     if (localStorage.getItem("token")){
         return <Outlet/>;
     }
+    
     return <Navigate to="/login" replace/>;
 };
 

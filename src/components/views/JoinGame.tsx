@@ -58,4 +58,5 @@ const JoinGame = () => {
         </BaseContainer>
     );
 };
+
 export default JoinGame;
