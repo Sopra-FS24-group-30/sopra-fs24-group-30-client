@@ -6,7 +6,7 @@ const WebSocketComponent: React.FC = () => {
     const [messages, setMessages] = useState<string[]>([]);
 
     useEffect(() => {
-        const socket = new WebSocket("wss://echo.websocket.org/");
+        const socket = new WebSocket("ws://localhost:8080/ws");
         setWs(socket);
 
         socket.onopen = () => {
