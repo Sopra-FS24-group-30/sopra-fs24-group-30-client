@@ -12,6 +12,7 @@ import Edit from "../../views/Edit";
 import {EditGuard} from "../routeProtectors/EditGuard"
 import Board from "../../views/Board";
 import Home from "../../views/Home";
+import WebSockets from "../../views/Websockets";
 import {HomeGuard} from "../routeProtectors/HomeGuard";
 import {JoinGameGuard} from "../routeProtectors/JoinGameGuard";
 import CreateGame from "../../views/CreateGame";
@@ -38,6 +39,10 @@ const AppRouter = () => {
 
                 <Route path="/board/*"
                     element={<Board/>}>
+                </Route>
+
+                <Route path="/ws/*"
+                    element={<WebSockets/>}>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
