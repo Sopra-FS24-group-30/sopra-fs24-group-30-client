@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useEffect, useState } from "react";
 
 const WebSocketComponent: React.FC = () => {
