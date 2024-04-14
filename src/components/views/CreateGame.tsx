@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
 import {useNavigate} from "react-router-dom";
@@ -10,6 +10,20 @@ import PropTypes from "prop-types";
 const CreateGame = () =>{
 
     const navigate = useNavigate();
+    const [gameID, setGameID] = useState<String>(null);
+
+    useEffect(() => {
+        async function fetchData(){
+            try{
+                const response = await api.get('/create/id');
+                setGameID(response.data)
+            } catch (error){
+                console.error(`something went wrong while fetching the gameID: ${handleError(error)}`)
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const goBack = (): void => {
         navigate("/home");
@@ -21,7 +35,7 @@ const CreateGame = () =>{
                 <div className="lobby form">
                     <h2>Share the game pin with 3 friends!</h2>
                     <div className="lobby pin-container">
-                        Token
+                        {gameID}
                     </div>
                     <div className="lobby button-container">
                         <Button
@@ -29,9 +43,6 @@ const CreateGame = () =>{
                             onClick={() => goBack()}
                         >
                             Go Back
-                        </Button>
-                        <Button className="lobby button">
-                            Done
                         </Button>
                     </div>
                 </div>
