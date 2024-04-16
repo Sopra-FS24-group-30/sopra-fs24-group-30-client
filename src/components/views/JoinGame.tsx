@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
 import {useNavigate} from "react-router-dom";
@@ -25,7 +25,24 @@ PinField.propTypes = {
 };
 const JoinGame = () => {
     const navigate = useNavigate();
-    const [pin, setPin] = useState<string>(null);
+    const [gameID, setGameID] = useState<string>(null);
+
+    const joinGame = async () => {
+        try{
+            const username = localStorage.getItem("username");
+            const requestBody = JSON.stringify({username});
+            localStorage.setItem("gameID", gameID)
+            api.put(`/game/join/${gameID}`, requestBody);
+
+
+            navigate("/loading");
+
+        } catch (error) {
+            alert(
+                `Something went wrong while checking the gameID: \n${handleError(error)}`
+            );
+        }
+    }
 
     const goBack = (): void => {
         navigate("/home");
@@ -38,8 +55,8 @@ const JoinGame = () => {
                     <h2>Write the shared pin game to join</h2>
                     <PinField
                         placeholder="Pin Code"
-                        value={pin}
-                        onChange={(un:string) => setPin()}
+                        value={gameID}
+                        onChange={(un:string) => setGameID(un)}
                     >
                     </PinField>
                     <div className="lobby button-container">
@@ -49,7 +66,10 @@ const JoinGame = () => {
                         >
                             Go Back
                         </Button>
-                        <Button className="lobby button">
+                        <Button className="lobby button"
+                                disabled={!gameID}
+                                onClick={() => joinGame()}
+                        >
                             Done
                         </Button>
                     </div>

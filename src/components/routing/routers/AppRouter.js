@@ -12,11 +12,14 @@ import Edit from "../../views/Edit";
 import {EditGuard} from "../routeProtectors/EditGuard"
 import Board from "../../views/Board";
 import Home from "../../views/Home";
+import WebSockets from "../../views/Websockets";
 import {HomeGuard} from "../routeProtectors/HomeGuard";
 import {JoinGameGuard} from "../routeProtectors/JoinGameGuard";
 import CreateGame from "../../views/CreateGame";
 import JoinGame from "../../views/JoinGame";
 import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
+import Loading from "../../views/Loading";
+import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 
 /**
  * Main router of your application.
@@ -38,6 +41,10 @@ const AppRouter = () => {
 
                 <Route path="/board/*"
                     element={<Board/>}>
+                </Route>
+
+                <Route path="/ws/*"
+                    element={<WebSockets/>}>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
@@ -70,6 +77,10 @@ const AppRouter = () => {
 
                 <Route path="/joinGame" element={<JoinGameGuard/>}>
                     <Route path="/joinGame" element={<JoinGame/>}/>
+                </Route>
+
+                <Route path="/loading" element={<LoadingGuard/>}>
+                    <Route path="/loading" element={<Loading/>}/>
                 </Route>
 
             </Routes>
