@@ -60,7 +60,7 @@ const Edit = () => {
         async function fetchData() {
 
             try {
-                const response = await api.get(`/profile/${userid}`);
+                const response = await api.get(`/users/${userid}`);
                 await new Promise((resolve) => setTimeout(resolve, 1000));
                 setUser(response.data);
 
