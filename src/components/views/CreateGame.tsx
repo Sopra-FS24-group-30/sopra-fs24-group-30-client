@@ -18,12 +18,12 @@ const CreateGame = () =>{
             try{
                 const username = localStorage.getItem("username");
                 const requestBody =  JSON.stringify({username});
-                const response = await api.post('/create/game', requestBody);
+                const response = await api.post("/create/game", requestBody);
                 setGameID(response.data)
                 localStorage.setItem("gameID", gameID);
 
                 const requestStatus = JSON.stringify({gameID});
-                const responseStatus = await api.get('/game/${gameID}/status', requestStatus);
+                const responseStatus = await api.get("/game/${gameID}/status", requestStatus);
             } catch (error){
                 console.error(`something went wrong while fetching the gameID: ${handleError(error)}`)
             }

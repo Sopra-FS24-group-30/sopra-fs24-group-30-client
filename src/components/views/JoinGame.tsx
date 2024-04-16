@@ -67,8 +67,8 @@ const JoinGame = () => {
                             Go Back
                         </Button>
                         <Button className="lobby button"
-                                disabled={!gameID}
-                                onClick={() => joinGame()}
+                            disabled={!gameID}
+                            onClick={() => joinGame()}
                         >
                             Done
                         </Button>
