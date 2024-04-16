@@ -18,6 +18,8 @@ import {JoinGameGuard} from "../routeProtectors/JoinGameGuard";
 import CreateGame from "../../views/CreateGame";
 import JoinGame from "../../views/JoinGame";
 import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
+import Loading from "../../views/Loading";
+import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 
 /**
  * Main router of your application.
@@ -75,6 +77,10 @@ const AppRouter = () => {
 
                 <Route path="/joinGame" element={<JoinGameGuard/>}>
                     <Route path="/joinGame" element={<JoinGame/>}/>
+                </Route>
+
+                <Route path="/loading" element={<LoadingGuard/>}>
+                    <Route path="/loading" element={<Loading/>}/>
                 </Route>
 
             </Routes>
