@@ -1,0 +1,35 @@
+@import "../theme";
+
+/* The '&' is a shorthand for the containing element,
+  so for example a '&.user-list' inside .game will compile to
+  .game.user-list
+
+  for more information visit https://sass-lang.com/guide
+ */
+
+.game {
+    &.box-image{
+        @include center;
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        min-height: 900px;
+        min-width: 900px;
+        margin: auto;
+    }
+    &.container {
+        width: 30em;
+        background: $background;
+        padding: 1.5em;
+        border-radius: $borderRadius;
+        display: block;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: $dropShadow;
+    }
+
+    & p, h2 {
+        margin: 0.5em 0;
+    }
+}

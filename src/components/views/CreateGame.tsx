@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
 import {useNavigate} from "react-router-dom";
@@ -10,6 +10,27 @@ import PropTypes from "prop-types";
 const CreateGame = () =>{
 
     const navigate = useNavigate();
+    const [gameID, setGameID] = useState<String>(null);
+    const [gameStatus, setGameStatus] = useState<boolean>(false);
+
+    useEffect(() => {
+        async function fetchData(){
+            try{
+                const username = localStorage.getItem("username");
+                const requestBody =  JSON.stringify({username});
+                const response = await api.post('/create/game', requestBody);
+                setGameID(response.data)
+                localStorage.setItem("gameID", gameID);
+
+                const requestStatus = JSON.stringify({gameID});
+                const responseStatus = await api.get('/game/${gameID}/status', requestStatus);
+            } catch (error){
+                console.error(`something went wrong while fetching the gameID: ${handleError(error)}`)
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const goBack = (): void => {
         navigate("/home");
@@ -21,7 +42,7 @@ const CreateGame = () =>{
                 <div className="lobby form">
                     <h2>Share the game pin with 3 friends!</h2>
                     <div className="lobby pin-container">
-                        Token
+                        {gameID}
                     </div>
                     <div className="lobby button-container">
                         <Button
@@ -29,9 +50,6 @@ const CreateGame = () =>{
                             onClick={() => goBack()}
                         >
                             Go Back
-                        </Button>
-                        <Button className="lobby button">
-                            Done
                         </Button>
                     </div>
                 </div>
