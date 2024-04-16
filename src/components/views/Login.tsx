@@ -44,7 +44,9 @@ const Login = () => {
     const doLogin = async () => {
         try {
             const requestBody = JSON.stringify({username, password})
-            const response = await api.post("/user/login", requestBody);
+            console.log(requestBody)
+            const response = await api.post("/login", requestBody);
+            console.log(response)
             const user = new User(response.data);
             localStorage.setItem("token", user.token);
             localStorage.setItem("username", user.username);
