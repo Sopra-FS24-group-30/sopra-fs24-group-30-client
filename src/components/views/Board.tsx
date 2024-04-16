@@ -121,7 +121,7 @@ const Board = () => {
     const relativeArrowSize=.035 //arrow width in % of boardwidth
     const [playerSpace, setPlayerSpace]=useState({"1": 1, "2": 2, "3": 3, "4":4});
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
-    const [arrowPositions, setArrowPositions]=useState([[57, 27, 0], [57, 24, 0], [58, 33, 0], [58, 47, 0], [59, 37, 0], [59, 2, 0], [60, 40, 0], [60, 16, 0], [61, 51, 0], [61, 18, 0], [62, 29, 0], [62, 3, 1], [63, 30, 0], [63, 44, 1]])
+    const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.21, -2] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
@@ -166,27 +166,6 @@ const Board = () => {
             throw new Error("notImplemented");
         }
 
-        // return data["1"][0];
-    }
-
-    const junctionOld = (data) => {
-        let from=data["currentSpace"];
-        let to=data["nextUnlockedSpaces"][0];
-        const locked=data["nextLockedSpaces"];
-        alert(data["nextLockedSpaces"])
-        if (locked.length!==0){
-            alert("en che")
-            var toLocked=locked[0]
-            var state = data["locked"] ? 1 : 2
-        }
-        else {
-            alert("en leu")
-            var toLocked=data["nextUnlockedSpaces"][1]
-            var state=0
-        }
-        setArrowPositions([[from, to, 0], [from, toLocked, state]])
-
-        return null
     }
 
     const junction = (data) => {
@@ -299,6 +278,9 @@ const Board = () => {
                 case "T":
                     (junction(junctionDataExample2["data"]));
                     break;
+                case "k":
+                    (setArrowPositions(null));
+                    break;
                 case "d":
                     (move(moveDataExample2["data"]));
                     break;
@@ -394,19 +376,21 @@ const Board = () => {
 
     let arrows = (
         <div className="scalable-overlay">
-            {arrowPositions.map(id => (
-                <ScalableOverlay
-                    key={id} //used to iterate
-                    x={calculateArrowPosition(id[0], id[1])[0]*100}
-                    y={calculateArrowPosition(id[0], id[1])[1]*100}
-                    rotation={calculateArrowPosition(id[0], id[1])[2]}
-                    size={arrowSize}
-                    alt="arrow"
-                    pathToPicture={"figurines/arrow.svg"}
-                    className="arrow-picture"
-                    clickFunction= {() => alert(id[2]===2 ? "Can't move there" : id[1])}
-                    colors={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
-                />))}
+            {arrowPositions!==null ?
+                arrowPositions.map(id => (
+                    <ScalableOverlay
+                        key={id} //used to iterate
+                        x={calculateArrowPosition(id[0], id[1])[0]*100}
+                        y={calculateArrowPosition(id[0], id[1])[1]*100}
+                        rotation={calculateArrowPosition(id[0], id[1])[2]}
+                        size={arrowSize}
+                        alt="arrow"
+                        pathToPicture={"figurines/arrow.svg"}
+                        className="arrow-picture"
+                        clickFunction= {() => alert(id[2]===2 ? "Can't move there" : id[1])}
+                        colors={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
+                    />))
+                : ""}
         </div>
     )
     
