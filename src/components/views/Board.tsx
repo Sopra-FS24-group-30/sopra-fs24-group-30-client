@@ -56,6 +56,7 @@ const coordinates = {"1":[0.17012893982808, 0.440532417346501], "2":[0.641833810
 
 //! only used for development purposes, to be removed in production build
 const numberOfCoordinates=Object.keys(coordinates).length;
+
 const moveDataExample2 = {
     "type": "move",
     "data": {
@@ -68,6 +69,7 @@ const moveDataExample2 = {
         "movementType": "walk" //type of movement effect ["simultaneous", "move", "teleport", etc…]
     }
 }
+
 const moveDataExample1 = {
     "type": "move",
     "data": {
@@ -86,6 +88,7 @@ const moveDataExample1 = {
         "movementType": "teleport" //type of movement effect ["simultaneous", "move", "teleport", etc…]
     }
 }
+
 const junctionDataExample1 = {
     "type": "junction",
     "data": {
@@ -203,7 +206,6 @@ const Board = () => {
 
         const displacementPriority=playersOnSpace.findIndex(elements => elements === id);
         const displacementCoordinates = multipleFigurinesDisplacement[numberOfPlayersOnSpace][displacementPriority]
-
         
         switch (coordinate.toLowerCase()){
         case "0":
@@ -238,10 +240,10 @@ const Board = () => {
 
         let ratio=.61
 
-        const x = (from[0]*(1-ratio)+to[0]*ratio)//+arrowGlobalOffset[0]/100;
-        const y = (from[1]*(1-ratio)+to[1]*ratio)//+arrowGlobalOffset[1]/100;
-        const deltaX = (to[0])-( from[0])//+arrowGlobalOffset[0]/100;
-        const deltaY = (to[1])-( from[1])//+arrowGlobalOffset[0]/100;
+        const x = (from[0]*(1-ratio)+to[0]*ratio)
+        const y = (from[1]*(1-ratio)+to[1]*ratio)
+        const deltaX = (to[0])-( from[0])
+        const deltaY = (to[1])-( from[1])
         const rot = (Math.atan2(deltaX, deltaY) * (180 / Math.PI));
     
         return [x+arrowGlobalOffset[0]/100, y+arrowGlobalOffset[1]/100, rot];
@@ -330,9 +332,9 @@ const Board = () => {
     };
 
     const adjustFigurineSize = () => {
-        const boardWidth = boardRef.current.offsetWidth;
-        const figurineSize = boardWidth * relativeFigurineSize;
-        const arrowSize = boardWidth * relativeArrowSize;
+        const boardWidth =boardRef.current.offsetWidth;
+        const figurineSize = boardWidth*relativeFigurineSize;
+        const arrowSize = boardWidth*relativeArrowSize;
         setFigurineSize(`${figurineSize}px`);
         setArrowSize(`${arrowSize}px`);
     };
