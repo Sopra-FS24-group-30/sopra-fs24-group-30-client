@@ -2,8 +2,7 @@
 {
     "type": "dice",
     "data": {
-        "results":[4], //an array (incase multiple dice are thrown)
-        "money": 0 //Number of moneys gained by this diceroll (in case of rolling doubles etc.)
+        "results":[4] //an array (incase multiple dice are thrown)
     }
 },
 
@@ -14,9 +13,9 @@
             {
                 "spaces": [7, 49, 50, 20], //spaces, to which the player will move
                 "moves": 4, //spaces left to move 0 if the movement isn't caused by a dice roll
-                "endsWithOver": false //true if the last space in "spaces": [] is an overspace, false otherwise
+                "spaceColour": "Item" //colour of the space the player landed on (can be an overspace)
             },
-        "movementType": "walk" //type of movement effect ["simultaneous", "walk", "teleport", etc…]
+        "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
     }
 },
 
@@ -34,9 +33,9 @@
             {
                 "spaces": [30, 31, 55], //spaces, to which the player will move
                 "moves": 5, //spaces left to move 0 if the movement isn't caused by a dice roll
-                "endsWithOver": true //true if the last space in "spaces": [] is an overspace, false otherwise
+                "spaceColour": "SpecialItem" //colour of the space the player landed on (can be an overspace)
             },
-            "movementType": "walk" //type of movement effect ["simultaneous", "walk", "teleport", etc…]
+            "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
     }
 },
 
@@ -49,13 +48,23 @@
             {
                 "spaces": [32, 11, 19], //spaces, to which the player will move
                 "moves": 3, //spaces left to move 0 if the movement isn't caused by a dice roll
-                "endsWithOver": false //true if the last space in "spaces": [] is an overspace, false otherwise
+                "spaceColour": "Blue" //colour of the space the player landed on (can be an overspace)
             },
-        "movementType": "walk" //type of movement effect ["simultaneous", "walk", "teleport", etc…]
+        "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
     }
 },
 
-//result of the blue Space 19
+//~ result of the blue Space 19
+{
+    "type": "money",
+    "data": {
+        "1": {
+            "newAmountOfMoney": 50, //new amount of money for player 1
+            "changeAmountOfMoney": 3 //amount of money
+        }
+        
+    }
+},
 
 {
     "type": "junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
@@ -82,15 +91,15 @@
     "data": {
         "1": //playerId
             {
-                "spaces": [55], 
+                "spaces": [9], 
                 "moves": 0,
-                "endsWithOver": false 
+                "spaceColour": "Yellow" 
             },
         "2": //playerId
             {
                 "spaces": [30], 
                 "moves": 0, 
-                "endsWithOver": false 
+                "endsWithOver": "Red" 
             },
         "movementType": "teleport" 
     }
@@ -107,9 +116,10 @@
 },
 
 
-//~ --- ↑ Server → Client ↑ ---
 
-//~ --- ↓ Client → Server ↓ ---
+//$ --- ↑ Server → Client ↑ ---
+
+//$ --- ↓ Client → Server ↓ ---
 
 
 {
