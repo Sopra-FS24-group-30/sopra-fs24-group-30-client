@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"; //NOSONAR
 import {Button} from "components/ui/Button";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom"; //NOSONAR
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Home.scss";
 

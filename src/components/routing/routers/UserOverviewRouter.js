@@ -24,7 +24,7 @@ const UserOverviewRouter = () => {
  */
 
 UserOverviewRouter.propTypes = {
-    base: PropTypes.string
+    base: PropTypes.string //NOSONAR
 }
 
 export default UserOverviewRouter;

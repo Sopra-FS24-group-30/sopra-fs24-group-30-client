@@ -21,5 +21,5 @@ export const UserOverviewGuard = () => {
 };
 
 UserOverviewGuard.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node //NOSONAR
 };

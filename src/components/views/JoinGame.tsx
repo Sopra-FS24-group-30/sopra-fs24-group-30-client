@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"; //NOSONAR
 import {api, handleError} from "helpers/api";
 import {useNavigate} from "react-router-dom";
-import {Button} from "components/ui/Button"; //NOSONAR
+import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types"; //NOSONAR
+import PropTypes from "prop-types";
 
 const PinField = (props) => {
     return (

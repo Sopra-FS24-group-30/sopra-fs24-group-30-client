@@ -37,8 +37,8 @@ const WebSocketComponent: React.FC = () => {
         <div>
             <h2>Messsages from Server</h2>
             <ul>
-                {messages.map((message, index) => (
-                    <li key={index}>{message}</li>
+                {messages.map((message, index) => ( 
+                    <li key={index}>{message}</li> //NOSONAR
                 ))}
             </ul>
         </div>

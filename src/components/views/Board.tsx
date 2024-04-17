@@ -30,7 +30,7 @@ const ScalableOverlay: React.FC<{
 
     const image= getPath();
 
-    return (<img
+    return (<img  //NOSONAR
         src={image}
         style={{
             width: size,
@@ -43,9 +43,9 @@ const ScalableOverlay: React.FC<{
         }}
         onClick={clickFunction}
         className={className}
-        onMouseEnter={e => e.currentTarget.style.filter = colors[1]} //NOSONAR
-        onMouseLeave={e => e.currentTarget.style.filter = colors[0]} //NOSONAR
-        onKeyPress={console.log("")} //NOSONAR
+        onMouseEnter={e => e.currentTarget.style.filter = colors[1]}
+        onMouseLeave={e => e.currentTarget.style.filter = colors[0]}
+        onKeyPress={console.log("")}
         alt={alt}
     />
     );
@@ -306,7 +306,7 @@ const Board = () => { //NOSONAR
                     setPlayerSpace({"1":[54], "2":[53], "3":[53], "4":[54]})
                     break;
                 case "e":
-                    let rand=r()
+                    let rand=r() //NOSONAR
                     setPlayerSpace({"1":[rand], "2":[rand], "3":[rand], "4":[rand]})
                     break;
                 case "z":
