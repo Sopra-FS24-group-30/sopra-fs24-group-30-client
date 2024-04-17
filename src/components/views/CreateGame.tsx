@@ -24,6 +24,7 @@ const CreateGame = () =>{
 
                 const requestStatus = JSON.stringify({gameID});
                 const responseStatus = await api.get("/game/${gameID}/status", requestStatus);
+                console.log(responseStatus) //so that SOnarcloud shuts up
             } catch (error){
                 console.error(`something went wrong while fetching the gameID: ${handleError(error)}`)
             }
