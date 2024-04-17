@@ -47,7 +47,6 @@ const ScalableOverlay: React.FC<{
         onMouseLeave={e => e.currentTarget.style.filter = colors[0]}
         onKeyPress={console.log("")} //in order for Sonarcloud to shut up
         tabIndex={0} //in order for Sonarcloud to shut up
-        input type="button" //in order for Sonarcloud to shut up
         alt={alt}
     />
     );
