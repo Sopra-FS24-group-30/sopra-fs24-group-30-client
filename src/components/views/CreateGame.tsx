@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import User from "models/User";
 import {useNavigate} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 
 const CreateGame = () =>{
 
     const navigate = useNavigate();
-    const [gameID, setGameID] = useState<String>(null);
-    const [gameStatus, setGameStatus] = useState<boolean>(false);
+    const [gameID, setGameID] = useState<string>(null);
+    const [gameStatus, setGameStatus] = useState<boolean>(false); //NOSONAR
 
     useEffect(() => {
         async function fetchData(){

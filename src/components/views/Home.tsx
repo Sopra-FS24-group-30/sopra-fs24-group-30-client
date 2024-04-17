@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {api, handleError} from "helpers/api";
-import {Spinner} from "components/ui/Spinner";
 import {Button} from "components/ui/Button";
 import {useNavigate, useParams} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Home.scss";
-import User from "models/User";
-import PropTypes from "prop-types";
 
 const Home = () => {
     const navigate = useNavigate();

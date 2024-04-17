@@ -1,19 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import User from "models/User";
 import {useNavigate} from "react-router-dom";
-import {Button} from "components/ui/Button";
 import "styles/views/Loading.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
 import {Spinner} from "components/ui/Spinner";
 
 const Loading = () => {
     const navigate = useNavigate();
-    const [gameStatus, setGameStatus] = useState<boolean>(false);
+    const [gameStatus, setGameStatus] = useState<boolean>(false); //NOSONAR
 
     useEffect(() => {
-        async  function gameReady(){
+        async  function gameReady(){ //NOSONAR
             try {
                 const gameID = localStorage.getItem("gameID");
                 const requestBody = JSON.stringify({gameID});

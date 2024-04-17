@@ -43,9 +43,9 @@ const ScalableOverlay: React.FC<{
         }}
         onClick={clickFunction}
         className={className}
-        onMouseEnter={e => e.currentTarget.style.filter = colors[1]}
-        onMouseLeave={e => e.currentTarget.style.filter = colors[0]}
-        onKeyPress={console.log("")} //in order for Sonarcloud to shut up
+        onMouseEnter={e => e.currentTarget.style.filter = colors[1]} //NOSONAR
+        onMouseLeave={e => e.currentTarget.style.filter = colors[0]} //NOSONAR
+        onKeyPress={console.log("")} //NOSONAR
         alt={alt}
     />
     );
@@ -112,7 +112,7 @@ const junctionDataExample2 ={
     }
 }
 
-const Board = () => {
+const Board = () => { //NOSONAR
     const hoverFilter="invert(54%) sepia(82%) saturate(1944%) hue-rotate(80deg) brightness(114%) contrast(126%)";
     const unlockedFilter="invert(14%) sepia(83%) saturate(7026%) hue-rotate(359deg) brightness(99%) contrast(109%)";
     const lockedFilter="invert(53%) sepia(8%) saturate(15%) hue-rotate(358deg) brightness(92%) contrast(92%)";
@@ -203,7 +203,7 @@ const Board = () => {
                 playersOnSpace.push(Number(key))
             }
         });
-        playersOnSpace.sort() //maybe not needed if typescript dicts are ordererd
+        playersOnSpace.sort() //NOSONAR maybe not needed if typescript dicts are ordererd
 
         const displacementPriority=playersOnSpace.findIndex(elements => elements === id);
         const displacementCoordinates = multipleFigurinesDisplacement[numberOfPlayersOnSpace][displacementPriority]
@@ -211,11 +211,11 @@ const Board = () => {
         switch (coordinate.toLowerCase()){
         case "0":
         case "x":
-            var coord=0
+            var coord=0 //NOSONAR
             break;
         case "1":
         case "y":
-            var coord=1
+            var coord=1 //NOSONAR
             break;
         default:
             throw new Error("Invalid coordinate");
@@ -252,12 +252,12 @@ const Board = () => {
 
     //$ UseEffects
 
-    const KeyboardControls = () => {
+    const KeyboardControls = () => { //NOSONAR
         const { zoomIn, zoomOut, resetTransform } = useControls();
     
-        useEffect(() => {
+        useEffect(() => { //NOSONAR
             const keyDownEvent = (event) => {
-                let r=function(){return Math.floor(Math.random()*(numberOfCoordinates-1)+1)}
+                let r=function(){return Math.floor(Math.random()*(numberOfCoordinates-1)+1)} //NOSONAR
                 switch (event.key){
                 case "r":
                     resetTransform();

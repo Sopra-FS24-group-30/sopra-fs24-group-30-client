@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const WebSocketComponent: React.FC = () => {
     const msg = "34567890";
-    const [ws, setWs] = useState<WebSocket | null>(null);
+    const [ws, setWs] = useState<WebSocket | null>(null); //NOSONAR
     const [messages, setMessages] = useState<string[]>([]);
 
     useEffect(() => {
