@@ -1,5 +1,5 @@
 @import "../theme";
-body.scrollbar-removal{
+body.scrollbar-removal{ //overrides global css style
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -11,20 +11,6 @@ body.scrollbar-removal{
     object-fit: contain; 
 }
 
-.figurine-picture {
-    position: absolute;
-}
-
-.board-overlay{
-    position: absolute;
-}
-
-.figurine-overlay{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
 .board-container{
     position: relative;
     display: flex;
@@ -32,4 +18,20 @@ body.scrollbar-removal{
     align-items: center;
     height: 100dvh;
     width: 100vw;
+}
+
+.board-overlay{ //black thing showing path diretions
+    position: absolute;
+}
+
+.figurine-picture {
+    position: absolute;
+}
+
+.arrow-picture{
+    position: absolute;
+
+    //In order to make mouse events work
+    pointer-events: auto !important;
+    z-index: 1000;
 }
