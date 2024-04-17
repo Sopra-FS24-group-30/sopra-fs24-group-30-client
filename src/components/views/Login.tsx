@@ -20,10 +20,9 @@ Added to push it
 const FormField = (props) => {
     return (
         <div className="login field">
-            <label className="login label">{props.label}</label>
             <input
                 className="login input"
-                placeholder="enter here.."
+                placeholder={props.placeholder}
                 value={props.value}
                 onChange={(e) => props.onChange(e.target.value)}
             />
@@ -32,7 +31,7 @@ const FormField = (props) => {
 };
 
 FormField.propTypes = {
-    label: PropTypes.string,
+    placeholder: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
 };
@@ -45,13 +44,13 @@ const Login = () => {
     const doLogin = async () => {
         try {
             const requestBody = JSON.stringify({username, password})
-            const response = await api.post("/user/login", requestBody);
+            const response = await api.post("/login", requestBody);
             const user = new User(response.data);
             localStorage.setItem("token", user.token);
             localStorage.setItem("username", user.username);
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
-            navigate("/game");
+            // Login successfully worked --> navigate to the route /game in the UserOverviewRouter
+            navigate("/home");
             // Store the token into the local storage.
 
         } catch (error) {
@@ -68,15 +67,16 @@ const Login = () => {
     return (
         <BaseContainer>
             <div className="login container">
+                <h1>Mario After Party</h1>
                 <div className="login form">
                     <h3>Login</h3>
                     <FormField
-                        label="Username"
+                        placeholder="Username"
                         value={username}
                         onChange={(un: string) => setUsername(un)}
                     />
                     <FormField
-                        label="Password"
+                        placeholder="Password"
                         value={password}
                         onChange={(un: string) => setPassword(un)}
                     />
@@ -99,6 +99,7 @@ const Login = () => {
                         Sign up
                     </Button>
                 </div>
+
             </div>
 
         </BaseContainer>

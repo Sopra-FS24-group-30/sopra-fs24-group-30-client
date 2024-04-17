@@ -1,7 +1,7 @@
 import React from "react";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import {GameGuard} from "../routeProtectors/GameGuard";
-import GameRouter from "./GameRouter";
+import {UserOverviewGuard} from "../routeProtectors/UserOverviewGuard";
+import UserOverviewRouter from "./UserOverviewRouter";
 import {LoginGuard} from "../routeProtectors/LoginGuard";
 import Login from "../../views/Login";
 import {RegisterGuard} from "../routeProtectors/RegisterGuard";
@@ -10,6 +10,16 @@ import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 import Profile from "../../views/Profile";
 import Edit from "../../views/Edit";
 import {EditGuard} from "../routeProtectors/EditGuard"
+import Board from "../../views/Board";
+import Home from "../../views/Home";
+import WebSockets from "../../views/Websockets";
+import {HomeGuard} from "../routeProtectors/HomeGuard";
+import {JoinGameGuard} from "../routeProtectors/JoinGameGuard";
+import CreateGame from "../../views/CreateGame";
+import JoinGame from "../../views/JoinGame";
+import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
+import Loading from "../../views/Loading";
+import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 
 /**
  * Main router of your application.
@@ -25,8 +35,16 @@ const AppRouter = () => {
         <BrowserRouter>
             <Routes>
 
-                <Route path="/game/*" element={<GameGuard/>}>
-                    <Route path="/game/*" element={<GameRouter base="/game"/>}/>
+                <Route path="/game/*" element={<UserOverviewGuard/>}>
+                    <Route path="/game/*" element={<UserOverviewRouter base="/game"/>}/>
+                </Route>
+
+                <Route path="/board/*"
+                    element={<Board/>}>
+                </Route>
+
+                <Route path="/ws/*"
+                    element={<WebSockets/>}>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
@@ -34,7 +52,7 @@ const AppRouter = () => {
                 </Route>
 
                 <Route path="/" element={
-                    <Navigate to="/game" replace/>
+                    <Navigate to="/home" replace/>
                 }/>
 
                 <Route path="/register" element={<RegisterGuard/>}>
@@ -47,6 +65,22 @@ const AppRouter = () => {
 
                 <Route path="/profile/:userid/edit" element={<EditGuard/>}>
                     <Route path="/profile/:userid/edit" element={<Edit/>}/>
+                </Route>
+
+                <Route path="/home" element={<HomeGuard/>}>
+                    <Route path="/home" element={<Home/>}/>
+                </Route>
+
+                <Route path="/createGame" element={<CreateGameGuard/>}>
+                    <Route path="/createGame" element={<CreateGame/>}/>
+                </Route>
+
+                <Route path="/joinGame" element={<JoinGameGuard/>}>
+                    <Route path="/joinGame" element={<JoinGame/>}/>
+                </Route>
+
+                <Route path="/loading" element={<LoadingGuard/>}>
+                    <Route path="/loading" element={<Loading/>}/>
                 </Route>
 
             </Routes>

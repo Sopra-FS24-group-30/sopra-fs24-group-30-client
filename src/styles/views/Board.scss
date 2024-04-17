@@ -1,0 +1,37 @@
+@import "../theme";
+body.scrollbar-removal{ //overrides global css style
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.board-background{
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain; 
+}
+
+.board-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    width: 100vw;
+}
+
+.board-overlay{ //black thing showing path diretions
+    position: absolute;
+}
+
+.figurine-picture {
+    position: absolute;
+}
+
+.arrow-picture{
+    position: absolute;
+
+    //In order to make mouse events work
+    pointer-events: auto !important;
+    z-index: 1000;
+}
