@@ -25,6 +25,7 @@ const Home = () => {
     const doLogout = (): void =>{
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem("userId");
         navigate("/login");
     }
 
