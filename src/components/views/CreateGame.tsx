@@ -6,35 +6,39 @@ import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import {useWebsocket} from "./Websockets";
 
-const CreateGame = () =>{
-
+const CreateGame:  React.FC = () =>{
+    const {client , sendMessage, isConnected, disconnect} = useWebsocket();
     const navigate = useNavigate();
-    const [gameID, setGameID] = useState<String>(null);
-    const [gameStatus, setGameStatus] = useState<boolean>(false);
+    const [id, setId] = useState<String>(null);
 
     useEffect(() => {
-        async function fetchData(){
-            try{
-                const username = localStorage.getItem("username");
-                const requestBody =  JSON.stringify({username});
-                const response = await api.post('/create/game', requestBody);
-                setGameID(response.data)
-                localStorage.setItem("gameID", gameID);
+        if (client && isConnected){
+            const subscription = client.subscribe('/topic/gameCreated', (message) => {
+                const data = JSON.parse(message.body);
+                console.log("Received data: ", data);
+                setId(data.gameId);
+            });
 
-                const requestStatus = JSON.stringify({gameID});
-                const responseStatus = await api.get('/game/${gameID}/status', requestStatus);
-            } catch (error){
-                console.error(`something went wrong while fetching the gameID: ${handleError(error)}`)
-            }
+            const playerId = localStorage.getItem("userId");
+            console.log("PlayerId: ", playerId);
+            sendMessage('/app/game/create', {playerId});
+
+
+            return () => {
+                subscription.unsubscribe();
+            };
         }
-
-        fetchData();
-    }, []);
+    }, [client, isConnected, sendMessage]);
 
     const goBack = (): void => {
+        disconnect();
         navigate("/home");
     }
+
+    localStorage.setItem("gameId", id);
+    console.log(localStorage.getItem("gameId"));
 
     return (
         <BaseContainer>
@@ -42,7 +46,7 @@ const CreateGame = () =>{
                 <div className="lobby form">
                     <h2>Share the game pin with 3 friends!</h2>
                     <div className="lobby pin-container">
-                        {gameID}
+                        {id}
                     </div>
                     <div className="lobby button-container">
                         <Button

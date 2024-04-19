@@ -20,6 +20,7 @@ import JoinGame from "../../views/JoinGame";
 import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
 import Loading from "../../views/Loading";
 import {LoadingGuard} from "../routeProtectors/LoadingGuard";
+import WebSocketRouteWrapper from "./WebSocketRouteWrapper";
 
 /**
  * Main router of your application.
@@ -37,14 +38,6 @@ const AppRouter = () => {
 
                 <Route path="/game/*" element={<UserOverviewGuard/>}>
                     <Route path="/game/*" element={<UserOverviewRouter base="/game"/>}/>
-                </Route>
-
-                <Route path="/board/*"
-                    element={<Board/>}>
-                </Route>
-
-                <Route path="/ws/*"
-                    element={<WebSockets/>}>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
@@ -72,15 +65,19 @@ const AppRouter = () => {
                 </Route>
 
                 <Route path="/createGame" element={<CreateGameGuard/>}>
-                    <Route path="/createGame" element={<CreateGame/>}/>
+                    <Route path="/createGame" element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
                 <Route path="/joinGame" element={<JoinGameGuard/>}>
-                    <Route path="/joinGame" element={<JoinGame/>}/>
+                    <Route path="/joinGame" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
                 <Route path="/loading" element={<LoadingGuard/>}>
-                    <Route path="/loading" element={<Loading/>}/>
+                    <Route path="/loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/board/*"
+                       element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
                 </Route>
 
             </Routes>
