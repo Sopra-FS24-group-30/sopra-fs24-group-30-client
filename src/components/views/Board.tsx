@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
+import { Button } from "../ui/Button";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -401,6 +402,10 @@ const Board = () => { //NOSONAR
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
             <div className="board-container">
+                <div>
+                    <Button id="joinVoice">join Voice</Button>
+                    <Button id="leaveVoice">leave Voice</Button>
+                </div>
                 Left UI
                 <TransformWrapper
                     disablePadding={true}
