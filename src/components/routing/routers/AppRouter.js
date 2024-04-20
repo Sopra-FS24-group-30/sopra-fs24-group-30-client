@@ -21,6 +21,8 @@ import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
 import Loading from "../../views/Loading";
 import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 import WebSocketRouteWrapper from "./WebSocketRouteWrapper";
+import Lobby from "../../views/Lobby";
+import {LobbyGuard} from "../routeProtectors/Lobby";
 
 /**
  * Main router of your application.
@@ -36,8 +38,8 @@ const AppRouter = () => {
         <BrowserRouter>
             <Routes>
 
-                <Route path="/game/*" element={<UserOverviewGuard/>}>
-                    <Route path="/game/*" element={<UserOverviewRouter base="/game"/>}/>
+                <Route path="/users/*" element={<UserOverviewGuard/>}>
+                    <Route path="/users/*" element={<UserOverviewRouter base="/users"/>}/>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
@@ -78,6 +80,10 @@ const AppRouter = () => {
 
                 <Route path="/board/*"
                        element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
+                </Route>
+
+                <Route path="/lobby" element={<LobbyGuard/>}>
+                    <Route path="/lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
                 </Route>
 
             </Routes>

@@ -12,7 +12,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const goProfile = (): void =>{
-        navigate("/game");
+        navigate("/users");
     }
     const createGame = (): void=>{
         navigate("/createGame");

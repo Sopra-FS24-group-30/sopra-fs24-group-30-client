@@ -13,7 +13,7 @@ const Loading = () => {
     const [gameStatus, setGameStatus] = useState<boolean>(false);
 
     useEffect(() => {
-        async  function gameReady(){
+        async  function gameSet(){
             try {
                 const gameID = localStorage.getItem("gameID");
                 const requestBody = JSON.stringify({gameID});

@@ -54,7 +54,7 @@ const JoinGame: React.FC = () => {
                 sendMessage('/app/game/join', JSON.stringify(msg));
                 if (joined){
                     localStorage.setItem("gameId", gameId);
-                    navigate('/loading');
+                    navigate('/lobby');
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);
@@ -63,6 +63,7 @@ const JoinGame: React.FC = () => {
     }
 
     const goBack = (): void => {
+        localStorage.removeItem("gameId");
         navigate("/home");
     }
 

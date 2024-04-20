@@ -66,7 +66,7 @@ const Profile = () => {
         fetchData();
     }, [userid]);
     const goBack = (): void => {
-        navigate("/game");
+        navigate("/users");
     }
 
     const Edit = (id): void => {

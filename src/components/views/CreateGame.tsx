@@ -11,20 +11,19 @@ import {useWebsocket} from "./Websockets";
 const CreateGame:  React.FC = () =>{
     const {client , sendMessage, isConnected, disconnect} = useWebsocket();
     const navigate = useNavigate();
-    const [id, setId] = useState<String>(null);
+    const [gameId, setGameId] = useState<String>(null);
+    const playerId = localStorage.getItem("userId");
 
     useEffect(() => {
         if (client && isConnected){
             const subscription = client.subscribe('/topic/gameCreated', (message) => {
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
-                setId(data.gameId);
+                setGameId(data.gameId);
             });
 
-            const playerId = localStorage.getItem("userId");
             console.log("PlayerId: ", playerId);
             sendMessage('/app/game/create', {playerId});
-
 
             return () => {
                 subscription.unsubscribe();
@@ -32,12 +31,23 @@ const CreateGame:  React.FC = () =>{
         }
     }, [client, isConnected, sendMessage]);
 
-    const goBack = (): void => {
-        disconnect();
-        navigate("/home");
+    const goBack = async () => {
+        try {
+            if (client && isConnected) {
+                const playerId = localStorage.getItem("userId");
+                sendMessage('/app/game/leave', {gameId, playerId});
+                disconnect();
+            }
+        } catch (error) {
+            console.error("Error during leave:", handleError(error));
+        } finally {
+            localStorage.removeItem("gameId");
+            // Navigate away from the game page or to a confirmation page
+            navigate("/home");
+        }
     }
 
-    localStorage.setItem("gameId", id);
+    localStorage.setItem("gameId", gameId);
     console.log(localStorage.getItem("gameId"));
 
     return (
@@ -46,7 +56,7 @@ const CreateGame:  React.FC = () =>{
                 <div className="lobby form">
                     <h2>Share the game pin with 3 friends!</h2>
                     <div className="lobby pin-container">
-                        {id}
+                        {gameId}
                     </div>
                     <div className="lobby button-container">
                         <Button
