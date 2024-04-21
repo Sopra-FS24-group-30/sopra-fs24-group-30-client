@@ -63,4 +63,34 @@
     h2{
         color: $textColor;
     }
+    &.player-list{
+        list-style: none;
+        padding-left: 0;
+    }
 }
+
+.player {
+    &.container {
+        padding: 6px;
+        background: lighten($background, 5);
+        border: none;
+        border-radius: $borderRadius;
+        margin-bottom: 0.5em;
+        width: 100%;
+        color: $accent;
+        display: flex;
+        flex-direction: row;
+    }
+    &.username {
+        font-weight: 500;
+        color: $accent;
+    }
+    &.id {
+        margin-left: auto;
+        margin-right: 5px;
+        font-family: $fontMono;
+        font-weight: 300;
+    }
+
+}
+

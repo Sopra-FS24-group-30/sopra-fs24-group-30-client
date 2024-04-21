@@ -1,5 +1,6 @@
 import React from "react";
 import AppRouter from "./components/routing/routers/AppRouter";
+import {WebsocketProvider} from "./components/views/Websockets";
 
 /**
  * Happy coding!
@@ -9,9 +10,9 @@ import AppRouter from "./components/routing/routers/AppRouter";
  */
 const App = () => {
     return (
-        <div>
+        <WebsocketProvider>
             <AppRouter/>
-        </div>
+        </WebsocketProvider>
     );
 };
 
