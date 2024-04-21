@@ -1,48 +1,68 @@
 // @ts-ignore
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import {Client} from '@stomp/stompjs';
 
-const WebSocketComponent: React.FC = () => {
-    const msg = "34567890";
-    const [ws, setWs] = useState<WebSocket | null>(null); //NOSONAR
-    const [messages, setMessages] = useState<string[]>([]);
+interface WebsocketsType{
+    client: Client | null;
+    sendMessage: (destination: string, body: any) => void;
+    isConnected: boolean;
+    disconnect: () => void;
+}
+
+const Websockets = createContext<WebsocketsType | null>(null);
+
+interface WebsocketProviderProps{
+    children: ReactNode;
+}
+
+export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children}) =>{
+    const [client, setClient] = useState<Client | null>(null);
+    const [isConnected, setIsConnected] = useState<boolean>(false);
 
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8080/ws");
-        setWs(socket);
+        const newClient = new Client({
+            brokerURL: "ws://localhost:8080/ws",
+            onConnect: () =>{
+                console.log("Connected to WS");
+                setIsConnected(true);
+            },
+            onStompError: (frame) =>{
+                console.error('Broker reported error: ' + frame.headers['message']);
+                console.error('Additional details: ' + frame.body);
+                setIsConnected(false);
+            },
+            reconnectDelay: 5000,
+        });
 
-        socket.onopen = () => {
-            console.log("WebSocket is connected.");
-            socket.send(msg);
-        };
-
-        socket.onmessage = (event) => {
-            console.log("Message from qweqwe", event.data);
-            setMessages((prevMessages) => [...prevMessages, event.data]);
-        };
-
-        socket.onerror = (event) => {
-            console.error("WebSocket error observed:", event);
-        };
-
-        socket.onclose = () => {
-            console.log("WebSocket is closed.");
-        };
+        newClient.activate();
+        setClient(newClient);
 
         return () => {
-            socket.close();
-        };
+            newClient.deactivate()
+        }
     }, []);
 
+    const sendMessage = (destination: string, body: any) => {
+        if (isConnected) {
+            client?.publish({destination, body: JSON.stringify(body)});
+        } else {
+            console.log("Attempted to send message without a connection.");
+        }
+    };
+
+    const disconnect = () =>{
+        client?.deactivate();
+        setClient(null);
+        console.log("Correctly disconnected");
+    }
+
     return (
-        <div>
-            <h2>Messsages from Server</h2>
-            <ul>
-                {messages.map((message, index) => ( 
-                    <li key={index}>{message}</li> //NOSONAR
-                ))}
-            </ul>
-        </div>
+        <Websockets.Provider value = {{client, sendMessage, isConnected, disconnect}}>
+            {children}
+        </Websockets.Provider>
     );
 };
 
-export default WebSocketComponent;
+export const useWebsocket = (): WebsocketsType | null =>{
+    return useContext((Websockets));
+};

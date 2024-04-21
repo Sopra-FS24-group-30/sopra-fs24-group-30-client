@@ -8,7 +8,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const goProfile = (): void =>{
-        navigate("/game");
+        navigate("/users");
     }
     const createGame = (): void=>{
         navigate("/createGame");
@@ -21,6 +21,7 @@ const Home = () => {
     const doLogout = (): void =>{
         localStorage.removeItem("token");
         localStorage.removeItem("username");
+        localStorage.removeItem("userId");
         navigate("/login");
     }
 
