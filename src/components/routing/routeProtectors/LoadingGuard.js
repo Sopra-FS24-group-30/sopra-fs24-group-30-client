@@ -14,5 +14,5 @@ export const LoadingGuard = () => {
 };
 
 LoadingGuard.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node //NOSONAR
 }

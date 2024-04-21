@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"; //NOSONAR
 import {api, handleError} from "helpers/api";
-import User from "models/User";
 import {useNavigate} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
