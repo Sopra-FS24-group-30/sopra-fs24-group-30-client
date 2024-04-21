@@ -1,6 +1,6 @@
 // @ts-ignore
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import {Client} from '@stomp/stompjs';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {Client} from "@stomp/stompjs";
 
 interface WebsocketsType{
     client: Client | null;
@@ -27,8 +27,8 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children}) 
                 setIsConnected(true);
             },
             onStompError: (frame) =>{
-                console.error('Broker reported error: ' + frame.headers['message']);
-                console.error('Additional details: ' + frame.body);
+                console.error("Broker reported error: " + frame.headers["message"]);
+                console.error("Additional details: " + frame.body);
                 setIsConnected(false);
             },
             reconnectDelay: 5000,

@@ -1,6 +1,6 @@
 // WebSocketRouteWrapper.tsx
-import React, { ReactNode } from 'react';
-import { WebsocketProvider } from '../../views/Websockets';
+import React, { ReactNode } from "react";
+import { WebsocketProvider } from "../../views/Websockets";
 
 interface WebSocketRouteWrapperProps {
     children: ReactNode;
