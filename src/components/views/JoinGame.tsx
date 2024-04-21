@@ -7,6 +7,8 @@ import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import {useWebsocket} from "./Websockets";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const PinField = (props) => {
     return (
@@ -31,6 +33,8 @@ const JoinGame: React.FC = () => {
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const playerId = localStorage.getItem("userId");
     const [joined, setJoined] = useState(false);
+
+    console.log("playerId join: ", playerId);
 
     useEffect(() =>{
         if (client && isConnected){
