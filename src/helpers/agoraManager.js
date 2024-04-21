@@ -1,7 +1,7 @@
 import AgoraRTC from "agora-rtc-sdk-ng"
 
 const APP_ID = "f4ddb18335fb41e5a06d3f86f686060b";
-const TOKEN = "84b6ef731de847b7b626bb26725e94a9";
+const TOKEN = "007eJxTYGD9v7bg5pbyq762rqxWsqtkVumK707L/jZVuTDt5lz2w1EKDGkmKSlJhhbGxqZpSSaGqaaJBmYpxmkWZmlmFmYGZgZJ7A9U0hoCGRlm/mxgZWSAQBCfhSE3MTOPgQEA+Q4eYQ==";
 
 const agoraRTCManager = async (eventsCallback) => {
     let agoraEngine = null;
@@ -9,9 +9,9 @@ const agoraRTCManager = async (eventsCallback) => {
         agoraEngine = AgoraRTC.createClient({ mode: "rtc", codec: "vp9" });
     };
 
-    setupAgoraEngine();
+    await setupAgoraEngine();
 
-    const getAgoraEngine = () => {
+    const getAgoraEngine = async () => {
         return agoraEngine;
     };
 
@@ -35,7 +35,7 @@ const agoraRTCManager = async (eventsCallback) => {
         )
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        await getAgoraEngine.publish([
+        await agoraEngine.publish([
             channelParameters.localAudioTrack
         ]);
     }
@@ -55,4 +55,4 @@ const agoraRTCManager = async (eventsCallback) => {
     };
 };
 
-export default agoraRTCManager();
+export default agoraRTCManager;

@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { Button } from "../ui/Button";
-import {joinVoice, leaveVoice} from "../../helpers/agoraUtils.js"
+import { foo, joinVoice, leaveVoice} from "../../helpers/agoraUtils.js";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -398,7 +398,8 @@ const Board = () => { //NOSONAR
                 : ""}
         </div>
     )
-    
+
+
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
@@ -410,7 +411,7 @@ const Board = () => { //NOSONAR
                 Left UI
                 <TransformWrapper
                     disablePadding={true}
-                    doubleClick={{mode:"toggle", step:1.3}}
+                    doubleClick={{ mode: "toggle", step: 1.3 }}
                 >
                     <KeyboardControls />
                     <TransformComponent>
@@ -419,13 +420,13 @@ const Board = () => { //NOSONAR
                                 src={require("../../assets/boards/overlay.png")}
                                 className="board-background"
                                 alt="Overlay"
-                                style={{opacity: overlayActive}}
+                                style={{ opacity: overlayActive }}
                             />
                         </div>
                         {arrows}
                         {figurines} {/* all 4 player figurines */}
                         <img
-                            src={ require((`../../assets/boards/board_${imageId}.png`))}
+                            src={require((`../../assets/boards/board_${imageId}.png`))}
                             className="board-background"
                             alt="Gameboard"
                         />

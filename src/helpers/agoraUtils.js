@@ -41,4 +41,6 @@ const leaveVoice = async function () {
     window.location.reload();
 };
 
-export {joinVoice,leaveVoice};
+const foo = async () => {}
+
+export {foo, joinVoice, leaveVoice};
