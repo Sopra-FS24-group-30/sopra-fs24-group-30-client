@@ -1,5 +1,4 @@
 import AgoraRTC from "agora-rtc-sdk-ng"
-import config from "./config.json";
 
 const APP_ID = "f4ddb18335fb41e5a06d3f86f686060b";
 const TOKEN = "84b6ef731de847b7b626bb26725e94a9";
@@ -51,7 +50,6 @@ const agoraRTCManager = async (eventsCallback) => {
 
     return {
         getAgoraEngine,
-        config,
         join,
         leave
     };

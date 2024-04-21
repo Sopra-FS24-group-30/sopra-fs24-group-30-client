@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { Button } from "../ui/Button";
+import {joinVoice, leaveVoice} from "../../helpers/agoraUtils.js"
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -403,8 +404,8 @@ const Board = () => { //NOSONAR
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
             <div className="board-container">
                 <div>
-                    <Button id="joinVoice">join Voice</Button>
-                    <Button id="leaveVoice">leave Voice</Button>
+                    <Button onClick={joinVoice}>join Voice</Button>
+                    <Button onClick={leaveVoice}>leave Voice</Button>
                 </div>
                 Left UI
                 <TransformWrapper

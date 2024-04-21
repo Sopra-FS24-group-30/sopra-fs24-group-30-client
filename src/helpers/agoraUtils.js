@@ -20,8 +20,8 @@ const handleVSDKEvents = (eventName, ...args) => {
     }
 };
 
-const { join, leave, getAgoraEngine, setUserRole , config} = await AgoraGetStarted(
-    handleVSDKEvents, product
+const { join, leave, getAgoraEngine} = await agoraManager(
+    handleVSDKEvents
 );
 
 // Get an instance of the Agora Engine from the manager
