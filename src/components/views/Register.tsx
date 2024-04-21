@@ -14,10 +14,9 @@ Using the same template as the login, and therefore using the same .scss file, a
 const FormField = (props) => {
     return (
         <div className="register field">
-            <label className="register label">{props.label}</label>
             <input
                 className="register input"
-                placeholder="enter here.."
+                placeholder={props.placeholder}
                 value={props.value}
                 onChange={(e) => props.onChange(e.target.value)}
             />
@@ -26,22 +25,21 @@ const FormField = (props) => {
 };
 
 FormField.propTypes = {
-    label: PropTypes.string,
+    placeholder: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
 };
 
 const Register = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState<string>(null);
     const [username, setUsername] = useState<string>(null);
     const [password, setPassword] = useState<string>(null);
 
 
     const doRegister = async () => {
         try {
-            const requestBody = JSON.stringify({name, username, password});
-            const response = await api.post("/users", requestBody);
+            const requestBody = JSON.stringify({username, password});
+            const response = await api.post("/register", requestBody);
 
             // Get the returned user and update a new object.
             const user = new User(response.data);
@@ -49,8 +47,8 @@ const Register = () => {
             // Store the token into the local storage.
             localStorage.setItem("token", user.token);
             localStorage.setItem("username", user.username);
-            // register successfully worked --> navigate to the route /game in the GameRouter
-            navigate("/game");
+            // register successfully worked --> navigate to the route /game in the UserOverviewRouter
+            navigate("/home");
         } catch (error) {
             alert(
                 `Something went wrong during the sign up: \n${handleError(error)}`
@@ -65,20 +63,16 @@ const Register = () => {
     return (
         <BaseContainer>
             <div className="register container">
+                <h1>Mario After Party</h1>
                 <div className="register form">
                     <h3>Sign up</h3>
                     <FormField
-                        label="Name"
-                        value={name}
-                        onChange={(un: string) => setName(un)}
-                    />
-                    <FormField
-                        label="Username"
+                        placeholder="Set Username"
                         value={username}
                         onChange={(un: string) => setUsername(un)}
                     />
                     <FormField
-                        label="Password"
+                        placeholder="Create Password"
                         value={password}
                         onChange={(un: string) => setPassword(un)}
                     />

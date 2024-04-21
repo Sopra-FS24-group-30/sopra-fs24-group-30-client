@@ -11,7 +11,8 @@
 $accent: #97ABFF;
 $accentDark: #123597;
 $textColor: white;
-$background: #262632;
+$background: #040931;
+$background-image: '../assets/backgrounds/Background.png ';
 
 /* some constants */
 
@@ -22,7 +23,7 @@ $SMALL_WIDTH: 768px;
 
 /* some standard elements */
 /* fonts */
-$fontDefault: "M PLUS Rounded 1c", sans-serif;
+$fontDefault: "Arial", "Helvetica", sans-serif;
 $fontMono: "Roboto Mono", monospace;
 
 /* a standard drop shadow */

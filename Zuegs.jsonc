@@ -1,0 +1,138 @@
+{ "dingsis":[
+{
+    "type": "dice",
+    "data": {
+        "results":[4] //an array (incase multiple dice are thrown)
+    }
+},
+
+{
+    "type": "move",
+    "data": {
+        "2": //playerId
+            {
+                "spaces": [7, 49, 50, 20], //spaces, to which the player will move
+                "moves": 4, //spaces left to move 0 if the movement isn't caused by a dice roll
+                "spaceColour": "Item" //colour of the space the player landed on (can be an overspace)
+            },
+        "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
+    }
+},
+
+//result of the event space 20
+
+{
+    "type": "dice",
+    "data": [5]
+},
+
+{
+    "type": "move",
+    "data": {
+        "1": //playerId
+            {
+                "spaces": [30, 31, 55], //spaces, to which the player will move
+                "moves": 5, //spaces left to move 0 if the movement isn't caused by a dice roll
+                "spaceColour": "SpecialItem" //colour of the space the player landed on (can be an overspace)
+            },
+            "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
+    }
+},
+
+//result of the effect of the specialItemSpace 55
+
+{
+    "type": "move",
+    "data": {
+        "1": //playerId
+            {
+                "spaces": [32, 11, 19], //spaces, to which the player will move
+                "moves": 3, //spaces left to move 0 if the movement isn't caused by a dice roll
+                "spaceColour": "Blue" //colour of the space the player landed on (can be an overspace)
+            },
+        "movementType": "walk" //type of movement effect ["walk", "teleport", etc…]
+    }
+},
+
+//~ result of the blue Space 19
+{
+    "type": "money",
+    "data": {
+        "1": {
+            "newAmountOfMoney": 50, //new amount of money for player 1
+            "changeAmountOfMoney": 3 //amount of money
+        }
+        
+    }
+},
+
+{
+    "type": "junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
+    "data": {
+        "playerId": "1", //the Player that needs to make the decision (may not be needed if it isn't broadcast to everyone)
+        "currentSpace": 57, //spaceId of the junction
+        "nextUnlockedSpaces": [24, 27], //spaceId of next Spaces (doesnt include)
+        "nextLockedSpaces": [] //Space which is behind a Gate (3 or 44 if currentSpace is 62/63)
+    }
+},
+
+{
+    "type": "junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
+    "data": {
+        "playerId": "1", //the Player that needs to make the decision (may not be needed if it isn't broadcast to everyone)
+        "currentSpace": 63, //spaceId of the junction
+        "nextUnlockedSpaces": [30], //spaceId of next Spaces (doesnt include)
+        "nextLockedSpaces": [44] //Space which is behind a Gate (3 or 44 if currentSpace is 62/63)
+    }
+},
+
+{
+    "type": "move",
+    "data": {
+        "1": //playerId
+            {
+                "spaces": [9], 
+                "moves": 0,
+                "spaceColour": "Yellow" 
+            },
+        "2": //playerId
+            {
+                "spaces": [30], 
+                "moves": 0, 
+                "endsWithOver": "Red" 
+            },
+        "movementType": "teleport" 
+    }
+},
+
+{
+    "type": "cash",
+    "data": {
+        "1": //playerId
+            {
+                "cash": 50 //new amount of cashs
+            }
+    }
+},
+
+
+
+//$ --- ↑ Server → Client ↑ ---
+
+//$ --- ↓ Client → Server ↓ ---
+
+
+{
+    "type": "dice",
+    "data": {} //possibly playerID
+},
+
+{
+    "type": "junction",
+    "data": {
+        "selectedSpace": 24 //selected spaceId
+        //possibly playerID
+    }
+}
+
+]}
