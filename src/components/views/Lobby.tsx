@@ -31,29 +31,27 @@ const Lobby: React.FC = () =>{
 
     useEffect(() => {
         if(client && isConnected){
-            const subscriptionPlayers = client.subscribe('/topic/players', (message) => {
+            const subscriptionPlayers = client.subscribe("/topic/players", (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setUsers(data);
             });
 
-            const subscriptionGameReady = client.subscribe('/topic/gameReady', (message) =>{
+            const subscriptionGameReady = client.subscribe("/topic/gameReady", (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
             })
 
-            const subscriptionStatus = client.subscribe('/topic/game/status', (message) => {
+            const subscriptionStatus = client.subscribe("/topic/game/status", (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data.status);
                 setGameStatus(data.status);
             })
 
-            sendMessage('/app/game/lobby', {gameId});
-            sendMessage('/app/gameReady', {gameId});
-            sendMessage('/app/game/status', {gameId});
+            sendMessage("/app/game/lobby", {gameId});
+            sendMessage("/app/gameReady", {gameId});
+            sendMessage("/app/game/status", {gameId});
             console.log(gameStatus);
-
-
 
             return () =>{
                 subscriptionPlayers.unsubscribe();
@@ -65,14 +63,14 @@ const Lobby: React.FC = () =>{
     }, [client, isConnected, sendMessage, disconnect]);
 
     if (gameStatus === "SETUP"){
-        navigate('/loading');
+        navigate("/loading");
     }
 
     const leave = async () => {
         try {
             if (client && isConnected) {
                 const playerId = localStorage.getItem("userId");
-                sendMessage('/app/game/leave', {gameId, playerId});
+                sendMessage("/app/game/leave", {gameId, playerId});
                 disconnect();
             }
         } catch (error) {
