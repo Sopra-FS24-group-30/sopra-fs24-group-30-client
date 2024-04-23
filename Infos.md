@@ -5,25 +5,25 @@
 |----------------------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------|----------|-----------|
 | MagicMushroom                    | Magic Mushroom                                | This turn you roll 2 dice. If you roll doubles: +10 Moneys.                                                          | <span style="color:#d97504">Bronze</span>   |  ✅    |
 | TwoMushrooms                     | Two (Regular) Mushrooms                       | This turn you move twice as many spaces.                                                                             | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| TheBrotherAndCo                  | The uncle of your sister's cousin, has...     | Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn.      | <span style="color:#d97504">Bronze</span>   |  ✅    |
-|                                  | Peace I'm out                                 | Teleport to a random other player.                                                                                   | <span style="color:#d97504">Bronze</span>   |  ❌    |
-|                                  | Fuuuuuuuusion                                 | Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.                 | <span style="color:#d97504">Bronze</span>   |  ❌    |
-|                                  | Treasure chest- Ice cream                     | Steal a random card from a player of your choosing.                                                                  | <span style="color:#d97504">Bronze</span>   |  ❌    |
-|                                  | OwO what's this                               | You receive a random card.                                                                                           | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| TheBrotherAndCo                  | The uncle of your sister's cousin, has a brother-in-law, who once worked at Facebook | Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn. | <span style="color:#d97504">Bronze</span> | ✅ |
+| PeaceImOut                       | Peace I'm out                                 | Teleport to a random other player.                                                                                   | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| Fusion                           | Fuuuuuuuusion                                 | Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.                 | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| IceCreamChest                    | Treasure chest- Ice cream                     | Steal a random card from a player of your choosing.                                                                  | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| WhatsThis                        | OwO what's this                               | You receive a random card.                                                                                           | <span style="color:#d97504">Bronze</span>   |  ❌    |
 | SuperMagicMushroom               | Super Magic Mushroom                          | This turn you roll 3 dice. If you roll triplets: +30 Moneys.                                                         | <span style="color:#AAAAAA">Silver</span>   |  ✅    |
-|                                  | Stick                                         | If you pass a player this turn, steal 15 coins from them.                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-|                                  | Meow it I'm out                               | Switch places with a random other player.                                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| Stick                            | Stick                                         | If you pass a player this turn, steal 15 coins from them.                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| ImOut                            | Meow it I'm out                               | Switch places with a random other player.                                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
 | TreasureChest                    | Treasure chest                                | Steal a random Item from a player of your choice.                                                                    | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
 | MeowYou                          | Meow you in particular                        | The goal moves.                                                                                                      | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-|                                  | Steering a submarine using an Xbox Controller | Every player (including yourself) loses 5 coins.                                                                     | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-|                                  | Bad Wifi                                      | Chose a player, they get muted for 1 turn (2 if it was your teammate)                                                | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| XboxController                   | Steering a submarine using an Xbox Controller | Every player (including yourself) loses 5 coins.                                                                     | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| BadWifi                          | Bad Wifi                                      | Chose a player, they get muted for 1 turn (2 if it was your teammate)                                                | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
 | UltraMagicMushroom               | Ultra Magic Mushroom                          | This turn you roll 4 dice. If you roll quadruplets: +69 Moneys.                                                      | <span style="color:#ffe600">Gold</span>     |  ✅    |
-|                                  | Best Trade deal in the history of Trade deals maybe ever | Give another player of your choosing all of your cards, and steal all of their items in return.           | <span style="color:#ffe600">Gold</span>     |  ❌    |
-|                                  | (Almost) all your Items are belong to me      | Steal 4 random items from a player of your choice.                                                                   | <span style="color:#ffe600">Gold</span>     |  ❌    |
-|                                  | I am confusion                                | This turn you move backwards instead of forwards.                                                                    | <span style="color:#ffe600">Gold</span>     |  ❌    |
-|                                  | Golden Snitch                                 | A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.                       | <span style="color:#ffe600">Gold</span>     |  ❌    |
-|                                  | Only-Fans Abo                                 | Steal 7 coins from every other player (even your Teammate (simp))                                                    | <span style="color:#ffe600">Gold</span>     |  ✅     |
-|                                  | Dino Chicky Nuggie                            | -20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already) | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| BestTradeDeal                    | Best Trade deal in the history of Trade deals maybe ever | Give another player of your choosing all of your cards, and steal all of their items in return.           | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| ItemsAreBelongToMe               | (Almost) all your Items are belong to me      | Steal 4 random items from a player of your choice.                                                                   | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| Confusion                        | I am confusion                                | This turn you move backwards instead of forwards.                                                                    | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| GoldenSnitch                     | Golden Snitch                                 | A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.                       | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| OnlyFansSub                      | Only-Fans Abo                                 | Steal 7 coins from every other player (even your Teammate (simp))                                                    | <span style="color:#ffe600">Gold</span>     |  ✅     |
+| ChickyNuggie                     | Dino Chicky Nuggie                            | -20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already) | <span style="color:#ffe600">Gold</span>     |  ❌    |
 
 # Win Conditions
 
@@ -34,45 +34,45 @@
 | Shiny        | Ohh shiny                                             |  Use one <span style="color:#d97504">Bronze</span>, <span style="color:#AAAAAA">Silver</span> and <span style="color:#ffe600">Gold</span> Item, and one <span style="color:#d97504">Bronze</span>, <span style="color:#AAAAAA">Silver</span> and <span style="color:#ffe600">Gold</span> Card. | | ❌ |
 | ThirdTime    | Third time's the charm                                |  Pass the goal twice                                                                                                                                                                               |                                                        | ❌ |
 | Explorer     | Explorer of the Seven seas                            |  Pass every Space at least once.                                                                                                                                                                   |                                                        | ❌ |
-| Drunk        | Drunk                                                 |  Land on a tsunami Space thrice.                                                                                                                                                                   |                                                        | ✅ |
+| Drunk        | Drunk                                                 |  Land on a Catnami Space thrice.                                                                                                                                                                   |                                                        | ✅ |
 | Unlucky      | Unlucky                                               |  Lose a total of 40 Moneys.                                                                                                                                                                        |                                                        | ❌ |
 | JackSparrow  | Jack Sparrow, CAPTAIN Jack Sparrow                    |  You win if the other Team wins, and you lose if your Partner wins. If the game ends after 20 Turns, everyone except for your Partner loses.                                                       | automatically activates after 20 Turns have passed.    | ✅ |
 | Company      | East Indian Trading Company                           |  As long as you have at least 60 Moneys, the Win Condition is fulfilled. If you have less than 60 Moneys at any point in time, your Wincondition is no longer fulfilled.                           | can be deactivated if the condition isn’t met anymore. | ❌ |
 | Marooned     | The Marooned                                          |  As long as you have exactly 0 Moneys, 0 Items and 0 Cards the Win Condition is fulfilled. If you gain any Moneys, Items or Cards at any point in time, your Win Condition is no longer fulfilled. | can be deactivated if the condition isn’t met anymore. | ✅ |
 
-# Win Condtions
+# Achievments
 
 | BackEnd Name  | Pretty Name                  | Effect                                         | Priority |
 |---------------|------------------------------|------------------------------------------------|----------|
-| Baron1        | Baron I                      | own 40 money in one game                       | ✅ |
-| Baron2        | Baron II                     | own 80 money in one game                       | ✅ |
-| Baron3        | Baron III                    | own 200 money in one game                      | ✅ |
-| Ouch          | Ouch                         | lose all your money – over 40 – in one round   | ❌ |
-| Endurance1    | Endurance I                  | be in a round for 60 min                       | ❌ |
-| Endurance2    | Endurance II                 | be in a round for 120 min                      | ❌ |
-| Endurance3    | Endurance III                | be in a round for 180 min                      | ❌ |
-| Gamer         | Gamer                        | win 3 games in a row                           | ❌ |
-| DoingYourBest | You’re doing your best 🥲     | lose 3 games in a row                          | ❌ |
-| NoMoney       | What even is a money         | win one game with 0 money                      | ✅ |
-| NoUltimate    | Do I even need that          | win one game without using your Ultimate       | ✅ |
-| Solo          | Betray your friend           | win solo                                       | ❌ |
-| NoWinner      | We’re all in this together!  | no winner                                      | ❌ |
-| OrangeCat1    | Orange Cat Behaviour I       | get on the cat tsunami field 3 times in a game | ❌ |
-| OrangeCat2    | Orange Cat Behaviour II      | get on the cat tsunami field 8 times in a game | ❌ |
+| Baron1        | Baron I                      | Own 40 money in one game                       | ✅ |
+| Baron2        | Baron II                     | Own 80 money in one game                       | ✅ |
+| Baron3        | Baron III                    | Own 200 money in one game                      | ✅ |
+| Ouch          | Ouch                         | Lose all of your money (over 40) in one round  | ❌ |
+| Endurance1    | Endurance I                  | Be in a round for 60 min                       | ❌ |
+| Endurance2    | Endurance II                 | Be in a round for 120 min                      | ❌ |
+| Endurance3    | Endurance III                | Be in a round for 180 min                      | ❌ |
+| Gamer         | Gamer                        | Win 3 games in a row                           | ❌ |
+| DoingYourBest | You’re doing your best 🥲     | Lose 3 games in a row                          | ❌ |
+| NoMoney       | What even is a money         | Win a game with 0 money                        | ✅ |
+| NoUltimate    | Do I even need that          | Win a game without using your Ultimate         | ✅ |
+| Solo          | Betray your friend           | Win solo                                       | ❌ |
+| NoWinner      | We’re all in this together!  | No winner                                      | ❌ |
+| OrangeCat1    | Orange Cat Behaviour I       | Land on a Catnami-Space 3 times in one game    | ❌ |
+| OrangeCat2    | Orange Cat Behaviour II      | Land on a Catnami-Space 5 times in one game    | ❌ |
 
 # Ultimate
 
-| BackEnd Name | Pretty Name                                        | Effect                                                                                                                                | Priority |
-|--------------|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
-| BigShuffle   |  The Big Shuffle                                   | The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)                                 | ❌ |
-| Pickpocket   |  Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your reamm8).                                                | ✅ |
-| FreshStart   |  Fresh start :)                                    | All other Players get thrown back to their starting field.                                                                            | ✅ |
-| Stop         |  🛑                                                 | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)                                           | ❌ |
-| Tp           |  /tp                                               | Move to any Space on the board.                                                                                                       | ❌ |
-| Chameleon    |  Chameleon                                         | Use the effect of any Item in the game.                                                                                               | ❌ |
-| Wisdom       |  Wisdom                                            | Look at the Win-condition of any Player of your choosing.                                                                             | ✅ |
-| Nothing      |  Nothing (Maybe you should've taken another Card?) | Literally nothing happens.                                                                                                            | ✅ |
-| CatBell      |  Cat bell                                          | Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate | ❌ |
+| BackEnd Name | Pretty Name                                       | Effect                                                                                                                                | Priority |
+|--------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
+| BigShuffle   | The Big Shuffle                                   | The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)                                 | ❌ |
+| Pickpocket   | Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your reamm8).                                                | ✅ |
+| FreshStart   | Fresh start :)                                    | All other Players get thrown back to their starting field.                                                                            | ✅ |
+| Stop         | 🛑                                                | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)                                           | ❌ |
+| Tp           | /tp                                               | Move to any Space on the board.                                                                                                       | ❌ |
+| Chameleon    | Chameleon                                         | Use the effect of any Item in the game.                                                                                               | ❌ |
+| Wisdom       | Wisdom                                            | Look at the Win-condition of any Player of your choosing.                                                                             | ✅ |
+| Nothing      | Nothing (Maybe you should've taken another Card?) | Literally nothing happens.                                                                                                            | ✅ |
+| CatBell      | Cat bell                                          | Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate | ❌ |
 
 # Cards
 
