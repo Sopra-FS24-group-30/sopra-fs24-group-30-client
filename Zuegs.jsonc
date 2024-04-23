@@ -1,13 +1,13 @@
 { "dingsis":[
 {
-    "type": "dice",
+    "address": "/topic/board/dice",
     "data": {
         "results":[4] //an array (incase multiple dice are thrown)
     }
 },
 
 {
-    "type": "move",
+    "address": "/topic/board/move",
     "data": {
         "2": //playerId
             {
@@ -22,12 +22,14 @@
 //result of the event space 20
 
 {
-    "type": "dice",
-    "data": [5]
+    "address": "/topic/board/dice",
+    "data": {
+        "results":[5] //an array (incase multiple dice are thrown)
+    }
 },
 
 {
-    "type": "move",
+    "address": "/topic/board/move",
     "data": {
         "1": //playerId
             {
@@ -42,7 +44,7 @@
 //result of the effect of the specialItemSpace 55
 
 {
-    "type": "move",
+    "address": "/topic/board/move",
     "data": {
         "1": //playerId
             {
@@ -56,9 +58,9 @@
 
 //~ result of the blue Space 19
 {
-    "type": "money",
+    "address": "/topic/board/money",
     "data": {
-        "1": {
+        "1": { //playerId
             "newAmountOfMoney": 50, //new amount of money for player 1
             "changeAmountOfMoney": 3 //amount of money
         }
@@ -67,7 +69,7 @@
 },
 
 {
-    "type": "junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
+    "address": "/topic/board/junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
     "data": {
         "playerId": "1", //the Player that needs to make the decision (may not be needed if it isn't broadcast to everyone)
         "currentSpace": 57, //spaceId of the junction
@@ -77,7 +79,7 @@
 },
 
 {
-    "type": "junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
+    "address": "/topic/board/junction", //Don't send junction data, if the player doesn't have Brothers… and a choice would be a locked Space
     "data": {
         "playerId": "1", //the Player that needs to make the decision (may not be needed if it isn't broadcast to everyone)
         "currentSpace": 63, //spaceId of the junction
@@ -87,7 +89,7 @@
 },
 
 {
-    "type": "move",
+    "address": "/topic/board/move",
     "data": {
         "1": //playerId
             {
@@ -106,32 +108,37 @@
 },
 
 {
-    "type": "cash",
+    "address": "/topic/board/newActivePlayer",
     "data": {
-        "1": //playerId
-            {
-                "cash": 50 //new amount of cashs
-            }
+        "currentTurn": 10, //current turn number
+        "activePlayer": "1" //playerId
     }
 },
 
 
 
-//$ --- ↑ Server → Client ↑ ---
+//$ ——— ↑ Server → Client ↑ ———
 
-//$ --- ↓ Client → Server ↓ ---
+//$ ——— ↓ Client → Server ↓ ———
 
 
 {
-    "type": "dice",
+    "address": "/board/dice",
     "data": {} //possibly playerID
 },
 
 {
-    "type": "junction",
+    "address": "/board/junction",
     "data": {
         "selectedSpace": 24 //selected spaceId
         //possibly playerID
+    }
+},
+
+{
+    "address": "/board/useItem",
+    "data": {
+        "usedItem": "MagicMushroom" //used Item ["TheBrotherAndCo", "MagicMushroom", "SuperMagicMushroom", "UltraMagicMushroom", "OnlyFansSub", "TreasureChest"]
     }
 }
 

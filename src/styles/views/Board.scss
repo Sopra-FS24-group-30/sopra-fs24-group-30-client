@@ -20,7 +20,7 @@ body.scrollbar-removal{ //overrides global css style
     width: 100vw;
 }
 
-.board-overlay{ //black thing showing path diretions
+.board-overlay{ //black thing showing path diretions, which activates when pressing "↵"
     position: absolute;
 }
 
@@ -34,4 +34,20 @@ body.scrollbar-removal{ //overrides global css style
     //In order to make mouse events work
     pointer-events: auto !important;
     z-index: 1000;
+}
+
+.player-status{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ffffff7f;
+    &-box{
+        flex-direction: column;
+        height: calc(90vh/3);
+        font-size: max(10pt, min(40pt, 4vh));
+        margin-top: 5vh;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 1em;
+    }
 }
