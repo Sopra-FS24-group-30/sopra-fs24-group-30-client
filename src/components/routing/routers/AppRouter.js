@@ -22,7 +22,13 @@ import Loading from "../../views/Loading";
 import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 import WebSocketRouteWrapper from "./WebSocketRouteWrapper";
 import Lobby from "../../views/Lobby";
-import {LobbyGuard} from "../routeProtectors/Lobby";
+import {LobbyGuard} from "../routeProtectors/LobbyGuard";
+import WinCondition from "../../views/WinCondition";
+import {WinConditionGuard} from "../routeProtectors/WinConditionGuard";
+import UltimateAttack from "../../views/UltimateAttack";
+import {UltimateAttackGuard} from "../routeProtectors/UltimateAttackGuard";
+import SelectTeam from "../../views/SelectTeam";
+import {SelectTeamGuard} from "../routeProtectors/SelectTeamGuard";
 
 /**
  * Main router of your application.
@@ -83,6 +89,18 @@ const AppRouter = () => {
 
                 <Route path="/lobby" element={<LobbyGuard/>}>
                     <Route path="/lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/wincondition" element={<WinConditionGuard/>}>
+                    <Route path="/wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/ultimateAttack" element={<UltimateAttackGuard/>}>
+                    <Route path="/ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/selectTeam" element={<SelectTeamGuard/>}>
+                    <Route path="/selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
                 </Route>
 
             </Routes>
