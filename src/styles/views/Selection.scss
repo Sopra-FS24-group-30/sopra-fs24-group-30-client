@@ -12,6 +12,7 @@
     }
     &.card-container{
         display: flex;
+        flex-direction: row;
         background: transparent;
         animation-name: slideDown;
         animation-duration: 1s;

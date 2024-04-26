@@ -53,8 +53,6 @@ const Lobby: React.FC = () =>{
             sendMessage('/app/game/status', {gameId});
             console.log(gameStatus);
 
-
-
             return () =>{
                 subscriptionPlayers.unsubscribe();
                 subscriptionGameReady.unsubscribe();
@@ -65,7 +63,7 @@ const Lobby: React.FC = () =>{
     }, [client, isConnected, sendMessage, disconnect]);
 
     if (gameStatus === "SETUP"){
-        navigate('/loading');
+        navigate('/wincondition');
     }
 
     const leave = async () => {

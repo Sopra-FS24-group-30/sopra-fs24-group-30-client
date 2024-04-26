@@ -28,6 +28,7 @@ const CreateGame:  React.FC = () =>{
     const [gameId, setGameId] = useState<String>(null);
     const [players, setPlayers] = useState<User[]>(null);
     const [gameReady, setGameReady] = useState<boolean>(false);
+    localStorage.setItem("host", "true");
 
     console.log("playerId create: ", playerId);
 
@@ -71,6 +72,7 @@ const CreateGame:  React.FC = () =>{
         try {
             if (client && isConnected) {
                 const playerId = localStorage.getItem("userId");
+                localStorage.removeItem("host");
                 sendMessage('/app/game/leave', {gameId, playerId});
                 disconnect();
             }

@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export const SelectionGuard = () => {
+export const UltimateAttackGuard = () => {
     console.log(localStorage.getItem("token"));
 
     if (!localStorage.getItem("token")) {
@@ -13,6 +13,6 @@ export const SelectionGuard = () => {
     return <Outlet />;
 };
 
-SelectionGuard.propTypes = {
+UltimateAttackGuard.propTypes = {
     children: PropTypes.node,
 };

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
 import "styles/ui/FlipCard.scss"
@@ -12,7 +12,8 @@ import {Spinner} from "components/ui/Spinner"
 import {Simulate} from "react-dom/test-utils";
 import toggle = Simulate.toggle;
 
-const WinConditionCards = (props) => {
+const UltimateAttackCards = (props) => {
+    const navigate = useNavigate();
     const [flippedStates, setFlippedStates] = useState({
         card1: false,
         card2: false,
@@ -27,6 +28,10 @@ const WinConditionCards = (props) => {
                 [cardKey]: !prevState[cardKey]
             }));
             setSelectedCard(cardKey); // Set the current card as selected
+
+            setTimeout(()=>{
+                navigate("/selectTeam")
+            }, 1000);
         }
     };
 
@@ -40,15 +45,15 @@ const WinConditionCards = (props) => {
                          onClick={() => toggleFlip(cardKey)}>
                         <div className="Card inner-container">
                             <div className="Card front">
-                                <div className="Card WinCondition-front"/>
+                                <div className="Card UltimateAttack-front"/>
                             </div>
                             <div className="Card back">
-                                <div className="Card WinCondition-back">
+                                <div className="Card UltimateAttack-back">
                                     <div className="Card text-container-left">
-                                        {props.condition}
+                                        {props.attack}
                                     </div>
                                     <div className="Card text-container-right">
-                                        {props.condition}
+                                        {props.attack}
                                     </div>
                                 </div>
                             </div>
@@ -60,12 +65,11 @@ const WinConditionCards = (props) => {
     );
 }
 
-WinConditionCards.propTypes = {
-    condition: PropTypes.string,
+UltimateAttackCards.propTypes = {
+    attack: PropTypes.string,
 }
 
-const Selection: React.FC = () => {
-    const [WC, setWC] = useState<String>(null);
+const UltimateAttack: React.FC = () => {
     const [UA, setUA] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
@@ -75,7 +79,6 @@ const Selection: React.FC = () => {
             const subscriptionSelection = client.subscribe(`/topic/${gameId}/selection`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
-                setWC(data.WinCondition);
                 setUA(data.UltimateAttack);
             });
 
@@ -89,9 +92,9 @@ const Selection: React.FC = () => {
 
     return (
         <div className="Selection container">
-            <WinConditionCards condition="Zürcher"/>
+            <UltimateAttackCards attack="Catnami"/>
         </div>
     )
 }
 
-export default Selection;
+export default UltimateAttack;
