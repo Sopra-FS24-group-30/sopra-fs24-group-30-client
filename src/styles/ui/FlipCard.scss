@@ -3,10 +3,11 @@
 .Card{
     &.container{
         background: transparent;
-        width: 300px;
-        height: 200px;
+        width: 225px;
+        height: 300px;
         border: 1px;
         perspective: 1000px;
+        border-radius: $borderRadius;
     }
     /* needed to position front and back side*/
     &.inner-container{
@@ -15,21 +16,69 @@
         height: 100%;
         transition: transform 0.8s;
         transform-style: preserve-3d;
+        border-radius: $borderRadius;
     }
     /* position of the front and back of the card */
     &.front, .back{
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         -webkit-backface-visibility: hidden; /* Safari */
         backface-visibility: hidden;
+        border-radius: $borderRadius;
     }
 
-    &.flip{
+    &.flip .inner-container{
+        transform: rotateY(180deg);
+    }
+    &.back {
         transform: rotateY(180deg);
     }
 
-    &.card-front, .card-back{
-        background-color: #f0f0f0;
+    &.WinCondition-back{
+        background-image: url("../../assets/Cards/WinCondition_Back.jpg");
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        border-radius: $borderRadius;
+    }
+    &.WinCondition-front{
+        background-image: url("../../assets/Cards/WinCondition_Front.jpg");
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        border-radius: $borderRadius;
+    }
+
+    &.UltimateAttack-front{
+        background-image: url("../../assets/Cards/Ultimate_Front.jpg");
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        border-radius: $borderRadius;
+    }
+    &.UltimateAttack-back{
+        background-image: url("../../assets/Cards/Ultimate_Back.jpg");
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        border-radius: $borderRadius;
+    }
+
+    &.text-container-left{
+        font: $fontMono;
+        font-weight: bold;
+        color: #040931;
+        rotate: (-55deg);
+    }
+    &.text-container-right{
+        padding-left: 25em;
+        position: absolute;
+        font: $fontMono;
+        font-weight: bold;
+        color: #040931;
+        rotate: (-236deg);
     }
 }

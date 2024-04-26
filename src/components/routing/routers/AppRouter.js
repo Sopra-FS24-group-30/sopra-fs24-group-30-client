@@ -22,7 +22,9 @@ import Loading from "../../views/Loading";
 import {LoadingGuard} from "../routeProtectors/LoadingGuard";
 import WebSocketRouteWrapper from "./WebSocketRouteWrapper";
 import Lobby from "../../views/Lobby";
-import {LobbyGuard} from "../routeProtectors/Lobby";
+import {LobbyGuard} from "../routeProtectors/LobbyGuard";
+import Selection from "../../views/Selection_WC_UA";
+import {SelectionGuard} from "../routeProtectors/SelectionGuard";
 
 /**
  * Main router of your application.
@@ -84,6 +86,10 @@ const AppRouter = () => {
 
                 <Route path="/lobby" element={<LobbyGuard/>}>
                     <Route path="/lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/selection" element={<SelectionGuard/>}>
+                    <Route path="/selection" element={<WebSocketRouteWrapper><Selection/></WebSocketRouteWrapper>}/>
                 </Route>
 
             </Routes>
