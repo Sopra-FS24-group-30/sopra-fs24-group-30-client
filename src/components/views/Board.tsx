@@ -55,13 +55,15 @@ const PlayerStatus: React.FC<{
     playerColour: string;
     items: string;
     userName: string;
-}> = ({ playerMoney, playerColour, items , userName}) => {
+    bold: boolean
+}> = ({ playerMoney, playerColour, items , userName, bold}) => {
   
     return (
         <div className="player-status-box">
-            <font color={playerColour}>{userName}</font><br/>
+            <b><font color={playerColour}>{bold ? userName : ""}</font></b>
+            <font color={playerColour}>{bold ? "" : userName}</font><br/>
             Money: {playerMoney}<br/>
-            Only Fans: {items}
+            Items: {items}
         </div>
     );
 };
@@ -73,6 +75,11 @@ const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndC
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
 
+const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}},{"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
+const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
+const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}${"]"}`
+
+// const [result, setResult]=useState("")
 
 //! only used for development purposes, to be removed in production build
 //#region 
@@ -136,7 +143,7 @@ const moneyDataExample1 = {
     "address": "/topic/board/money",
     "data": {
         "1": { //playerId
-            "newAmountOfMoney": 50, //new amount of money for player 1
+            "newAmountOfMoney": 13, //new amount of money for player 1
             "changeAmountOfMoney": 3 //amount of money
         }
         
@@ -195,10 +202,11 @@ const Board = () => { //NOSONAR
     const [items, setItems]=useState<ItemsState>({"1": initialItems, "2": initialItems, "3": initialItems, "4": initialItems})
     const relativeFigurineSize=.025 //figurine width in % of boardwidth
     const relativeArrowSize=.035 //arrow width in % of boardwidth
-    const [playerSpace, setPlayerSpace]=useState({"1": 1, "2": 2, "3": 3, "4": 1});
-    const [playerMoney, setPlayerMoney]=useState({"1": 0, "2": 0, "3": 0, "4": 0});
+    const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
+    const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
+    const [dice, setDice]=useState(0);
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "2", "3", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"})
@@ -212,41 +220,50 @@ const Board = () => { //NOSONAR
 
     const move = async (data) => {
         let toRead=structuredClone(data)
+        if (toRead["movementType"] === undefined) {
+
+            return Promise.resolve();; //in case BE sends an empty array
+        }
         const movingType=toRead["movementType"];
         delete toRead["movementType"];
-        switch (movingType){
-        case "walk":
-            for (const [playerID, val] of Object.entries(toRead)) {
-                for (const space of val["spaces"]) {
-                    setPlayerSpace(prevState => ({
-                        ...prevState,
-                        [playerID]: space 
-                    }));
-                    await sleep(300);
-                }
-            }
-            break;
-        case "simultaneous":
-            for (const [playerID, val] of Object.entries(toRead)) {
-                let space=val["spaces"][val["spaces"].length-1]
-                setPlayerSpace(prevState => ({
-                    ...prevState,
-                    [playerID]: space 
-                }));
-            }
-            break;
-        case "tp":
-        case "teleport":
-            toRead["movementType"]="simultaneous";
-            move(toRead);
-        case "jump":
-            toRead["movementType"]="move";
-            move(toRead);
-        default:
-            throw new Error("notImplemented");
-        }
 
-    }
+        return new Promise(async (resolve, reject) => {
+            try {
+                switch (movingType) {
+                case "walk":
+                case "jump":
+                
+                    for (const [playerID, val] of Object.entries(toRead)) {
+                        for (const space of val["spaces"]) {
+                            setPlayerSpace(prevState => ({
+                                ...prevState,
+                                [playerID]: space
+                            }));
+                            await sleep(300);
+                        }
+                    }
+                    resolve(null); 
+                    break;
+                case "simultaneous":
+                case "tp":
+                case "teleport":
+                    for (const [playerID, val] of Object.entries(toRead)) {
+                        let space = val["spaces"][val["spaces"].length - 1];
+                        setPlayerSpace(prevState => ({
+                            ...prevState,
+                            [playerID]: space
+                        }));
+                    }
+                    resolve(null)
+                    break;
+                default:
+                    throw new Error("notImplemented");
+                }
+            } catch (error) {
+                reject(error); // Reject the promise on errors
+            }
+        });
+    };
 
     const junction = (data) => {
         const from=data["currentSpace"];
@@ -286,6 +303,45 @@ const Board = () => { //NOSONAR
     const newActivePlayer = (data) => {
         setTurnNumber(data["currentTurn"]);
         setActivePlayer(data["activePlayer"])
+    }
+
+    const forArrow = () => {
+        setArrowPositions(null);
+        processCommands(datata3)
+        money(moneyDataExample1)
+    }
+
+    const forDice = async () => {
+        alert("You rolled a 5")
+        await sleep(500);
+        // setResult("")
+        processCommands(datata2)
+    }
+
+    async function processCommands(datata) {
+        const exampleFunctions: { [key: string]: (arg: any) => void } = {
+            move,
+            junction,
+            goal,
+            newActivePlayer,
+            money,
+            sleep
+        };
+      
+        const commands = JSON.parse(datata);
+      
+        for (const commandObject of commands) {
+            // await sleep(1500);
+
+            const commandName = Object.keys(commandObject)[0];
+            const commandData = commandObject[commandName];
+            const func = exampleFunctions[commandName];
+
+            if (typeof func === "function") {
+                await func(commandData);
+            }
+        
+        }
     }
 
     //$ websockets
@@ -417,8 +473,14 @@ const Board = () => { //NOSONAR
                     setOverlayActive(0);
                     break;
                     //~ ↓ debug options, will be removed in the production build
+                case "~":
+                    processCommands(datata1)
+                    break;
                 case "n":
                     setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
+                    break;
+                case "ö":
+                    setDice(3);
                     break;
                 case "m":
                     money(moneyDataExample1["data"]);
@@ -543,7 +605,8 @@ const Board = () => { //NOSONAR
                         alt="arrow"
                         pathToPicture={"figurines/arrow.svg"}
                         className="arrow-picture"
-                        clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
+                        // clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
+                        clickFunction= {() => forArrow()}
                         colors={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
                     />))
                 : ""}
@@ -557,6 +620,7 @@ const Board = () => { //NOSONAR
                 playerColour={playerColour[playerId]}
                 items={items[playerId]["OnlyFansSub"]}
                 playerMoney={playerMoney[playerId]}
+                bold={activePlayer===playerId}
             />)
     }
 
@@ -595,13 +659,15 @@ const Board = () => { //NOSONAR
                 </TransformWrapper>
                 <div className="player-status">
                     <div className="player-status-turn">
-                        {turnNumber}/20
+                        Turn: {turnNumber}/20
                     </div>
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
+                        {/* 1: {result} */}
                         <button
-                            onClick={ () => sendMessage("/board/dice", JSON.stringify({}))}
-                            disabled={activePlayer===displayPlayerIds[0]}
+                            // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
+                            onClick={ () => forDice()}
+                            disabled={activePlayer!==displayPlayerIds[0]}
                         >
                             Roll Dice
                         </button><br/>
