@@ -90,7 +90,7 @@ const CreateGame:  React.FC = () =>{
         try{
             if (client && isConnected){
                 sendMessage("/app/game/setUp", {gameId});
-                navigate("/loading");
+                navigate("/wincondition");
             }
         }catch (error){
             console.error("Error during starting Game setup: ", handleError(error));

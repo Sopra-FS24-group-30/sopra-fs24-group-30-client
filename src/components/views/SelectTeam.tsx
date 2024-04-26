@@ -11,9 +11,7 @@ import {useWebsocket} from "./Websockets";
 import {Spinner} from "../ui/Spinner";
 
 const SelectTeam : React.FC = () => {
-
     const navigate = useNavigate();
-    const gameID = useParams();
     const [players, setPlayers] = useState<string[]>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
@@ -34,8 +32,8 @@ const SelectTeam : React.FC = () => {
         }
     }, [client, isConnected, sendMessage, disconnect]);
 
-    const setTeammate = (player) =>{
-        sendMessage('/app/game/setTeammate', {player});
+    const setTeammate = (teamMate) =>{
+        sendMessage('/app/game/setTeammate', {gameId, teamMate, });
         navigate("/board");
     }
 
