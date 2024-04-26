@@ -75,9 +75,10 @@ const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndC
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
 
-const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}},{"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
+const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}}, {"goal":{"result": 5}}, {"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
 const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
-const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}${"]"}`
+const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}, {"newActivePlayer":{"currentTurn":1,"activePlayer":"3"}}, {"money": {"1": {"newAmountOfMoney": 13, "changeAmountOfMoney": 3}}}${"]"}`
+const datata4 = `[{"move":{"3":{"spaces":[25],"moves":1,"spaceColour":"Red"},"movementType":"walk"}}, {"money": {"3": {"newAmountOfMoney": 7, "changeAmountOfMoney": -3}}}${"]"}`
 
 // const [result, setResult]=useState("")
 
@@ -318,6 +319,12 @@ const Board = () => { //NOSONAR
         processCommands(datata2)
     }
 
+    const forFour = async () => {
+        await sleep(2500);
+        // setResult("")
+        processCommands(datata4)
+    }
+
     async function processCommands(datata) {
         const exampleFunctions: { [key: string]: (arg: any) => void } = {
             move,
@@ -483,7 +490,7 @@ const Board = () => { //NOSONAR
                     setDice(3);
                     break;
                 case "m":
-                    money(moneyDataExample1["data"]);
+                    forFour()
                     break;
                 case "p":
                     newActivePlayer(turnDataExample["data"]);
