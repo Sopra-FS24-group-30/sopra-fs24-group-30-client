@@ -56,7 +56,8 @@ body.scrollbar-removal{ //overrides global css style
         box-sizing: border-box;
         padding-top: 2em;
         padding-bottom: 2em;
-        padding: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
         flex-direction: column;
         margin-top: 5vh;
         height: calc(60vh/3*2); 

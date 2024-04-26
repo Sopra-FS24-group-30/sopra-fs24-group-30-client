@@ -338,7 +338,7 @@ const Board = () => { //NOSONAR
             const func = exampleFunctions[commandName];
 
             if (typeof func === "function") {
-                await func(commandData);
+                await func(commandData); //NOSONAR
             }
         
         }
