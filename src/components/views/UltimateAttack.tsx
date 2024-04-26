@@ -30,7 +30,7 @@ const UltimateAttackCards = (props) => {
             setSelectedCard(cardKey); // Set the current card as selected
 
             setTimeout(()=>{
-                navigate("/selectTeam")
+                navigate("/board")
             }, 1000);
         }
     };
