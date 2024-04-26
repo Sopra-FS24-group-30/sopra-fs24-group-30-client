@@ -661,9 +661,12 @@ const Board = () => { //NOSONAR
                     <div className="player-status-turn">
                         Turn: {turnNumber}/20
                     </div>
+                    <div className="player-status-win">
+                        Win Condition: Jack Sparrow<br/>
+                        Ultimate: Cat bell
+                    </div>
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
-                        {/* 1: {result} */}
                         <button
                             // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
                             onClick={ () => forDice()}
