@@ -74,7 +74,7 @@ const CreateGame:  React.FC = () =>{
                 const playerId = localStorage.getItem("userId");
 
                 localStorage.removeItem("host");
-                sendMessage('/app/game/leave', {gameId, playerId});
+                sendMessage("/app/game/leave", {gameId, playerId});
                 disconnect();
             }
         } catch (error) {
