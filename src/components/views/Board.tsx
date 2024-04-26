@@ -218,7 +218,7 @@ const Board = () => { //NOSONAR
 
     //~ interpretation of websocket messages
 
-    const move = async (data) => {
+    const move = (data) => {
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
 

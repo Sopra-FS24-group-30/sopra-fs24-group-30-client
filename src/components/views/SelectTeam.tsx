@@ -24,7 +24,7 @@ const SelectTeam : React.FC = () => {
                 setPlayers(data);
             });
 
-            sendMessage('/app/game/players', {gameId});
+            sendMessage("/app/game/players", {gameId});
 
             return () => {
                 subscriptionPlayers.unsubscribe();
@@ -33,7 +33,7 @@ const SelectTeam : React.FC = () => {
     }, [client, isConnected, sendMessage, disconnect]);
 
     const setTeammate = (teamMate) =>{
-        sendMessage('/app/game/setTeammate', {gameId, teamMate, });
+        sendMessage("/app/game/setTeammate", {gameId, teamMate, });
         navigate("/board");
     }
 
@@ -48,7 +48,7 @@ const SelectTeam : React.FC = () => {
                         <li key={player}>
                             <div className="player container">
                                 <div className="player username"
-                                     onClick={() => setTeammate(player)}>
+                                    onClick={() => setTeammate(player)}>
                                     {player}
                                 </div>
                             </div>

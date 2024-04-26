@@ -39,10 +39,11 @@ const WinConditionCards = (props) => {
         <div className="Selection card-container">
             {Array.from({ length: 3 }, (_, i) => i).map((i) => {
                 const cardKey = `card${i + 1}`;
+                
                 return (
                     <div key={cardKey}
-                         className={`Card container ${flippedStates[cardKey] ? "flip" : ""} ${selectedCard && selectedCard !== cardKey ? "disabled" : ""}`}
-                         onClick={() => toggleFlip(cardKey)}>
+                        className={`Card container ${flippedStates[cardKey] ? "flip" : ""} ${selectedCard && selectedCard !== cardKey ? "disabled" : ""}`}
+                        onClick={() => toggleFlip(cardKey)}>
                         <div className="Card inner-container">
                             <div className="Card front">
                                 <div className="Card WinCondition-front"/>
