@@ -1,17 +1,17 @@
 import React from "react";
 import {Navigate, Outlet} from "react-router-dom";
 import PropTypes from "prop-types";
+import {LoginGuard} from "./LoginGuard";
 
-export const EditGuard = () => {
-    console.log(localStorage.getItem("token"))
+export const SelectTeamGuard = () => {
+    if (localStorage.getItem("token")) {
 
-    if (localStorage.getItem("token")){
         return <Outlet/>;
     }
 
     return <Navigate to="/login" replace/>;
 };
 
-EditGuard.propTypes = {
+SelectTeamGuard.propTypes = {
     children: PropTypes.node
 }
