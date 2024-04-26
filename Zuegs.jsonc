@@ -116,6 +116,21 @@
 },
 
 
+{
+    "address": "/topic/board/gameEnd",
+    "data": {
+        "winners": ["1", "3"], //players that won
+        "reason": ""//idk what yet
+    }
+},
+
+{
+    "address": "/topic/board/goal",
+    "data": {
+        "result": 5
+    }
+},
+
 
 //$ ——— ↑ Server → Client ↑ ———
 

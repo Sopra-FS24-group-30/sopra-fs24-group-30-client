@@ -40,7 +40,7 @@ body.scrollbar-removal{ //overrides global css style
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background-color: #ffffff7f;
+    background-color: #ffffff3f;
     &-box{
         flex-direction: column;
         height: calc(90vh/3);
@@ -49,5 +49,23 @@ body.scrollbar-removal{ //overrides global css style
         width: 100%;
         box-sizing: border-box;
         padding: 1em;
+    }
+    &-controls{
+        font-size: max(10pt, min(40pt, 4vh));
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        padding: 1em;
+        flex-direction: column;
+        margin-top: 5vh;
+        height: calc(70vh/3*2); 
+    }
+    &-turn{
+        margin-top: 5vh;
+        padding: 1em;
+        justify-content: center;
+        font-size: max(12.5pt, min(50pt, 5vh));
+        
     }
 }
