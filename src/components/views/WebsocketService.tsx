@@ -10,7 +10,7 @@ let socket: Socket | null = null;
 const getWebSocket = (): Socket => {
     if (!socket) {
         // Establish the WebSocket connection only if it has not been created yet.
-        socket = io('ws://localhost:3000'); // Specify your WebSocket server URL.
+        socket = io('wss://localhost:3000'); // Specify your WebSocket server URL.
     }
     return socket;
 };

@@ -36,29 +36,29 @@ const CreateGame:  React.FC = () =>{
 
         if (client && isConnected){
             if(localStorage.getItem("gameId")===null){
-                sendMessage('/app/game/create', {playerId});
+                sendMessage("/app/game/create", {playerId});
             }
-            const subscription = client.subscribe('/topic/gameCreated', (message) => {
+            const subscription = client.subscribe("/topic/gameCreated", (message) => {
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
                 localStorage.setItem("gameId", data.gameId);
             });
 
-            const subscriptionPlayers = client.subscribe('/topic/players', (message) => {
+            const subscriptionPlayers = client.subscribe("/topic/players", (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setPlayers(data);
             });
 
-            const subscriptionGameReady = client.subscribe('/topic/gameReady', (message) =>{
+            const subscriptionGameReady = client.subscribe("/topic/gameReady", (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
             })
 
             setGameId(localStorage.getItem("gameId"));
             console.log("GameId: ", gameId);
-            sendMessage('/app/game/lobby', {gameId});
-            sendMessage('/app/gameReady', {gameId});
+            sendMessage("/app/game/lobby", {gameId});
+            sendMessage("/app/gameReady", {gameId});
 
             return () => {
                 subscriptionPlayers.unsubscribe();
@@ -72,6 +72,7 @@ const CreateGame:  React.FC = () =>{
         try {
             if (client && isConnected) {
                 const playerId = localStorage.getItem("userId");
+
                 localStorage.removeItem("host");
                 sendMessage('/app/game/leave', {gameId, playerId});
                 disconnect();
@@ -88,8 +89,8 @@ const CreateGame:  React.FC = () =>{
     const startGame = async() => {
         try{
             if (client && isConnected){
-                sendMessage('/app/game/setUp', {gameId});
-                navigate('/loading');
+                sendMessage("/app/game/setUp", {gameId});
+                navigate("/loading");
             }
         }catch (error){
             console.error("Error during starting Game setup: ", handleError(error));
@@ -110,7 +111,7 @@ const CreateGame:  React.FC = () =>{
     if (players) {
         content = (
             <div className="lobby">
-            <ul className="lobby player-list">
+                <ul className="lobby player-list">
                     {players.map((player: String) =>(
                         <li key={player}>
                             <div className="player container">

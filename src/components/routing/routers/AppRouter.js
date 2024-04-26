@@ -84,8 +84,7 @@ const AppRouter = () => {
                     <Route path="/loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
                 </Route>
 
-                <Route path="/board/*"
-                       element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
+                <Route path="/board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
                 </Route>
 
                 <Route path="/lobby" element={<LobbyGuard/>}>

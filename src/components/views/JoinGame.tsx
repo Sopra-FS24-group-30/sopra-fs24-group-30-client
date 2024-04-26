@@ -37,7 +37,7 @@ const JoinGame: React.FC = () => {
 
     useEffect(() =>{
         if (client && isConnected){
-            const subscription = client.subscribe('/topic/gameJoined', (message) => {
+            const subscription = client.subscribe("/topic/gameJoined", (message) => {
                 const data= JSON.parse(message.body);
                 setJoined(data.joined);
             });
@@ -54,10 +54,10 @@ const JoinGame: React.FC = () => {
         if (client && isConnected && gameId){
             try{
                 const msg = {gameId, playerId}
-                sendMessage('/app/game/join', JSON.stringify(msg));
+                sendMessage("/app/game/join", JSON.stringify(msg));
                 if (joined){
                     localStorage.setItem("gameId", gameId);
-                    navigate('/lobby');
+                    navigate("/lobby");
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);
@@ -88,9 +88,10 @@ const JoinGame: React.FC = () => {
                         >
                             Go Back
                         </Button>
-                        <Button className="lobby button"
-                                disabled={!gameId}
-                                onClick={() => joinGame()}
+                        <Button
+                            className="lobby button"
+                            disabled={!gameId}
+                            onClick={() => joinGame()}
                         >
                             Done
                         </Button>
