@@ -132,8 +132,19 @@ const Board = () => { //NOSONAR
     const figurineGlobalOffset=[-1.21, -2] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
+    const [playerVolumes,setPlayerVolume] = useState({"player1":100,"player2":100,"player3":100,"player4":100});
 
     //~ interpretation of websocket messages
+
+    const handleVolumeChange = (event) => {
+        let {name,value} = event.target;
+        setPlayerVolume(
+            {
+                ...playerVolumes,
+                [name]:value
+            }
+        )
+    }
 
     const move = async (data) => {
         let toRead=structuredClone(data)
@@ -407,6 +418,19 @@ const Board = () => { //NOSONAR
                 <div>
                     <Button onClick={joinVoice}>join Voice</Button>
                     <Button onClick={leaveVoice}>leave Voice</Button>
+                    <section>
+                        <input
+                            type="range"
+                            min={0}
+                            max={100}
+                            step={1}
+                            name="player1"
+                            value={playerVolumes.player1}
+                            onChange={event => {
+                                handleVolumeChange(event);
+                            }}
+                        />
+                    </section>
                 </div>
                 Left UI
                 <TransformWrapper

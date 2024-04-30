@@ -1,7 +1,7 @@
 import AgoraRTC from "agora-rtc-sdk-ng"
 
-const APP_ID = "f4ddb18335fb41e5a06d3f86f686060b";
-const TOKEN = "007eJxTYGD9v7bg5pbyq762rqxWsqtkVumK707L/jZVuTDt5lz2w1EKDGkmKSlJhhbGxqZpSSaGqaaJBmYpxmkWZmlmFmYGZgZJ7A9U0hoCGRlm/mxgZWSAQBCfhSE3MTOPgQEA+Q4eYQ==";
+const APP_ID = "0ca21cacdc1141198e7b58f13c4fa147";
+const TOKEN = null;
 
 const agoraRTCManager = async (eventsCallback) => {
     let agoraEngine = null;
