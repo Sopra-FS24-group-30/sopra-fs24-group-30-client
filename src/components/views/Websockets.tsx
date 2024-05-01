@@ -21,7 +21,7 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children}) 
 
     useEffect(() => {
         const newClient = new Client({
-            brokerURL: "wss://sopra-fs24-group-30-server.oa.r.appspot.com/ws",
+            brokerURL: "ws://localhost:8080/ws",
             onConnect: () =>{
                 console.log("Connected to WS");
                 setIsConnected(true);
