@@ -5,8 +5,7 @@ import PropTypes from "prop-types";
 export const EditGuard = () => {
     console.log(localStorage.getItem("token"))
 
-    if (localStorage.getItem("token")) {
-
+    if (localStorage.getItem("token")){
         return <Outlet/>;
     }
 

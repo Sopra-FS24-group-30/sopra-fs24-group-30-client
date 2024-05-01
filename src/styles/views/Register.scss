@@ -2,11 +2,13 @@
 
 .register {
     &.container {
-        margin-top: 2em;
-        min-height: 200px;
         @include center;
         flex-direction: column;
-        row-gap: 2em;
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 900px;
+        margin: auto;
     }
 
     &.form {
@@ -15,7 +17,6 @@
         justify-content: center;
         width: 60%;
         max-width: 30em;
-        height: 27em;
         font-size: 16px;
         font-weight: 300;
         padding-left: 37px;
@@ -24,6 +25,7 @@
         background-color: $background;
         transition: opacity 0.5s ease, transform 0.5s ease;
         box-shadow: $dropShadow;
+        margin-bottom: 2em;
     }
 
     &.login {
@@ -71,5 +73,10 @@
         display: flex;
         justify-content: center;
         margin-top: 1em;
+        margin-bottom: 2em;
+    }
+    h1{
+        color: #FFC33A;
+        font-size: 2.7em;
     }
 }

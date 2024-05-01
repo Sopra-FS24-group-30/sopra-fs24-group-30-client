@@ -11,6 +11,6 @@ export const RegisterGuard = () => {
     return <Navigate to="/game" replace/>;
 };
 
-LoginGuard.propTypes = {
+RegisterGuard.propTypes = {
     children: PropTypes.node
 }
