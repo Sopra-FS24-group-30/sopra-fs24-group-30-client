@@ -1,5 +1,5 @@
 @import "../theme";
-body.scrollbar-removal{ //overrides global css style
+body.scrollbar-removal{ //overwrites global css style
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -30,28 +30,43 @@ body.scrollbar-removal{ //overrides global css style
 
 .arrow-picture{
     position: absolute;
+    cursor: pointer;
 
     //In order to make mouse events work
     pointer-events: auto !important;
+
     z-index: 1000;
 }
 
+$box-margin: 2vh;
+
+@function status-font-size($input) {
+    // @return max(#{$input*1pt}, min(#{$input*25pt}, min(#{$input}vh, #{$input}vw/2.2)));
+    @return max(min(#{$input}vh, #{$input}vw/2.2));
+}
+
 .player-status{
+    width: 18vw;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     background-color: #ffffff3f;
     &-box{
-        flex-direction: column;
-        height: calc(90vh/3);
-        font-size: max(10pt, min(40pt, 4vh));
-        margin-top: 5vh;
+        flex-direction: row;
+        height: calc(calc(100vh - #{$box-margin*2})/3);
+        font-size: status-font-size(4);
+        vertical-align: center;
+        margin-bottom: $box-margin;
         width: 100%;
         box-sizing: border-box;
-        padding: 1em;
+        padding-left: 2vh;
+        padding-right: 2vh;
+        padding-top: 2vh;
+        // &:first-child {
+        // }
     }
     &-controls{
-        font-size: max(10pt, min(40pt, 4vh));
+        font-size: status-font-size(4);
         width: 100%;
         box-sizing: border-box;
         padding-top: 2em;
@@ -66,14 +81,69 @@ body.scrollbar-removal{ //overrides global css style
         margin-top: 5vh;
         padding: 1em;
         justify-content: center;
-        font-size: max(12.5pt, min(50pt, 5vh));
-        
+        font-size: status-font-size(5);
     }
     &-win{
         margin-top: 3vh;
         padding: 1em;
         justify-content: center;
-        font-size: max(5pt, min(20pt, 2vh));
-        
+        font-size: status-font-size(2);
     }
+    &-username-money-box{
+        display: flex;
+        justify-content: space-between;
+        max-width: 100%;
+    }
+    &-username{
+        flex-grow: 1;
+        max-width: 68%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-money{
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1;
+        flex-shrink: 0;
+        max-width: 22%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-logo{
+        flex-grow: 1;
+        max-width: 10%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-audio{
+        transform: translate(0%, -10%);
+    }
+}
+
+.money-logo, .money-logo-static {
+    height: status-font-size(3);
+    transform: translate(10%, 2%);
+}
+
+.money-logo-static {
+    image-rendering: pixelated;
+}
+
+.item-container {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: repeat(3, auto);
+    gap: status-font-size(.7);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.item-picture {
+    height: auto;
+    width: 100%;
+    max-width: status-font-size(10);
+    border-radius:15%;
+    transition: transform;
+    cursor: pointer;
 }

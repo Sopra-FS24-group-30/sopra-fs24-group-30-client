@@ -1,29 +1,29 @@
 
 # Items
 
-| BackEnd Name                     | Pretty Name                                   | Effect                                                                                                               | Class    | Priority  |
-|----------------------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------|----------|-----------|
-| MagicMushroom                    | Magic Mushroom                                | This turn you roll 2 dice. If you roll doubles: +10 Moneys.                                                          | <span style="color:#d97504">Bronze</span>   |  ✅    |
-| TwoMushrooms                     | Two (Regular) Mushrooms                       | This turn you move twice as many spaces.                                                                             | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| TheBrotherAndCo                  | The uncle of your sister's cousin, has a brother-in-law, who once worked at Facebook | Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn. | <span style="color:#d97504">Bronze</span> | ✅ |
-| PeaceImOut                       | Peace I'm out                                 | Teleport to a random other player.                                                                                   | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| Fusion                           | Fuuuuuuuusion                                 | Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.                 | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| IceCreamChest                    | Treasure chest- Ice cream                     | Steal a random card from a player of your choosing.                                                                  | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| WhatsThis                        | OwO what's this                               | You receive a random card.                                                                                           | <span style="color:#d97504">Bronze</span>   |  ❌    |
-| SuperMagicMushroom               | Super Magic Mushroom                          | This turn you roll 3 dice. If you roll triplets: +30 Moneys.                                                         | <span style="color:#AAAAAA">Silver</span>   |  ✅    |
-| Stick                            | Stick                                         | If you pass a player this turn, steal 15 coins from them.                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| ImOut                            | Meow it I'm out                               | Switch places with a random other player.                                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| TreasureChest                    | Treasure chest                                | Steal a random Item from a player of your choice.                                                                    | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| MeowYou                          | Meow you in particular                        | The goal moves.                                                                                                      | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| XboxController                   | Steering a submarine using an Xbox Controller | Every player (including yourself) loses 5 coins.                                                                     | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| BadWifi                          | Bad Wifi                                      | Chose a player, they get muted for 1 turn (2 if it was your teammate)                                                | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
-| UltraMagicMushroom               | Ultra Magic Mushroom                          | This turn you roll 4 dice. If you roll quadruplets: +69 Moneys.                                                      | <span style="color:#ffe600">Gold</span>     |  ✅    |
-| BestTradeDeal                    | Best Trade deal in the history of Trade deals maybe ever | Give another player of your choosing all of your cards, and steal all of their items in return.           | <span style="color:#ffe600">Gold</span>     |  ❌    |
-| ItemsAreBelongToMe               | (Almost) all your Items are belong to me      | Steal 4 random items from a player of your choice.                                                                   | <span style="color:#ffe600">Gold</span>     |  ❌    |
-| Confusion                        | I am confusion                                | This turn you move backwards instead of forwards.                                                                    | <span style="color:#ffe600">Gold</span>     |  ❌    |
-| GoldenSnitch                     | Golden Snitch                                 | A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.                       | <span style="color:#ffe600">Gold</span>     |  ❌    |
-| OnlyFansSub                      | Only-Fans Abo                                 | Steal 7 coins from every other player (even your Teammate (simp))                                                    | <span style="color:#ffe600">Gold</span>     |  ✅     |
-| ChickyNuggie                     | Dino Chicky Nuggie                            | -20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already) | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| BackEnd Name       | Pretty Name                                   | Effect                                                                                                               | Class    | Priority  |
+|--------------------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------|----------|-----------|
+| MagicMushroom      | Magic Mushroom                                | This turn you roll 2 dice. If you roll doubles: +10 Moneys.                                                          | <span style="color:#d97504">Bronze</span>   |  ✅    |
+| TwoMushrooms       | Two (Regular) Mushrooms                       | This turn you move twice as many spaces.                                                                             | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| TheBrotherAndCo    | The uncle of your sister's cousin, has a brother-in-law, who once worked at Facebook | Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn. | <span style="color:#d97504">Bronze</span> | ✅ |
+| PeaceImOut         | Peace I'm out                                 | Teleport to a random other player.                                                                                   | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| Fusion             | Fuuuuuuuusion                                 | Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.                 | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| IceCreamChest      | Treasure chest- Ice cream                     | Steal a random card from a player of your choosing.                                                                  | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| WhatsThis          | OwO what's this                               | You receive a random card.                                                                                           | <span style="color:#d97504">Bronze</span>   |  ❌    |
+| SuperMagicMushroom | Super Magic Mushroom                          | This turn you roll 3 dice. If you roll triplets: +30 Moneys.                                                         | <span style="color:#AAAAAA">Silver</span>   |  ✅    |
+| Stick              | Stick                                         | If you pass a player this turn, steal 15 coins from them.                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| ImOut              | Meow it I'm out                               | Switch places with a random other player.                                                                            | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| TreasureChest      | Treasure chest                                | Steal a random Item from a player of your choice.                                                                    | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| MeowYou            | Meow you in particular                        | The goal moves.                                                                                                      | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| XboxController     | Steering a submarine using an Xbox Controller | Every player (including yourself) loses 5 coins.                                                                     | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| BadWifi            | Bad Wifi                                      | Chose a player, they get muted for 1 turn (2 if it was your teammate)                                                | <span style="color:#AAAAAA">Silver</span>   |  ❌    |
+| UltraMagicMushroom | Ultra Magic Mushroom                          | This turn you roll 4 dice. If you roll quadruplets: +69 Moneys.                                                      | <span style="color:#ffe600">Gold</span>     |  ✅    |
+| BestTradeDeal      | Best Trade deal in the history of Trade deals maybe ever | Give another player of your choosing all of your cards, and steal all of their items in return.           | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| ItemsAreBelongToMe | (Almost) all your Items are belong to me      | Steal 4 random items from a player of your choice.                                                                   | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| Confusion          | I am confusion                                | This turn you move backwards instead of forwards.                                                                    | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| GoldenSnitch       | Golden Snitch                                 | A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.                       | <span style="color:#ffe600">Gold</span>     |  ❌    |
+| OnlyFansSub        | Only-Fans Abo                                 | Steal 7 coins from every other player (even your Teammate (simp))                                                    | <span style="color:#ffe600">Gold</span>     |  ✅     |
+| ChickyNuggie       | Dino Chicky Nuggie                            | -20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already) | <span style="color:#ffe600">Gold</span>     |  ❌    |
 
 # Win Conditions
 
@@ -42,30 +42,30 @@
 
 # Achievments
 
-| BackEnd Name  | Pretty Name                  | Effect                                         | Priority |
-|---------------|------------------------------|------------------------------------------------|----------|
-| Baron1        | Baron I                      | Own 40 money in one game                       | ✅ |
-| Baron2        | Baron II                     | Own 80 money in one game                       | ✅ |
-| Baron3        | Baron III                    | Own 200 money in one game                      | ✅ |
-| Ouch          | Ouch                         | Lose all of your money (over 40) in one round  | ❌ |
-| Endurance1    | Endurance I                  | Be in a round for 60 min                       | ❌ |
-| Endurance2    | Endurance II                 | Be in a round for 120 min                      | ❌ |
-| Endurance3    | Endurance III                | Be in a round for 180 min                      | ❌ |
-| Gamer         | Gamer                        | Win 3 games in a row                           | ❌ |
-| DoingYourBest | You’re doing your best 🥲     | Lose 3 games in a row                          | ❌ |
-| NoMoney       | What even is a money         | Win a game with 0 money                        | ✅ |
-| NoUltimate    | Do I even need that          | Win a game without using your Ultimate         | ✅ |
-| Solo          | Betray your friend           | Win solo                                       | ❌ |
-| NoWinner      | We’re all in this together!  | No winner                                      | ❌ |
-| OrangeCat1    | Orange Cat Behaviour I       | Land on a Catnami-Space 3 times in one game    | ❌ |
-| OrangeCat2    | Orange Cat Behaviour II      | Land on a Catnami-Space 5 times in one game    | ❌ |
+| BackEnd Name  | Pretty Name                 | Effect                                         | Priority |
+|---------------|-----------------------------|------------------------------------------------|----------|
+| Baron1        | Baron I                     | Own 40 money in one game                       | ✅ |
+| Baron2        | Baron II                    | Own 80 money in one game                       | ✅ |
+| Baron3        | Baron III                   | Own 200 money in one game                      | ✅ |
+| Ouch          | Ouch                        | Lose all of your money (over 40) in one round  | ❌ |
+| Endurance1    | Endurance I                 | Be in a round for 60 min                       | ❌ |
+| Endurance2    | Endurance II                | Be in a round for 120 min                      | ❌ |
+| Endurance3    | Endurance III               | Be in a round for 180 min                      | ❌ |
+| Gamer         | Gamer                       | Win 3 games in a row                           | ❌ |
+| DoingYourBest | You’re doing your best 🥲    | Lose 3 games in a row                          | ❌ |
+| NoMoney       | What even is a money        | Win a game with 0 money                        | ✅ |
+| NoUltimate    | Do I even need that         | Win a game without using your Ultimate         | ✅ |
+| Solo          | Betray your friend          | Win solo                                       | ❌ |
+| NoWinner      | We’re all in this together! | No winner                                      | ❌ |
+| OrangeCat1    | Orange Cat Behaviour I      | Land on a Catnami-Space 3 times in one game    | ❌ |
+| OrangeCat2    | Orange Cat Behaviour II     | Land on a Catnami-Space 5 times in one game    | ❌ |
 
 # Ultimate
 
 | BackEnd Name | Pretty Name                                       | Effect                                                                                                                                | Priority |
 |--------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
 | BigShuffle   | The Big Shuffle                                   | The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)                                 | ❌ |
-| Pickpocket   | Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your reamm8).                                                | ✅ |
+| Pickpocket   | Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your teamm8).                                                | ✅ |
 | FreshStart   | Fresh start :)                                    | All other Players get thrown back to their starting field.                                                                            | ✅ |
 | Stop         | 🛑                                                | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)                                           | ❌ |
 | Tp           | /tp                                               | Move to any Space on the board.                                                                                                       | ❌ |
@@ -78,25 +78,31 @@
 
 | BackEnd Name | Pretty Name | Category |
 |--------------|-------------|----------|
-| B14          | 1/4         | <span style="color:#d97504">Bronze</span>   |
-| B26          | 2/6         | <span style="color:#d97504">Bronze</span>   |
-| B35          | 3/5         | <span style="color:#d97504">Bronze</span>   |
-| B135         | 1/3/5       | <span style="color:#d97504">Bronze</span>   |
-| B246         | 2/4/6       | <span style="color:#d97504">Bronze</span>   |
-| B123         | 1/2/3       | <span style="color:#d97504">Bronze</span>   |
-| B456         | 4/5/6       | <span style="color:#d97504">Bronze</span>   |
-| B07          | 0/7         | <span style="color:#d97504">Bronze</span>   |
-| S0           | 0           | <span style="color:#AAAAAA">Silver</span>   |
-| S1           | 1           | <span style="color:#AAAAAA">Silver</span>   |
-| S2           | 2           | <span style="color:#AAAAAA">Silver</span>   |
-| S3           | 3           | <span style="color:#AAAAAA">Silver</span>   |
-| S4           | 4           | <span style="color:#AAAAAA">Silver</span>   |
-| S5           | 4           | <span style="color:#AAAAAA">Silver</span>   |
-| S6           | 5           | <span style="color:#AAAAAA">Silver</span>   |
-| S7           | 7           | <span style="color:#AAAAAA">Silver</span>   |
-| G13          | 1/3         | <span style="color:#ffe600">Gold</span>     |
-| G26          | 2/6         | <span style="color:#ffe600">Gold</span>     |
-| G45          | 4/5         | <span style="color:#ffe600">Gold</span>     |
-| G04          | 0/4         | <span style="color:#ffe600">Gold</span>     |
-| G37          | 3/7         | <span style="color:#ffe600">Gold</span>     |
-| G1256        | 1/2/5/6     | <span style="color:#ffe600">Gold</span>     |
+| B14          | 1/4         | <span style="color:#d97504">Bronze</span> |
+| B26          | 2/6         | <span style="color:#d97504">Bronze</span> |
+| B35          | 3/5         | <span style="color:#d97504">Bronze</span> |
+| B135         | 1/3/5       | <span style="color:#d97504">Bronze</span> |
+| B246         | 2/4/6       | <span style="color:#d97504">Bronze</span> |
+| B123         | 1/2/3       | <span style="color:#d97504">Bronze</span> |
+| B456         | 4/5/6       | <span style="color:#d97504">Bronze</span> |
+| B07          | 0/7         | <span style="color:#d97504">Bronze</span> |
+| S0           | 0           | <span style="color:#AAAAAA">Silver</span> |
+| S1           | 1           | <span style="color:#AAAAAA">Silver</span> |
+| S2           | 2           | <span style="color:#AAAAAA">Silver</span> |
+| S3           | 3           | <span style="color:#AAAAAA">Silver</span> |
+| S4           | 4           | <span style="color:#AAAAAA">Silver</span> |
+| S5           | 4           | <span style="color:#AAAAAA">Silver</span> |
+| S6           | 5           | <span style="color:#AAAAAA">Silver</span> |
+| S7           | 7           | <span style="color:#AAAAAA">Silver</span> |
+| G13          | 1/3         | <span style="color:#ffe600">Gold</span>   |
+| G26          | 2/6         | <span style="color:#ffe600">Gold</span>   |
+| G45          | 4/5         | <span style="color:#ffe600">Gold</span>   |
+| G04          | 0/4         | <span style="color:#ffe600">Gold</span>   |
+| G37          | 3/7         | <span style="color:#ffe600">Gold</span>   |
+| G1256        | 1/2/5/6     | <span style="color:#ffe600">Gold</span>   |
+
+
+# General Stuff
+
+Maximum Combined Total of Items and Cards per Player: **`15`**  
+Lorem Ipsum
