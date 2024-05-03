@@ -5,6 +5,9 @@ import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import {useWebsocket} from "./Websockets";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const PinField = (props) => {
     return (
@@ -22,28 +25,48 @@ PinField.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
 };
-const JoinGame = () => {
+
+const JoinGame: React.FC = () => {
     const navigate = useNavigate();
-    const [gameID, setGameID] = useState<string>(null);
+    const [gameId, setgameId] = useState<string>(null);
+    const {client, sendMessage, isConnected, disconnect} = useWebsocket();
+    const playerId = localStorage.getItem("userId");
+    const [joined, setJoined] = useState(false);
+
+    console.log("playerId join: ", playerId);
+
+    useEffect(() =>{
+        if (client && isConnected){
+            const subscription = client.subscribe("/topic/gameJoined", (message) => {
+                const data= JSON.parse(message.body);
+                setJoined(data.joined);
+            });
+
+            return () => {
+                if(subscription){
+                    subscription.unsubscribe();
+                }
+            };
+        }
+    }, [client, isConnected, gameId]);
 
     const joinGame = async () => {
-        try{
-            const username = localStorage.getItem("username");
-            const requestBody = JSON.stringify({username});
-            localStorage.setItem("gameID", gameID)
-            api.put(`/game/join/${gameID}`, requestBody);
-
-
-            navigate("/loading");
-
-        } catch (error) {
-            alert(
-                `Something went wrong while checking the gameID: \n${handleError(error)}`
-            );
+        if (client && isConnected && gameId){
+            try{
+                const msg = {gameId, playerId}
+                sendMessage("/app/game/join", JSON.stringify(msg));
+                if (joined){
+                    localStorage.setItem("gameId", gameId);
+                    navigate("/lobby");
+                }
+            }catch (error){
+                alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);
+            }
         }
     }
 
     const goBack = (): void => {
+        localStorage.removeItem("gameId");
         navigate("/home");
     }
 
@@ -54,8 +77,8 @@ const JoinGame = () => {
                     <h2>Write the shared pin game to join</h2>
                     <PinField
                         placeholder="Pin Code"
-                        value={gameID}
-                        onChange={(un:string) => setGameID(un)}
+                        value={gameId}
+                        onChange={(un:string) => setgameId(un)}
                     >
                     </PinField>
                     <div className="lobby button-container">
@@ -65,8 +88,9 @@ const JoinGame = () => {
                         >
                             Go Back
                         </Button>
-                        <Button className="lobby button"
-                            disabled={!gameID}
+                        <Button
+                            className="lobby button"
+                            disabled={!gameId}
                             onClick={() => joinGame()}
                         >
                             Done

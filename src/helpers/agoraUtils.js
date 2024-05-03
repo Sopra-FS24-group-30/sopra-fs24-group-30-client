@@ -4,9 +4,8 @@ let channelParameters = {
     // A variable to hold a local audio track.
     localAudioTrack: null,
     // A variable to hold a remote audio track.
+    //TODO: change remote audiotrack to hold individual tracks with id as key => can access for volume control
     remoteAudioTrack: null,
-    // A variable to hold a remote video track.
-    remoteUid: null,
 };
 
 const handleVSDKEvents = (eventName, ...args) => {
@@ -16,7 +15,6 @@ const handleVSDKEvents = (eventName, ...args) => {
         channelParameters.remoteAudioTrack = args[0].audioTrack;
         // Play the remote audio track. No need to pass any DOM element.
         channelParameters.remoteAudioTrack.play();
-
     }
 };
 
@@ -27,6 +25,7 @@ const { join, leave, getAgoraEngine} = await agoraManager(
 // Get an instance of the Agora Engine from the manager
 const agoraEngine = await getAgoraEngine();
 
+//TODO: change channelname for teamvoice
 const joinVoice = async function () {
     // Join a channel.
     await join("main", channelParameters);

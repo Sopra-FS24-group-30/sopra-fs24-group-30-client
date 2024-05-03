@@ -23,11 +23,14 @@ const agoraRTCManager = async (eventsCallback) => {
     });
 
     // Listen for the "user-unpublished" event.
-    agoraEngine.on("user-unpublished", (user) => {
+    agoraEngine.on("user-unpublished", async (user) => {
+        await agoraEngine.unsubscribe(user, mediaType);
         console.log(user.uid + "has left the channel");
+        eventsCallback("user-unpublished", user, mediaType)
     });
 
     const join = async (channelName, channelParameters) => {
+        //TODO: add userId
         await agoraEngine.join(
             APP_ID,
             channelName,

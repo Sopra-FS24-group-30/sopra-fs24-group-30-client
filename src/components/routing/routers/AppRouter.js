@@ -20,6 +20,9 @@ import JoinGame from "../../views/JoinGame";
 import {CreateGameGuard} from "../routeProtectors/CreateGameGuard";
 import Loading from "../../views/Loading";
 import {LoadingGuard} from "../routeProtectors/LoadingGuard";
+import WebSocketRouteWrapper from "./WebSocketRouteWrapper";
+import Lobby from "../../views/Lobby";
+import {LobbyGuard} from "../routeProtectors/Lobby";
 
 /**
  * Main router of your application.
@@ -35,16 +38,8 @@ const AppRouter = () => {
         <BrowserRouter>
             <Routes>
 
-                <Route path="/game/*" element={<UserOverviewGuard/>}>
-                    <Route path="/game/*" element={<UserOverviewRouter base="/game"/>}/>
-                </Route>
-
-                <Route path="/board/*"
-                    element={<Board/>}>
-                </Route>
-
-                <Route path="/ws/*"
-                    element={<WebSockets/>}>
+                <Route path="/users/*" element={<UserOverviewGuard/>}>
+                    <Route path="/users/*" element={<UserOverviewRouter base="/users"/>}/>
                 </Route>
 
                 <Route path="/login" element={<LoginGuard/>}>
@@ -72,15 +67,22 @@ const AppRouter = () => {
                 </Route>
 
                 <Route path="/createGame" element={<CreateGameGuard/>}>
-                    <Route path="/createGame" element={<CreateGame/>}/>
+                    <Route path="/createGame" element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
                 <Route path="/joinGame" element={<JoinGameGuard/>}>
-                    <Route path="/joinGame" element={<JoinGame/>}/>
+                    <Route path="/joinGame" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
                 <Route path="/loading" element={<LoadingGuard/>}>
-                    <Route path="/loading" element={<Loading/>}/>
+                    <Route path="/loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
+                </Route>
+
+                <Route path="/board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
+                </Route>
+
+                <Route path="/lobby" element={<LobbyGuard/>}>
+                    <Route path="/lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
                 </Route>
 
             </Routes>
