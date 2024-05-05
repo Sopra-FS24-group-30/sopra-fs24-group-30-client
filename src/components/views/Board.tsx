@@ -2,8 +2,13 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
+import usablesData from "../../assets/data/usables.json"; //NOSONAR
+import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
+import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
+
 
 const {ceil, floor, min, max} = Math; //NOSONAR this is way more convenient than having to remove min now and readd it once it is actualy needed
+const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d"}
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
     const result: string[] = [];
@@ -63,43 +68,20 @@ const ScalableOverlay: React.FC<{
     );
 }
 
-const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"])
-
-const singleUsable = (name: string, pixel: boolean) => { 
-    return(
-        <span style={{imageRendering: pixel ? "pixelated" : "inherit"}}>
-            <img src={require(`../../assets/usables/${name==="" ? "placeholder" : name }.png`)} alt={name} className="item-picture" />
-        </span>
-    )
-}
-
-const enumerateUsables = (usables: Array<string>) => {
-
-    //formats usables in a prettier grid
-    let len=usables.length
-    let magicNumber=max(ceil(len/2), 2)
-    usables = [...usables.slice(0, magicNumber), ...Array(max(5-magicNumber, 0)).fill(""), ...usables.slice(magicNumber)]
-
-    return(<div className="item-container">
-        {usables.map(usable => singleUsable(usable, pixelItems.has(usable)))}
-    </div>
-    )
-}
-
-
 const PlayerStatus: React.FC<{
     playerMoney: string;
     playerColour: string;
     displayables: Array<string>;
     userName: string;
-    active: boolean
-}> = ({ playerMoney, playerColour, displayables , userName, active}) => {
+    active: boolean;
+    audio: boolean
+}> = ({ playerMoney, playerColour, displayables , userName, active, audio}) => {
 
     return (
-        <div className="player-status-box">
+        <div className="player-status-box" style={{height: audio ? "" : "27.5vh"}}>
             <div className="player-status-username-money-box">
                 <div className="player-status-username">
-                    <font color={playerColour}>{userName}</font>
+                    <font color={colours[playerColour]}>{userName}</font>
                 </div>
                 <div className="player-status-money">
                     {playerMoney}
@@ -108,12 +90,12 @@ const PlayerStatus: React.FC<{
                     {active ? <img className="money-logo" src={require("../../assets/icons/money.gif")} alt="Money Icon"/> : <img className="money-logo-static" src={require("../../assets/icons/money.png")} alt="Money Icon"/>}
                 </div>
             </div>
-            <div className="player-status-audio">
+            {audio ? <div className="player-status-audio">
                 🔊
-            </div>
-            <div style={{overflow:"hidden", width:"100%", height:"100%"}}>
-                {enumerateUsables(displayables)}
-            </div>
+            </div>: ""}
+            {/* <div style={{overflow:"hidden", width:"100%", height:"100%"}}> */}
+            {displayables}
+            {/* </div> */}
         </div>
     )
 };
@@ -253,13 +235,18 @@ const Board = () => { //NOSONAR
     const relativeArrowSize=.035 //arrow width in % of boardwidth
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
+    const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
+    const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) //NOSONAR // represents a fraction
+    const [winCondition, setWinCondition]=useState("JackSparrow") //NOSONAR
+    const [ultimate, setUltimate]=useState("Nothing") //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
-    const [dice, setDice]=useState(0);
+    const [dice, setDice]=useState(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "2", "3", "4"]) //This Player, Teammate, Enemy, Enemy
-    const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"})
+    const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
+    const [previewImage, setPreviewImage]=useState("")
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
@@ -276,7 +263,7 @@ const Board = () => { //NOSONAR
         const movingType=toRead["movementType"];
         delete toRead["movementType"];
 
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { //NOSONAR
             try {
                 switch (movingType) {
                 case "walk":
@@ -369,18 +356,17 @@ const Board = () => { //NOSONAR
 
     async function processCommands(datata) {
         const exampleFunctions: { [key: string]: (arg: any) => void } = {
-            move,
+            move, //NOSONAR
             junction,
             goal,
             newActivePlayer,
             money,
-            sleep
+            sleep //NOSONAR
         };
       
         const commands = JSON.parse(datata);
       
         for (const commandObject of commands) {
-            // await sleep(1500);
 
             const commandName = Object.keys(commandObject)[0];
             const commandData = commandObject[commandName];
@@ -505,13 +491,13 @@ const Board = () => { //NOSONAR
         useEffect(() => { //NOSONAR
             const keyDownEvent = (event) => {
                 let r=function(){return floor(Math.random()*(numberOfCoordinates-1)+1)} //NOSONAR
-                const getRandomItemFromSet = (set: Set<string>) => {
+                const getRandomItemFromSet = (set: Set<string>) => { //NOSONAR
                     const arrayFromSet = Array.from(set);
                     const randomIndex = floor(Math.random() * arrayFromSet.length);
 
                     return arrayFromSet[randomIndex];
                 };
-                switch (event.key){
+                switch (event.key){ //NOSONAR
                 case "r":
                     resetTransform();
                     break;
@@ -567,11 +553,19 @@ const Board = () => { //NOSONAR
                 case "ü":
                     addUsable("2", getRandomItemFromSet(allCards))
                     break;
+                case "9":
+                    addUsable("1", getRandomItemFromSet(allCards))
+                    addUsable("3", getRandomItemFromSet(allCards))
+                    addUsable("4", getRandomItemFromSet(allCards))
+                    break;
                 case "è":
                     addUsable("2", getRandomItemFromSet(allItems))
                     break;
                 case "[":
                     setUsables({...usables, "2": initialUsables})
+                    break;
+                case "$":
+                    setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
                 case "i":
                     addUsable("1", "OnlyFansSub")
@@ -677,24 +671,82 @@ const Board = () => { //NOSONAR
         </div>
     )
 
+    let orderBox =  (
+        <div className="turn-order-box">
+            {turnOrder.map((id, index) => (
+                <React.Fragment key={id}>
+                    <div className="turn-order-circle" style={{ backgroundColor: colours[playerColour[id]] }}></div>
+                    {index<turnOrder.length-1 ? <div className="turn-order-arrow"/> : ""}
+                </React.Fragment>
+            ))
+            //insert active player circle if needed (moving coin already indicates active player)
+            }
+        </div>
+    )
+
     const playerElement = (playerId) => {
         return (
             <PlayerStatus   
                 userName={userNames[playerId]}
                 playerColour={playerColour[playerId]}
-                displayables={itemsDictToList(usables[playerId])}
+                displayables={enumerateUsables(itemsDictToList(usables[playerId]))}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
+                audio={playerId!==displayPlayerIds[0]}
             />)
     }
 
+    const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"])
+
+    const singleUsable = (name: string) => { 
+        if (name===""){
+            return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/> 
+        }
+
+        return(
+            <span style={{imageRendering: pixelItems.has(name) ? "pixelated" : "inherit"}}> {/**breaks when having 10 or more pixelated items */}
+                <img //NOSONAR
+                    src={require(`../../assets/usables/${name}.png`)}
+                    alt={usablesData[name]["DisplayName"]}
+                    className="item-picture"
+                    onMouseEnter={() => setPreviewImage(name)}
+                    onMouseLeave={() => setPreviewImage("")}
+                />
+            </span>
+        )
+    }
+
+    const enumerateUsables = (usables: Array<string>) => {
+        
+        if (Math.random()===-1){
+            //formats usables in a prettier grid
+            let len=usables.length
+            let magicNumber=max(ceil(len/2), 2)
+            usables=[...usables.slice(0, magicNumber), ...Array(max(5-magicNumber, 0)).fill(""), ...usables.slice(magicNumber)]
+        }
+        
+        return(
+            <div className="item-container">
+                {usables.map(usable => singleUsable(usable))}
+            </div>
+        )
+    }
     
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
             <div className="board-container">
+                <div className="preview-picture-box">
+                    {previewImage!=="" ? <img
+                        className="preview-picture"
+                        src={require((`../../assets/usables/${previewImage}.png`))}
+                        // className="board-background"
+                        alt={`Preview of ${previewImage}`}
+                    />: ""}
+                </div>
+                
                 <div className="player-status">
-                    {playerElement(displayPlayerIds[2])}
+                    {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
                     {playerElement(displayPlayerIds[1])}
                 </div>
@@ -722,12 +774,24 @@ const Board = () => { //NOSONAR
                     </TransformComponent>
                 </TransformWrapper>
                 <div className="player-status">
-                    <div className="player-status-turn">
-                        Turn: {turnNumber}/20
+                    <div className="turn-count-order-box">
+                        <div className="turn-order-text">
+                            <b>Turn: {turnNumber}/20</b>
+                        </div>
+                        {orderBox}
                     </div>
-                    <div className="player-status-win">
-                        Win Condition: Jack Sparrow<br/>
-                        Ultimate: Cat bell
+                    <div className="ultimate-win-box">
+                        <div className="win-condition-box">
+                            <div className="win-condition-chart" style={{backgroundImage: `conic-gradient(#0fdf0f ${winConditionProgress[0]/winConditionProgress[1]*100}%, #004f00 ${winConditionProgress[0]/winConditionProgress[1]*100}%)`}}/>
+                            <div className="win-condition-name">
+                                {winConditionData[winCondition]["DisplayName"]}
+                            </div>
+                        </div>
+                        <div className="ultimate-box">
+                            <div className="ultimate-name">
+                                <i>{ultimateData[ultimate]["DisplayName"]}</i>
+                            </div>
+                        </div>
                     </div>
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">

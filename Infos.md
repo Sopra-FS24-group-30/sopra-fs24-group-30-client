@@ -106,3 +106,36 @@
 
 Maximum Combined Total of Items and Cards per Player: **`15`**  
 Lorem Ipsum
+
+# OnSpace Effects
+
+| OnSpace Number | OnSpace Name          | Effect                                                                                                                          | SpaceColor  |
+|----------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------|
+| 1              | goal                  | with WinCondi: end Game, w/o WinCondi: get 4 cash                                                                               | blueGoal    |
+| 2              | blue                  | get 4 cash                                                                                                                      | blue        |
+| 3              | item                  | get 1 random item                                                                                                               | item        |
+| 4              | card                  | get 1 random card                                                                                                               | card        |
+| 5              | gambling              | 50/50 double or lose all your cash/(items/cards)                                                                                | gambling    |
+| 6              | catnami               | 25/25/25/25 get 69 cash, or swap WinCondi with teammate, or with random enemy, or with an unused one                            | catnami     |
+| 7              | black                 | 33/33/33 swap position of every Player with another Player, or lose 69 cash, or evenly distribute all cash among all players    | black       |
+| 8              | red                   | 33/33/33 lose 10 cash, or all Players lose 10 cash, or teleport Player to their starting space                                  | red         |
+| 9              | junction              | Player can choose to go to left or right space                                                                                  | junction    |
+| 10             | gate                  | with Item "TheBrotherAndCo": Player can choose to go to left or right space, w/o: player continues on the path straight ahead   | gate        |
+| 11             | specialItem           | get 1 random item                                                                                                               | specialItem |
+| 12             | teleportToSpace49     | teleports the Player to space 49                                                                                                | yellow      |
+| 13             | teleportToSpace13     | teleports the Player to space 13                                                                                                | yellow      |
+| 14             | teleportToTheirStart  | teleports the Player to their starting space                                                                                    | yellow      |
+| 15             | sellAllItems          | +5 cash for each bronze item, +7 cash for each silver item, +10 cash for each gold item. lose all your items.                   | yellow      |
+| 16             | rollAgainOrGet10Coins | 50/50 roll dice again, or get 10 cash                                                                                           | yellow      |
+| 17             | mustBuyItemOrCard     | if Player has 15+ cash: get 1 random item, else: get 1 random card. Player loses 15 cash.                                       | yellow      |
+| 18             | stealOthersMoney      | Other Players: lose 10 cash, Player: get the lost cash from Others                                                              | yellow      |
+| 19             | nothing               | nothing happens. next players turn.                                                                                             | yellow      |
+| 20             | found20Money          | 33/33/33 get 20 cash, or teammate gets 20 cash, or nothing happens.                                                             | yellow      |
+| 21             | teleportToRandom      | 50/50 teleports Player to a random other Player, or swap position with a random other Player.                                   | yellow      |
+| 22             | getRandomStuff        | 33/33/33 Player and Teammate get Item "TheBrotherAndCo", or Player gets 1 random gold item, or Player gets 2 random cards       | yellow      |
+| 23             | gift10Money           | Player loses 10 cash and teammate gets 10 cash                                                                                  | yellow      |
+| 24             | sellAllCard           | +5 cash for each bronze card, +7 cash for each silver card, +10 cash for each gold card. lose all your cards.                   | yellow      |
+| 25             | getOthersCards        | other Players lose one card, if no card then -5 cash. Player gets those cards (but not the cash).                               | yellow      |
+| 26             | surpriseMF            | acts like a catnami space: 25/25/25/25 get 69 cash, or swap WinCondi with teammate, or with random enemy, or with an unused one | yellow      |
+| 27             | swapCardsOrItems      | 50/50 swap all cards or all items with teammate                                                                                 | yellow      |
+| 28             | start                 | Player starts at this space.                                                                                                    | start       |

@@ -1,0 +1,260 @@
+{
+    "B14": {
+        "DisplayName": "1/4",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B26": {
+        "DisplayName": "2/6",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B35": {
+        "DisplayName": "3/5",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B135": {
+        "DisplayName": "1/3/5",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B246": {
+        "DisplayName": "2/4/6",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B123": {
+        "DisplayName": "1/2/3",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B456": {
+        "DisplayName": "4/5/6",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "B07": {
+        "DisplayName": "0/7",
+        "Description": "",
+        "Category": "Bronze",
+        "Type": "Card"
+    },
+    "S0": {
+        "DisplayName": "0",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S1": {
+        "DisplayName": "1",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S2": {
+        "DisplayName": "2",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S3": {
+        "DisplayName": "3",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S4": {
+        "DisplayName": "4",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S5": {
+        "DisplayName": "4",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S6": {
+        "DisplayName": "5",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "S7": {
+        "DisplayName": "7",
+        "Description": "",
+        "Category": "Silver",
+        "Type": "Card"
+    },
+    "G13": {
+        "DisplayName": "1/3",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "G26": {
+        "DisplayName": "2/6",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "G45": {
+        "DisplayName": "4/5",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "G04": {
+        "DisplayName": "0/4",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "G37": {
+        "DisplayName": "3/7",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "G1256": {
+        "DisplayName": "1/2/5/6",
+        "Description": "",
+        "Category": "Gold",
+        "Type": "Card"
+    },
+    "MagicMushroom": {
+        "DisplayName": "Magic Mushroom",
+        "Description": "This turn you roll 2 dice. If you roll doubles: +10 Moneys.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "TwoMushrooms": {
+        "DisplayName": "Two (Regular) Mushrooms",
+        "Description": "This turn you move twice as many spaces.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "TheBrotherAndCo": {
+        "DisplayName": "The uncle of your sister's cousin, has a brother-in-law, who once worked at Facebook",
+        "Description": "Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "PeaceImOut": {
+        "DisplayName": "Peace I'm out",
+        "Description": "Teleport to a random other player.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "Fusion": {
+        "DisplayName": "Fuuuuuuuusion",
+        "Description": "Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "IceCreamChest": {
+        "DisplayName": "Treasure chest- Ice cream",
+        "Description": "Steal a random card from a player of your choosing.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "WhatsThis": {
+        "DisplayName": "OwO what's this",
+        "Description": "You receive a random card.",
+        "Category": "Bronze",
+        "Type": "Item"
+    },
+    "SuperMagicMushroom": {
+        "DisplayName": "Super Magic Mushroom",
+        "Description": "This turn you roll 3 dice. If you roll triplets: +30 Moneys.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "Stick": {
+        "DisplayName": "Stick",
+        "Description": "If you pass a player this turn, steal 15 coins from them.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "ImOut": {
+        "DisplayName": "Meow it I'm out",
+        "Description": "Switch places with a random other player.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "TreasureChest": {
+        "DisplayName": "Treasure chest",
+        "Description": "Steal a random Item from a player of your choice.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "MeowYou": {
+        "DisplayName": "Meow you in particular",
+        "Description": "The goal moves.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "XboxController": {
+        "DisplayName": "Steering a submarine using an Xbox Controller",
+        "Description": "Every player (including yourself) loses 5 coins.",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "BadWifi": {
+        "DisplayName": "Bad Wifi",
+        "Description": "Chose a player, they get muted for 1 turn (2 if it was your teammate)",
+        "Category": "Silver",
+        "Type": "Item"
+    },
+    "UltraMagicMushroom": {
+        "DisplayName": "Ultra Magic Mushroom",
+        "Description": "This turn you roll 4 dice. If you roll quadruplets: +69 Moneys.",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "BestTradeDeal": {
+        "DisplayName": "Best Trade deal in the history of Trade deals maybe ever",
+        "Description": "Give another player of your choosing all of your cards, and steal all of their items in return.",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "ItemsAreBelongToMe": {
+        "DisplayName": "(Almost) all your Items are belong to me",
+        "Description": "Steal 4 random items from a player of your choice.",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "Confusion": {
+        "DisplayName": "I am confusion",
+        "Description": "This turn you move backwards instead of forwards.",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "GoldenSnitch": {
+        "DisplayName": "Golden Snitch",
+        "Description": "A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "OnlyFansSub": {
+        "DisplayName": "Only-Fans Abo",
+        "Description": "Steal 7 coins from every other player (even your Teammate (simp))",
+        "Category": "Gold",
+        "Type": "Item"
+    },
+    "ChickyNuggie": {
+        "DisplayName": "Dino Chicky Nuggie",
+        "Description": "-20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already)",
+        "Category": "Gold",
+        "Type": "Item"
+    }
+}
