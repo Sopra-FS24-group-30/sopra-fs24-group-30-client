@@ -1,0 +1,38 @@
+{
+    "BigShuffle": {
+        "DisplayName": "The Big Shuffle",
+        "Description": "The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)"
+    },
+    "Pickpocket": {
+        "DisplayName": "Pickpocket",
+        "Description": "Steal half of the money of each player (including your teammate cuz fuck your teamm8)."
+    },
+    "FreshStart": {
+        "DisplayName": "Fresh start :)",
+        "Description": "All other Players get thrown back to their starting field."
+    },
+    "Stop": {
+        "DisplayName": "🛑",
+        "Description": "The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)"
+    },
+    "Tp": {
+        "DisplayName": "/tp",
+        "Description": "Move to any Space on the board."
+    },
+    "Chameleon": {
+        "DisplayName": "Chameleon",
+        "Description": "Use the effect of any Item in the game."
+    },
+    "Wisdom": {
+        "DisplayName": "Wisdom",
+        "Description": "Look at the Win-condition of any Player of your choosing."
+    },
+    "Nothing": {
+        "DisplayName": "Nothing (Maybe you should've taken another Card?)",
+        "Description": "Literally nothing happens."
+    },
+    "CatBell": {
+        "DisplayName": "Cat bell",
+        "Description": "Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate"
+    }
+}
