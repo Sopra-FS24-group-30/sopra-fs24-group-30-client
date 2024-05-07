@@ -4,8 +4,7 @@ let channelParameters = {
     // A variable to hold a local audio track.
     localAudioTrack: null,
     // A variable to hold a remote audio track.
-    //TODO: change remote audiotrack to hold individual tracks with id as key => can access for volume control
-    remoteAudioTrack: {},
+    remoteAudioTrack: {}
 };
 
 const handleVSDKEvents = (eventName, ...args) => {
@@ -13,9 +12,9 @@ const handleVSDKEvents = (eventName, ...args) => {
     switch (eventName) {
         case "user-published":
             // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
-            channelParameters.remoteAudioTrack[2] = args[0].audioTrack;
+            channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
             // Play the remote audio track. No need to pass any DOM element.
-            channelParameters.remoteAudioTrack[2].play();
+            channelParameters.remoteAudioTrack[id].play();
             break;
     }
 };
@@ -27,7 +26,6 @@ const { join, leave, getAgoraEngine} = await agoraManager(
 // Get an instance of the Agora Engine from the manager
 const agoraEngine = await getAgoraEngine();
 
-//TODO: change channelname for teamvoice
 const joinVoice = async (channelName) => {
     let lobbyId = localStorage.getItem("gameId")
     // Join a channel.
@@ -35,7 +33,7 @@ const joinVoice = async (channelName) => {
     try{
         await join(name, channelParameters);
     } catch (e){
-        console.log("could not join the voice channel");
+
     }
     console.log("publish success!");
 };
@@ -61,9 +59,6 @@ const setMuted = (muted) => {
     if(channelParameters.localAudioTrack){
         if(muted){
             channelParameters.localAudioTrack.setEnabled(false);
-            console.log("hello");
-            console.log(channelParameters.localAudioTrack);
-            console.log("hello");
 
         }else{
             channelParameters.localAudioTrack.setEnabled(true);
@@ -78,10 +73,8 @@ const leaveVoice = async () =>  {
     try{
         await leave(channelParameters);
     }catch(e){
-        console.log("could not leave the channel")
-        console.log("due to error");
-        console.log(e);
-        console.log(localStorage.getItem("userId"))
+        //could not leave channel
+        setTimeout(() => leaveVoice(),5000);
     }
 
     console.log("You left the channel");

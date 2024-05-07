@@ -1,5 +1,5 @@
 @import "../theme";
-body.scrollbar-removal{ //overrides global css style
+body.scrollbar-removal{ //overwrites global css style
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -20,7 +20,7 @@ body.scrollbar-removal{ //overrides global css style
     width: 100vw;
 }
 
-.board-overlay{ //black thing showing path diretions
+.board-overlay{ //black thing showing path diretions, which activates when pressing "↵"
     position: absolute;
 }
 
@@ -30,8 +30,260 @@ body.scrollbar-removal{ //overrides global css style
 
 .arrow-picture{
     position: absolute;
+    cursor: pointer;
 
     //In order to make mouse events work
     pointer-events: auto !important;
-    z-index: 1000;
+    z-index: 1;
+}
+
+$box-margin: 2vh;
+$box-bg-colour: #fff5;
+
+@function status-font-size($input) {
+    // capping the value: @return max(#{$input*1pt}, min(#{$input*25pt}, min(#{$input}vh, #{$input}vw/2.2)));
+    @return min(#{$input}vh, #{$input}vw/2.2);
+}
+
+.player-status{
+    width: 18vw;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    &-box{
+        flex-direction: row;
+        height: calc(calc(100vh - #{$box-margin*3})/3);
+        font-size: status-font-size(4);
+        vertical-align: center;
+        box-sizing: border-box;
+        padding: calc($box-margin/1.5);
+        background-color: #b1001d;
+        background-color: $box-bg-colour;
+        margin-left: calc($box-margin/2);
+        margin-right: calc($box-margin/2);
+        width: calc(100% - $box-margin);
+        border-radius: status-font-size(3);
+        margin-top: calc($box-margin/2);
+    }
+    &-controls{
+        font-size: status-font-size(4);
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        padding-left: 1em;
+        padding-right: 1em;
+        flex-direction: column;
+        margin-top: 5vh;
+        height: calc(60vh/3*2); 
+    }
+    &-turn{
+        justify-content: center;
+        font-size: status-font-size(5);
+    }
+
+    &-username-money-box{
+        display: flex;
+        justify-content: space-between;
+        max-width: 100%;
+        margin-bottom: status-font-size(1);
+    }
+    &-username{
+        flex-grow: 1;
+        max-width: 68%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-money{
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1;
+        flex-shrink: 0;
+        max-width: 22%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-logo{
+        flex-grow: 1;
+        max-width: 10%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    &-audio{
+        margin-top: status-font-size(-1);
+        transform: translate(0%, -10%);
+    }
+}
+
+.money-logo, .money-logo-static {
+    height: status-font-size(3);
+    transform: translate(10%, 2%);
+}
+
+.money-logo-static {
+    image-rendering: pixelated;
+}
+
+$item-container-width: 23vh;
+
+.item-container {
+    display: grid;
+    width: 100%;
+    height: $item-container-width;
+    grid-template-columns: repeat(5, 10fr);
+    grid-template-rows: repeat(3, 0px);
+    column-gap: status-font-size(.4);
+    row-gap: calc(min(status-font-size(10), 6vh) + .5vh);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.item-picture {
+    aspect-ratio: 1;
+    height: auto;
+    width: 100%;
+    max-width: min(status-font-size(10), 6vh);
+    border-radius:15%;
+    transition: transform;
+    cursor: pointer;
+}
+
+.preview-picture-box{
+    position:absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width:100vw;
+    max-width: min(34vw, 70vh);
+    max-height: min(70vh, 34vw);
+    background-color: #ffffff3f;
+    
+}
+
+.preview-picture{
+    height: 100%;   
+    width: 100%;
+    border-radius:8%;
+    // image-rendering: pixelated; //used for pixelitems
+    z-index: 2;
+}
+
+
+
+.turn-order{
+    &-text{
+        font-size: status-font-size(5);
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-Content: space-around;
+        align-Items: center;
+        padding: calc($box-margin/1.5);
+        padding-bottom: 0;
+    }
+    &-box{
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-Content: space-around;
+        align-Items: center;
+        padding: calc($box-margin/1.5);
+        padding-top: 0;
+    }
+    &-circle{
+        aspect-ratio: 1;
+        width: status-font-size(5);
+        height: status-font-size(5);
+        border-radius: 50%;
+        border-color: black;
+        border-width: status-font-size(.75);
+        border-style: solid;
+    }
+    &-arrow {
+        border: solid black;
+        border-width: 0 status-font-size(1) status-font-size(1) 0;
+        rotate: (-45deg);
+        padding: status-font-size(1);
+        margin-right: status-font-size(1); //to centre the arrow
+    }
+}
+
+.win-condition{
+    &-box{
+        width: 100%;
+        padding: calc($box-margin/1.5);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    &-chart{
+        width: status-font-size(6.2);
+        height: status-font-size(6.2);
+        border-radius: 50%;
+        border-color: black;
+        border-width: status-font-size(.75);
+        border-style: solid;
+        aspect-ratio: 1;
+    }
+    &-name {
+        font-size: status-font-size(3);
+        text-overflow: "...";
+        overflow: hidden;
+        text-align: center; 
+        margin-left: .4em;
+        padding-left: .4em;
+        padding-right: .2em;
+        flex: 1;
+        color: #ffffff;
+        background-color: #be8f3c;
+        padding-top: .2em;
+        padding-bottom: .2em;
+        border-radius: 1em;
+    }
+}
+
+.ultimate{
+    &-box{
+        width: 100%;
+        padding: calc($box-margin/1.5);
+        padding-top: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    
+    &-name {
+        font-size: status-font-size(3);
+        text-overflow: "...";
+        overflow: hidden;
+        text-align: center; 
+        padding-left: .4em;
+        padding-right: .2em;
+        flex: 1;
+        color: #ffffff;
+        background-color: #b1001d;
+        padding-top: .2em;
+        padding-bottom: .2em;
+        border-radius: 1em;
+    }
+}
+
+.turn-count-order-box, .ultimate-win-box{
+    background-color: $box-bg-colour;
+    margin-left: calc($box-margin/2);
+    margin-right: calc($box-margin/2);
+    width: calc(100% - $box-margin);
+    height: auto;
+    border-radius: status-font-size(3);
+    margin-top: calc($box-margin/2);
+}
+
+.moves-left{
+    font-family: "mario-party", Arial, Helvetica, sans-serif;
 }

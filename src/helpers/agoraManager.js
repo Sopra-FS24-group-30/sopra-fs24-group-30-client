@@ -30,13 +30,13 @@ const agoraRTCManager = async (eventsCallback) => {
     });
 
     const join = async (channelName, channelParameters) => {
-        let userId = localStorage.getItem("userId");
-        userId = Number(localStorage.getItem("lobbyId") + userId);
+        let playerId = localStorage.getItem("playerId");
+        let agoraUid = Number(localStorage.getItem("gameId") + playerId);
         await agoraEngine.join(
             APP_ID,
             channelName,
             TOKEN,
-            userId
+            agoraUid
           )
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
