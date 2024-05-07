@@ -4,26 +4,35 @@ import {useNavigate} from "react-router-dom";
 import "styles/views/Loading.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import {Spinner} from "components/ui/Spinner";
+import {useWebsocket} from "./Websockets";
 
 const Loading = () => {
     const navigate = useNavigate();
-    const [gameStatus, setGameStatus] = useState<boolean>(false); //NOSONAR
+    const gameId = localStorage.getItem("gameId");
+    const [status, setStatus] = useState<String>(null); //NOSONAR
+    const {client, sendMessage, isConnected, disconnect} = useWebsocket();
 
     useEffect(() => {
-        async  function gameSet(){
-            try {
-                const gameID = localStorage.getItem("gameID");
-                const requestBody = JSON.stringify({gameID});
-                const response = await api.get(`/game/${gameID}/status`, requestBody);
-                setGameStatus(response.data);
-            }catch (error){
-                alert(
-                    `Something went wrong while creating the game: ${handleError(error)}`
-                )
-                navigate("/home");
+        if(client && isConnected){
+            const subscriptionStatus = client.subscribe("/topic/game/status'", (message) => {
+                const data = JSON.parse(message.body);
+                console.log(data);
+                setStatus(data.status);
+                console.log(status);
+            });
+
+            sendMessage("/app/game/status", {gameId});
+
+            if(status === "PLAYING"){
+                navigate("/board");
+            }
+
+            return ()=> {
+                subscriptionStatus.unsubscribe();
             }
         }
-    }, []);
+
+    }, [client, isConnected, status]);
     let content = <Spinner/>
 
     return (

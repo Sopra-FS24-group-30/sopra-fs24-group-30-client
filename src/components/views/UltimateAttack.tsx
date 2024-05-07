@@ -30,7 +30,12 @@ const UltimateAttackCards = (props) => {
             setSelectedCard(cardKey); // Set the current card as selected
 
             setTimeout(()=>{
-                navigate("/board")
+                if(localStorage.getItem("host")!== null){
+                    navigate("/selectTeam")
+                } else{
+                    navigate("/loading")
+                }
+
             }, 1000);
         }
     };

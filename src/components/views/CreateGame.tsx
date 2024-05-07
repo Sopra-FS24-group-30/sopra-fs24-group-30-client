@@ -72,14 +72,13 @@ const CreateGame:  React.FC = () =>{
         try {
             if (client && isConnected) {
                 const playerId = localStorage.getItem("userId");
-
-                localStorage.removeItem("host");
                 sendMessage("/app/game/leave", {gameId, playerId});
                 disconnect();
             }
         } catch (error) {
             console.error("Error during leave:", handleError(error));
         } finally {
+            localStorage.removeItem("host");
             localStorage.removeItem("gameId");
             // Navigate away from the game page or to a confirmation page
             navigate("/home");

@@ -40,6 +40,7 @@ const JoinGame: React.FC = () => {
             const subscription = client.subscribe("/topic/gameJoined", (message) => {
                 const data= JSON.parse(message.body);
                 setJoined(data.joined);
+                console.log(joined);
             });
 
             return () => {
@@ -53,11 +54,15 @@ const JoinGame: React.FC = () => {
     const joinGame = async () => {
         if (client && isConnected && gameId){
             try{
+                console.log("Joined: ", joined);
                 const msg = {gameId, playerId}
-                sendMessage("/app/game/join", JSON.stringify(msg));
                 if (joined){
+                    console.log("wtf");
                     localStorage.setItem("gameId", gameId);
                     navigate("/lobby");
+                }else if(!joined){
+                    console.log("Here");
+                    sendMessage("/app/game/join", JSON.stringify(msg));
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);

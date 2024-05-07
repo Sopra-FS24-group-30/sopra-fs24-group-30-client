@@ -22,6 +22,8 @@ const Home = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("userId");
+        localStorage.removeItem("gameId");
+        localStorage.removeItem("host");
         navigate("/login");
     }
 

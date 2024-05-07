@@ -63,7 +63,7 @@ const Lobby: React.FC = () =>{
     }, [client, isConnected, sendMessage, disconnect]);
 
     if (gameStatus === "SETUP"){
-        navigate('/wincondition');
+        navigate("/wincondition");
     }
 
     const leave = async () => {
