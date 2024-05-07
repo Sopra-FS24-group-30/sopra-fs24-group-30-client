@@ -30,12 +30,13 @@ const agoraRTCManager = async (eventsCallback) => {
     });
 
     const join = async (channelName, channelParameters) => {
-        //TODO: add userId
+        let userId = Number(localStorage.getItem("userId"));
         await agoraEngine.join(
             APP_ID,
             channelName,
-            TOKEN
-        )
+            TOKEN,
+            userId
+          )
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
         await agoraEngine.publish([
@@ -44,10 +45,13 @@ const agoraRTCManager = async (eventsCallback) => {
     }
 
     const leave = async (channelParameters) => {
-        // Destroy the local audio and video tracks.
-        channelParameters.localAudioTrack.stop();
-        channelParameters.localAudioTrack.close();
-        // Remove the containers you created for the local video and remote video.
+        if(channelParameters.localAudioTrack){
+            // Destroy the local audio and video tracks.
+            channelParameters.localAudioTrack.close();
+            // Remove the containers you created for the local video and remote video.
+        }else{
+            console.log("already out of channel")
+        }
         await agoraEngine.leave();
     };
 

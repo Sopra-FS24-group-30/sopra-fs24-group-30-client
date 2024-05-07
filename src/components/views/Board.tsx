@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { Button } from "../ui/Button";
-import { joinVoice, leaveVoice} from "../../helpers/agoraUtils.js";
+import { adjustVolume, joinVoice, leaveVoice, toggleChannel, setMuted } from "../../helpers/agoraUtils.js";
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -132,18 +132,39 @@ const Board = () => { //NOSONAR
     const figurineGlobalOffset=[-1.21, -2] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-    const [playerVolumes,setPlayerVolume] = useState({"player1":100,"player2":100,"player3":100,"player4":100});
+    const [playerVolumes,setPlayerVolumes] = useState({"player1":100,"player2":100,"player3":100,"player4":100});
+    const [inTeam, setInTeam] = useState(false);
+    const [mute,setMute] = useState(false);
 
     //~ interpretation of websocket messages
 
     const handleVolumeChange = (event) => {
         let {name,value} = event.target;
-        setPlayerVolume(
+        setPlayerVolumes(
             {
                 ...playerVolumes,
                 [name]:value
             }
         )
+        //TODO: add ids here
+        adjustVolume(2,value);
+        console.log("adjusted volume to: " + value);
+    }
+
+    const toggleVoice = (event) => {
+        if(inTeam){
+            toggleChannel(inTeam,"odd");
+            setInTeam(false)
+        }else{
+            toggleChannel(inTeam,"odd");
+            setInTeam(true);
+        }
+
+    }
+
+    const handleMute = () => {
+        setMuted(mute);
+        setMute(!mute);
     }
 
     const move = async (data) => {
@@ -373,6 +394,15 @@ const Board = () => { //NOSONAR
         };
     }, []);
 
+    useEffect(
+      () => {
+          joinVoice("main");
+          return () => {
+              leaveVoice();
+          }
+      },[]
+    );
+
     // Scalable Objects
 
     let figurines = (
@@ -416,8 +446,10 @@ const Board = () => { //NOSONAR
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
             <div className="board-container">
                 <div>
-                    <Button onClick={joinVoice}>join Voice</Button>
+                    <Button onClick={() => joinVoice("main")}>join Voice</Button>
                     <Button onClick={leaveVoice}>leave Voice</Button>
+                    <Button onClick={toggleVoice}>switch channel</Button>
+                    <Button onClick={handleMute}>mute</Button>
                     <section>
                         <input
                             type="range"
