@@ -30,7 +30,8 @@ const agoraRTCManager = async (eventsCallback) => {
     });
 
     const join = async (channelName, channelParameters) => {
-        let userId = Number(localStorage.getItem("userId"));
+        let userId = localStorage.getItem("userId");
+        userId = Number(localStorage.getItem("lobbyId") + userId);
         await agoraEngine.join(
             APP_ID,
             channelName,
