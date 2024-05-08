@@ -5,6 +5,8 @@ import { useWebsocket } from "./Websockets";
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
+import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js"
+import { Button } from "../ui/Button";
 
 
 const {ceil, floor, min, max} = Math; //NOSONAR this is way more convenient than having to remove min now and readd it once it is actualy needed
@@ -21,7 +23,7 @@ function itemsDictToList(obj: { [key: string]: number }): string[] {
     return result.slice(0, 15);
 }
 
-//#region 
+//#region
 const ScalableOverlay: React.FC<{
     x: number,
     y: number,
@@ -107,7 +109,7 @@ const allUsables=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAn
 const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
 
 //! only used for development purposes, to be removed in production build
-//#region 
+//#region
 const numberOfCoordinates=Object.keys(coordinates).length;
 const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "Fusion", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
@@ -177,7 +179,7 @@ const moneyDataExample1 = {
             "newAmountOfMoney": 999, //new amount of money for player 1
             "changeAmountOfMoney": 3 //amount of money
         }
-        
+
     }
 }
 
@@ -251,10 +253,62 @@ const Board = () => { //NOSONAR
     const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
+    const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
+    const [inTeam, setInTeam] = useState(false);
+    const [mute,setMute] = useState(false);
 
     //~ interpretation of websocket messages
 
-    const move = (data) => {
+
+    const handleVolumeChange = (event) => {
+        let {name,value} = event.target;
+        setPlayerVolumes(
+            {
+                ...playerVolumes,
+                [name]:value
+            }
+        )
+        //TODO: add ids here
+        let userUid = Number(localStorage.getItem("gameId") + name)
+        adjustVolume(userUid,value);
+        console.log("adjusted volume to: " + value);
+        console.log("gameId" + localStorage.getItem("gameId"));
+        console.log("name" + name);
+        console.log("adjusted for " + userUid);
+    }
+
+    const toggleVoice = (event, teamColor) => {
+        if(inTeam){
+            toggleChannel(inTeam,teamColor);
+            setInTeam(false)
+        }else{
+            toggleChannel(inTeam,teamColor);
+            setInTeam(true);
+        }
+
+    }
+
+    const handleMute = () => {
+        setMute(!mute);
+        setMuted(mute);
+    }
+
+    const getTeam = () => {
+        let id = Number(localStorage.getItem("playerId"));
+        if(id % 2 === 0){
+            return "even";
+        }
+        return "odd";
+    }
+
+    useEffect(() => {
+        joinVoice("main");
+        return () => {
+            leaveVoice();
+        }
+    }, []);
+
+  const move = (data) => {
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
 
@@ -268,7 +322,7 @@ const Board = () => { //NOSONAR
                 switch (movingType) {
                 case "walk":
                 case "jump":
-                
+
                     for (const [playerID, val] of Object.entries(toRead)) {
                         for (const space of val["spaces"]) {
                             setPlayerSpace(prevState => ({
@@ -278,7 +332,7 @@ const Board = () => { //NOSONAR
                             await sleep(300);
                         }
                     }
-                    resolve(null); 
+                    resolve(null);
                     break;
                 case "simultaneous":
                 case "tp":
@@ -324,7 +378,7 @@ const Board = () => { //NOSONAR
 
             return acc;
         }, {});
-      
+
         setPlayerMoney(prevMoney => ({
             ...prevMoney,
             ...updates
@@ -334,8 +388,8 @@ const Board = () => { //NOSONAR
     const goal = (data) => {
         let res=data["result"]
         setImageId(res)
-    }   
-    
+    }
+
     const newActivePlayer = (data) => {
         setTurnNumber(data["currentTurn"]);
         setActivePlayer(data["activePlayer"])
@@ -363,9 +417,9 @@ const Board = () => { //NOSONAR
             money,
             sleep //NOSONAR
         };
-      
+
         const commands = JSON.parse(datata);
-      
+
         for (const commandObject of commands) {
 
             const commandName = Object.keys(commandObject)[0];
@@ -375,7 +429,7 @@ const Board = () => { //NOSONAR
             if (typeof func === "function") {
                 await func(commandData); //NOSONAR
             }
-        
+
         }
     }
 
@@ -686,21 +740,37 @@ const Board = () => { //NOSONAR
 
     const playerElement = (playerId) => {
         return (
-            <PlayerStatus   
+          <div>
+              <PlayerStatus
                 userName={userNames[playerId]}
                 playerColour={playerColour[playerId]}
                 displayables={enumerateUsables(itemsDictToList(usables[playerId]))}
                 playerMoney={playerMoney[playerId]}
-                active={activePlayer===playerId}
-                audio={playerId!==displayPlayerIds[0]}
-            />)
+                active={activePlayer === playerId}
+                audio={playerId !== displayPlayerIds[0]}
+              />;
+              <section>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    name={playerId}
+                    value={playerVolumes.playerId}
+                    onChange={event => {
+                        handleVolumeChange(event);
+                    }}
+                  />
+              </section>
+          </div>
+    )
     }
 
-    const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"])
+    const pixelItems = new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"]);
 
-    const singleUsable = (name: string) => { 
+    const singleUsable = (name: string) => {
         if (name===""){
-            return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/> 
+            return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/>
         }
 
         return(
@@ -717,21 +787,21 @@ const Board = () => { //NOSONAR
     }
 
     const enumerateUsables = (usables: Array<string>) => {
-        
+
         if (Math.random()===-1){
             //formats usables in a prettier grid
             let len=usables.length
             let magicNumber=max(ceil(len/2), 2)
             usables=[...usables.slice(0, magicNumber), ...Array(max(5-magicNumber, 0)).fill(""), ...usables.slice(magicNumber)]
         }
-        
+
         return(
             <div className="item-container">
                 {usables.map(usable => singleUsable(usable))}
             </div>
         )
     }
-    
+
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
@@ -744,7 +814,7 @@ const Board = () => { //NOSONAR
                         alt={`Preview of ${previewImage}`}
                     />: ""}
                 </div>
-                
+
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
@@ -803,6 +873,20 @@ const Board = () => { //NOSONAR
                             Roll Dice
                         </button><br/>
                         {/* <button onClick={ () => alert("a")}>Use Item</button> */}
+                      <Button onClick={() => {joinVoice("main")}}>
+
+                        joinVoice
+                      </Button>
+                      <Button onClick={() => {leaveVoice()}}>
+
+                        leaveVoice
+                      </Button>
+                      <Button onClick={(event) => {toggleVoice(event,getTeam())}}>
+                        {inTeam ? "teamVoice" : "globalVoice"}
+                      </Button>
+                      <Button onClick={() => {handleMute()}}>
+                        {mute ? "mute" : "unmute"}
+                      </Button>
                     </div>
                 </div>
             </div>
