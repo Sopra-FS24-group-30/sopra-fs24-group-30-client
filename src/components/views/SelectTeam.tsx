@@ -21,13 +21,13 @@ const SelectTeam : React.FC = () => {
         async function fetchData(){
             try {
                 if(client && isConnected){
-                    const subscriptionPlayers = client.subscribe("/topic/game/players", (message) => {
+                    const subscriptionPlayers = client.subscribe(`/topic/game/players/${gameId}`, (message) => {
                         const data = JSON.parse(message.body);
                         console.log(data.players);
                         setPlayers(data.players);
                     });
 
-                    sendMessage("/app/game/players", {gameId, host});
+                    sendMessage(`/app/game/${gameId}/players`, {host});
 
                     return () => {
                         subscriptionPlayers.unsubscribe();
@@ -43,7 +43,8 @@ const SelectTeam : React.FC = () => {
 
     const setTeammate = (teammate) =>{
         console.log("setTeam");
-        sendMessage("/app/game/setTeammate", {gameId, host, teammate});
+        sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
+        //TODO: when app router is changed, also change the url here
         navigate("/board");
     }
 

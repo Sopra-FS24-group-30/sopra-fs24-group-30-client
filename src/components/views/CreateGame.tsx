@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
@@ -25,7 +25,7 @@ const CreateGame:  React.FC = () =>{
     const {client , sendMessage, isConnected, disconnect} = useWebsocket();
     const navigate = useNavigate();
     const playerId = localStorage.getItem("userId");
-    const [gameId, setGameId] = useState<String>(null);
+    const [gameId, setGameId] = useState(localStorage.getItem("gameId") || null);
     const [players, setPlayers] = useState<User[]>(null);
     const [gameReady, setGameReady] = useState<boolean>(false);
     localStorage.setItem("host", "true");
@@ -42,23 +42,23 @@ const CreateGame:  React.FC = () =>{
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
                 localStorage.setItem("gameId", data.gameId);
+                navigate(`/game/${gameId}`, {replace: true});
             });
 
-            const subscriptionPlayers = client.subscribe("/topic/players", (message) => {
+            const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setPlayers(data);
             });
 
-            const subscriptionGameReady = client.subscribe("/topic/gameReady", (message) =>{
+            const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
             })
 
-            setGameId(localStorage.getItem("gameId"));
             console.log("GameId: ", gameId);
-            sendMessage("/app/game/lobby", {gameId});
-            sendMessage("/app/gameReady", {gameId});
+            sendMessage(`/app/game/${gameId}/lobby`, {});
+            sendMessage(`/app/game/${gameId}/gameReady`, {});
 
             return () => {
                 subscriptionPlayers.unsubscribe();
@@ -88,8 +88,8 @@ const CreateGame:  React.FC = () =>{
     const startGame = async() => {
         try{
             if (client && isConnected){
-                sendMessage("/app/game/setUp", {gameId});
-                navigate("/wincondition");
+                sendMessage(`/app/game/${gameId}/setUp`, {});
+                navigate(`/game/${gameId}/wincondition`);
             }
         }catch (error){
             console.error("Error during starting Game setup: ", handleError(error));

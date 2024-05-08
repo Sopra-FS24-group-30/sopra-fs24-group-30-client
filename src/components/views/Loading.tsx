@@ -14,16 +14,17 @@ const Loading = () => {
 
     useEffect(() => {
         if(client && isConnected){
-            const subscriptionStatus = client.subscribe("/topic/game/status'", (message) => {
+            const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setStatus(data.status);
                 console.log(status);
             });
 
-            sendMessage("/app/game/status", {gameId});
+            sendMessage(`/app/game/${gameId}/status`, {});
 
             if(status === "PLAYING"){
+                //TODO: When url in app router is being changed also change here
                 navigate("/board");
             }
 

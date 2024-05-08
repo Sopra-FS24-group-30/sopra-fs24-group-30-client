@@ -28,7 +28,7 @@ PinField.propTypes = {
 
 const JoinGame: React.FC = () => {
     const navigate = useNavigate();
-    const [gameId, setgameId] = useState<string>(null);
+    const [gameId, setgameId] = useState<string>("");
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const playerId = localStorage.getItem("userId");
     const [joined, setJoined] = useState(false);
@@ -54,12 +54,11 @@ const JoinGame: React.FC = () => {
     const joinGame = async () => {
         if (client && isConnected && gameId){
             try{
-                console.log("Joined: ", joined);
+                console.log("Attempting to join game with ID:", gameId);
                 const msg = {gameId, playerId}
                 if (joined){
-                    console.log("wtf");
                     localStorage.setItem("gameId", gameId);
-                    navigate("/lobby");
+                    navigate(`/game/${gameId}/lobby`);
                 }else if(!joined){
                     console.log("Here");
                     sendMessage("/app/game/join", JSON.stringify(msg));

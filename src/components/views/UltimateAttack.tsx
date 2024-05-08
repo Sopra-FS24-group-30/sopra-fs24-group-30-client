@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {Navigate, useNavigate} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
 import "styles/ui/FlipCard.scss"
@@ -20,6 +20,7 @@ const UltimateAttackCards = (props) => {
         card3: false
     });
     const [selectedCard, setSelectedCard] = useState(null); // Track the selected card
+    const gameId = useParams();
 
     const toggleFlip = (cardKey) => {
         if (!selectedCard) { // Only allow flipping if no card has been selected yet
@@ -31,9 +32,9 @@ const UltimateAttackCards = (props) => {
 
             setTimeout(()=>{
                 if(localStorage.getItem("host")!== null){
-                    navigate("/selectTeam")
+                    navigate(`/game/${gameId}/selectTeam`)
                 } else{
-                    navigate("/loading")
+                    navigate("/game/${gameId}/loading")
                 }
 
             }, 1000);
