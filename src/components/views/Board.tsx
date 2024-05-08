@@ -272,6 +272,8 @@ const Board = () => { //NOSONAR
         let userUid = Number(localStorage.getItem("gameId") + name)
         adjustVolume(userUid,value);
         console.log("adjusted volume to: " + value);
+        console.log("gameId" + localStorage.getItem("gameId"));
+        console.log("name" + name);
         console.log("adjusted for " + userUid);
     }
 
@@ -753,8 +755,8 @@ const Board = () => { //NOSONAR
                     min={0}
                     max={100}
                     step={1}
-                    name="player1"
-                    value={playerVolumes.player1}
+                    name={playerId}
+                    value={playerVolumes.playerId}
                     onChange={event => {
                         handleVolumeChange(event);
                     }}
