@@ -310,8 +310,7 @@ const Board = () => { //NOSONAR
             leaveVoice();
         }
     }, []);
-
-  const move = (data) => {
+    const move = (data) => {
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
 
@@ -749,29 +748,29 @@ const Board = () => { //NOSONAR
 
     const playerElement = (playerId) => {
         return (
-          <div>
-              <PlayerStatus
+            <div>
+                <PlayerStatus
                 userName={userNames[playerId]}
                 playerColour={playerColour[playerId]}
                 displayables={enumerateUsables(itemsDictToList(usables[playerId]))}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer === playerId}
                 audio={playerId !== displayPlayerIds[0]}
-              />;
-              <section>
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    step={1}
-                    name={playerId}
-                    value={playerVolumes.playerId}
-                    onChange={event => {
-                        handleVolumeChange(event);
-                    }}
+                />;
+                <section>
+                    <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={1}
+                        name={playerId}
+                        value={playerVolumes.playerId}
+                        onChange={event => {
+                            handleVolumeChange(event);
+                        }}
                   />
-              </section>
-          </div>
+        </section>
+    </div>
     )
     }
 
