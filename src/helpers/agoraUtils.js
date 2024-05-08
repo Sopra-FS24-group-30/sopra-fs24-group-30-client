@@ -40,7 +40,6 @@ const joinVoice = async (channelName) => {
 
 const toggleChannel = async (inTeam, team) => {
     await leaveVoice();
-    console.log("successfully left voice");
     if(inTeam){
         await joinVoice("main");
     }
@@ -59,7 +58,6 @@ const setMuted = (muted) => {
     if(channelParameters.localAudioTrack){
         if(muted){
             channelParameters.localAudioTrack.setEnabled(false);
-
         }else{
             channelParameters.localAudioTrack.setEnabled(true);
         }
