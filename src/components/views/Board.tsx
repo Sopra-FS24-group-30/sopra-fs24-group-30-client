@@ -299,11 +299,13 @@ const Board = () => { //NOSONAR
         if(id % 2 === 0){
             return "even";
         }
+
         return "odd";
     }
 
     useEffect(() => {
         joinVoice("main");
+
         return () => {
             leaveVoice();
         }
