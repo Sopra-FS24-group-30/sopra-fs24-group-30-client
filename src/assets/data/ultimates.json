@@ -1,38 +1,47 @@
 {
     "BigShuffle": {
         "DisplayName": "The Big Shuffle",
-        "Description": "The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)"
+        "Description": "The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)",
+        "Choice": []
     },
     "Pickpocket": {
         "DisplayName": "Pickpocket",
-        "Description": "Steal half of the money of each player (including your teammate cuz fuck your teamm8)."
+        "Description": "Steal half of the Moneys of all other players (including your teammate (fuck your teammate)).",
+        "Choice": []
     },
     "FreshStart": {
         "DisplayName": "Fresh start :)",
-        "Description": "All other Players get thrown back to their starting field."
+        "Description": "All other Players get thrown back to their starting Space.",
+        "Choice": []
     },
     "Stop": {
         "DisplayName": "🛑",
-        "Description": "The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)"
+        "Description": "The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)",
+        "Choice": []
     },
     "Tp": {
         "DisplayName": "/tp",
-        "Description": "Move to any Space on the board."
+        "Description": "Move to any Space on the board.",
+        "Choice": []
     },
     "Chameleon": {
         "DisplayName": "Chameleon",
-        "Description": "Use the effect of any Item in the game."
+        "Description": "Use the effect of any Item in the game.",
+        "Choice": []
     },
     "Wisdom": {
-        "DisplayName": "Wisdom",
-        "Description": "Look at the Win-condition of any Player of your choosing."
+        "DisplayName": "Wisdom?",
+        "Description": "Look at the Win-condition of any Player of your choosing.",
+        "Choice": "otherPlayerId"
     },
     "Nothing": {
         "DisplayName": "Nothing (Maybe you should've taken another Card?)",
-        "Description": "Literally nothing happens."
+        "Description": "Literally nothing happens.",
+        "Choice": []
     },
     "CatBell": {
         "DisplayName": "Cat bell",
-        "Description": "Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate"
+        "Description": "Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate",
+        "Choice": "otherPlayerId"
     }
 }

@@ -6,9 +6,21 @@ import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
 
+Object.keys(winConditionData).forEach(key => {
+    winConditionData[key]["Category"] = "WinCondition";
+    winConditionData[key]["Type"] = "Win Condition";
+});
 
-const {ceil, floor, min, max} = Math; //NOSONAR this is way more convenient than having to remove min now and readd it once it is actualy needed
+Object.keys(ultimateData).forEach(key => {
+    ultimateData[key]["Category"] = "Ultimate";
+    ultimateData[key]["Type"] = "Ultimate Attack";
+});
+
+const allData={...usablesData, ...winConditionData, ...ultimateData};
+
+const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
 const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d"}
+const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
     const result: string[] = [];
@@ -74,7 +86,7 @@ const PlayerStatus: React.FC<{
     displayables: Array<string>;
     userName: string;
     active: boolean;
-    audio: boolean
+    audio: boolean;
 }> = ({ playerMoney, playerColour, displayables , userName, active, audio}) => {
 
     return (
@@ -103,13 +115,13 @@ const PlayerStatus: React.FC<{
 
 //are to be loaded from burger.json/be sent from the backend
 const coordinates = {"1":[0.17012893982808, 0.440532417346501], "2":[0.641833810888252, 0.670244740231859], "3":[0.327722063037249, 0.504508372692143], "4":[0.600286532951289, 0.477458136539287], "5":[0.900787965616046, 0.613997423787033], "6":[0.322349570200573, 0.844568484328038], "7":[0.403295128939828, 0.293258909403177], "8":[0.333810888252149, 0.127093173035638], "9":[0.827722063037249, 0.772434521253757], "10":[0.876074498567335, 0.702018033490768], "11":[0.469914040114613, 0.850579647917561], "12":[0.893624641833811, 0.522971232288536], "13":[0.846704871060172, 0.440103048518678], "14":[0.790472779369627, 0.375268355517389], "15":[0.723853868194842, 0.321597252039502], "16":[0.660458452722063, 0.180334907685702], "17":[0.599212034383954, 0.133533705452984], "18":[0.413323782234957, 0.126234435379991], "19":[0.53474212034384, 0.851438385573207], "20":[0.285100286532951, 0.187634177758695], "21":[0.212392550143266, 0.20781451266638], "22":[0.169054441260745, 0.279089738085015], "23":[0.170845272206304, 0.36152855302705], "24":[0.192335243553009, 0.797337913267497], "25":[0.170487106017192, 0.522971232288536], "26":[0.169770773638968, 0.605839416058394], "27":[0.242836676217765, 0.693430656934307], "28":[0.26432664756447, 0.62043795620438], "29":[0.398638968481375, 0.585659081150708], "30":[0.459169054441261, 0.612709317303564], "31":[0.434813753581662, 0.67582653499356], "32":[0.421919770773639, 0.782739373121511], "33":[0.709885386819484, 0.741949334478317], "34":[0.253939828080229, 0.848003434950623], "35":[0.573424068767908, 0.670244740231859], "36":[0.507879656160459, 0.677114641477029], "37":[0.744985673352435, 0.581365392872477], "38":[0.727793696275072, 0.500644053241735], "39":[0.726361031518625, 0.407471017604122], "40":[0.613538681948424, 0.285959639330185], "41":[0.549426934097421, 0.321167883211679], "42":[0.492836676217765, 0.367969085444397], "43":[0.456661891117478, 0.433233147273508], "44":[0.543696275071633, 0.507943323314727], "45":[0.38932664756447, 0.8475740661228], "46":[0.660458452722063, 0.431515671962216], "47":[0.76432664756447, 0.826534993559468], "48":[0.338825214899713, 0.418205238299699], "49":[0.352793696275072, 0.337054529841133], "50":[0.314469914040115, 0.259768140832975], "51":[0.484598853868195, 0.210390725633319], "52":[0.612464183381089, 0.84070416487763], "53":[0.0744985673352436, 0.512666380420782], "54":[0.819842406876791, 0.612279948475741], "55":[0.427292263610315, 0.728209531987978], "56":[0.443409742120344, 0.251610133104337], "57":[0.175143266475645, 0.709317303563761], "58":[0.686962750716332, 0.837269214255045], "59":[0.726570200573066, 0.673380420781451], "60":[0.691618911174785, 0.249033920137398], "61":[0.51432664756447, 0.137398024903392], "62":[0.325573065902579, 0.588235294117647], "63":[0.453080229226361, 0.519106912838128]}
-const allUsables=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "Fusion", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie", "B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
+const allUsables=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie", "B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
 
 //! only used for development purposes, to be removed in production build
 //#region 
 const numberOfCoordinates=Object.keys(coordinates).length;
-const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "Fusion", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
+const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 
 const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}},{"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
@@ -170,6 +182,15 @@ const junctionDataExample2 ={
     }
 }
 
+const junctionDataExample3 = {
+    "data": {
+        "nextLockedSpaces":[3], 
+        "nextUnlockedSpaces":[29],
+        "playerId":1,
+        "currentSpace":62
+    }
+}
+
 const moneyDataExample1 = {
     "address": "/topic/board/money",
     "data": {
@@ -200,6 +221,50 @@ const moneyDataExample2 = {
             "newAmountOfMoney": 0, //new amount of money for player 1
             "changeAmountOfMoney": -4 //amount of money
         }
+    }
+}
+
+const winConditionDataExample1={
+    "address": "/topic/board/winCondition",
+    "data": {
+        "name": "Golden",
+        "progress": 3,
+        "total": 7
+    }
+}
+
+const endDataExample1={
+    "data": {
+        "winners":[1],
+        "reason":[3, "jacksparrow"]
+    }
+}
+
+const endDataExample2={
+    "data": {
+        "winners":[1, 3],
+        "reason":[3, "maxmoney"]
+    }
+}
+
+const endDataExample3={
+    "data": {
+        "winners":[2, 4],
+        "reason":[2, "Golden"]
+    }
+}
+
+const endDataExample4={
+    "data": {
+        "winners":[2, 3, 4],
+        "reason":[4, "Company"]
+    }
+}
+
+const endDataExample5={
+    "data": {
+        "winners":[1, 3, 4],
+        "reason":[3, "Marooned"]
     }
 }
 
@@ -236,17 +301,19 @@ const Board = () => { //NOSONAR
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
-    const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) //NOSONAR // represents a fraction
-    const [winCondition, setWinCondition]=useState("JackSparrow") //NOSONAR
-    const [ultimate, setUltimate]=useState("Nothing") //NOSONAR
+    const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) // represents a fraction
+    const [currWinCondition, setCurrWinCondition]=useState("JackSparrow")
+    const [ultimate, setUltimate]=useState("Nothing")
+    const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
     const [dice, setDice]=useState(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
-    const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "2", "3", "4"]) //This Player, Teammate, Enemy, Enemy
+    const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
+    const gameId="" //TODO insert real GameId
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
@@ -301,6 +368,43 @@ const Board = () => { //NOSONAR
         });
     };
 
+    const gameEnd = (data) => {
+        const reason=data["reason"]
+        const winners=data["winners"]
+        let foreignJack=""
+        if (winners.length === 3) {
+            if (winners.includes(1) && winners.includes(3)) {
+                foreignJack = winners.filter(winner => winner !== 1 && winner !== 3).toString();
+            } else {
+                foreignJack = winners.filter(winner => winner !== 2 && winner !== 4).toString();
+            }
+        }
+        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}`
+        const who=reason[0].toString() //who is responsable
+        const why=reason[1].toString() //which wincondition/reason lead to winning
+        let msg=""
+        let players=[]
+        for (const player of winners){
+            players.push(userNames[player], "and")
+        }
+        players=players.slice(0, players.length-1)
+        const playerStrings=players.join(" ")
+        switch (why.toLowerCase()) {
+        case "jacksparrow":
+            msg=`${playerStrings} won because ${userNames[who]} had the Win Condition «${allData["JackSparrow"]["DisplayName"]}» and 20 Turns have passed.`
+            break;
+        case "maxmoney":
+        case "maxcash":
+            msg=`${playerStrings} won because ${userNames[who]} had the highest amount of money after 20 Turns.`
+            break;
+        default: 
+            msg=`${playerStrings} won because ${userNames[who]} passed the goal while having fulfilled the Win Condition «${allData[why]["DisplayName"]}»${jackText}.`
+        }
+        alert(msg)
+        //TODO set winstate with pretty popup msg
+
+    };
+
     const junction = (data) => {
         const from=data["currentSpace"];
         const unlocked=data["nextUnlockedSpaces"];
@@ -341,17 +445,39 @@ const Board = () => { //NOSONAR
         setActivePlayer(data["activePlayer"])
     }
 
-    const forArrow = () => {
-        setArrowPositions(null);
-        processCommands(datata3)
-        money(moneyDataExample1)
+    const winCondition = (data) => {
+        setCurrWinCondition(data["name"])
+        setWinConditionProgress([data["progress"], data["total"]])
     }
 
-    const forDice = async () => {
-        alert("You rolled a 5")
-        await sleep(500);
-        // setResult("")
-        processCommands(datata2)
+    //^ response to Websockets
+
+    const sendArrowChoice = (choice) => {
+        setArrowPositions(null);
+        sendMessage(`/board/junction/${gameId}`, JSON.stringify({"selectedSpace": choice}))
+    }
+    
+    const sendDice = () => {
+        sendMessage(`/board/dice/${gameId}`, JSON.stringify({}))
+    }
+
+    const sendUsable = (usable) => {
+        let address=""
+        switch (allData[usable]["Type"]){
+        case "Card":
+            address=`/board/cards/${gameId}`
+            break;
+        case "Item":
+            address=`/board/items/${gameId}`
+            break;
+        case "Ultimate":
+            address=`/board/ultimate/${gameId}`
+            break;
+        }
+        switch (allData[usable]["choice"]){
+        //TODO
+        }
+        sendMessage(address, JSON.stringify({"used": usable}))
     }
 
     async function processCommands(datata) {
@@ -383,29 +509,34 @@ const Board = () => { //NOSONAR
 
     useEffect(() => {
         if (client && isConnected){
-            client.subscribe("/topic/board/goal", (message) => {
+            client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 goal(data)
             });
 
-            client.subscribe("/topic/board/junction", (message) => {
+            client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            client.subscribe("/topic/board/move", (message) => {
+            client.subscribe(`/topic/board/move/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
             });
 
-            client.subscribe("/topic/board/money", (message) => {
+            client.subscribe(`/topic/board/mone/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            client.subscribe("/topic/board/newActivePlayer", (message) => {
+            client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
+            });
+
+            client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+                const data = JSON.parse(message.body);
+                gameEnd(data)
             });
         }
 
@@ -493,13 +624,21 @@ const Board = () => { //NOSONAR
                 let r=function(){return floor(Math.random()*(numberOfCoordinates-1)+1)} //NOSONAR
                 const getRandomItemFromSet = (set: Set<string>) => { //NOSONAR
                     const arrayFromSet = Array.from(set);
-                    const randomIndex = floor(Math.random() * arrayFromSet.length);
+                    const randomIndex = floor(Math.random()*arrayFromSet.length); //NOSONAR
 
                     return arrayFromSet[randomIndex];
                 };
+                const getRandomKey = (dict: { [key: string]: any }): string | undefined => {
+                    const keys = Object.keys(dict);
+                    
+                    return keys[floor(Math.random()*keys.length)];
+                }
                 switch (event.key){ //NOSONAR
                 case "r":
                     resetTransform();
+                    break;
+                case "x":
+                    setDisplayPlayerIds([displayPlayerIds[0], displayPlayerIds[2], displayPlayerIds[1], displayPlayerIds[3]])
                     break;
                 case ".":
                     zoomOut();
@@ -527,6 +666,12 @@ const Board = () => { //NOSONAR
                     money(moneyDataExample1["data"]);
                     break;
                 case "p":
+                    winCondition(winConditionDataExample1["data"])
+                    break;
+                case "P":
+                    setWinConditionProgress([min(max(winConditionProgress[0]-1, 0), 2), 3])
+                    break;
+                case "¶":
                     newActivePlayer(turnDataExample["data"]);
                     break;
                 case "g":
@@ -536,7 +681,7 @@ const Board = () => { //NOSONAR
                     money(moneyDataExample2["data"]);
                     break;
                 case "t":
-                    (junction(junctionDataExample1["data"]));
+                    (junction(junctionDataExample3["data"]));
                     break;
                 case "T":
                     (junction(junctionDataExample2["data"]));
@@ -550,6 +695,13 @@ const Board = () => { //NOSONAR
                 case "j":
                     (move(moveDataExample1["data"]));
                     break;
+                case "h":
+                    (gameEnd(endDataExample1["data"]));
+                    (gameEnd(endDataExample2["data"]));
+                    (gameEnd(endDataExample3["data"]));
+                    (gameEnd(endDataExample4["data"]));
+                    (gameEnd(endDataExample5["data"]));
+                    break;
                 case "ü":
                     addUsable("2", getRandomItemFromSet(allCards))
                     break;
@@ -557,6 +709,11 @@ const Board = () => { //NOSONAR
                     addUsable("1", getRandomItemFromSet(allCards))
                     addUsable("3", getRandomItemFromSet(allCards))
                     addUsable("4", getRandomItemFromSet(allCards))
+                    break;
+                case ")":
+                    addUsable("1", getRandomItemFromSet(allItems))
+                    addUsable("3", getRandomItemFromSet(allItems))
+                    addUsable("4", getRandomItemFromSet(allItems))
                     break;
                 case "è":
                     addUsable("2", getRandomItemFromSet(allItems))
@@ -567,11 +724,14 @@ const Board = () => { //NOSONAR
                 case "$":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
+                case "J":
+                    let choice=4
+                    alert(JSON.stringify({"choice": choice}))
                 case "i":
-                    addUsable("1", "OnlyFansSub")
+                    setCurrWinCondition(getRandomKey(winConditionData))
                     break;
                 case "I":
-                    removeUsable("1", "OnlyFansSub")
+                    setUltimate(getRandomKey(ultimateData))
                     break;
                 case "q":
                     setPlayerSpace({"1":(playerSpace["1"]%numberOfCoordinates)+1, "2":(playerSpace["2"]%numberOfCoordinates)+1, "3":(playerSpace["3"]%numberOfCoordinates)+1, "4":(playerSpace["4"]%numberOfCoordinates)+1})
@@ -664,7 +824,7 @@ const Board = () => { //NOSONAR
                         pathToPicture={"figurines/arrow.svg"}
                         className="arrow-picture"
                         // clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
-                        clickFunction= {() => forArrow()}
+                        clickFunction= {() => sendArrowChoice(id[1])}
                         colours={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
                     />))
                 : ""}
@@ -685,40 +845,43 @@ const Board = () => { //NOSONAR
     )
 
     const playerElement = (playerId) => {
+        const active = playerId===displayPlayerIds[0]
+
         return (
             <PlayerStatus   
                 userName={userNames[playerId]}
                 playerColour={playerColour[playerId]}
-                displayables={enumerateUsables(itemsDictToList(usables[playerId]))}
+                displayables={enumerateUsables(itemsDictToList(usables[playerId]), active)}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
-                audio={playerId!==displayPlayerIds[0]}
+                audio={!active}
             />)
     }
 
-    const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"])
+    const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom", "Tp"])
 
-    const singleUsable = (name: string) => { 
+    const singleUsable = (name: string, active: boolean) => { 
         if (name===""){
             return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/> 
         }
 
         return(
-            <span style={{imageRendering: pixelItems.has(name) ? "pixelated" : "inherit"}}> {/**breaks when having 10 or more pixelated items */}
+            <span style={{imageRendering: pixelItems.has(name) ? "pixelated" : "inherit", cursor: active ? "pointer" : "inherit"}}> {/**breaks when having 10 or more pixelated items */}
                 <img //NOSONAR
                     src={require(`../../assets/usables/${name}.png`)}
                     alt={usablesData[name]["DisplayName"]}
                     className="item-picture"
                     onMouseEnter={() => setPreviewImage(name)}
                     onMouseLeave={() => setPreviewImage("")}
+                    onClick={() => sendUsable(name)}
                 />
             </span>
         )
     }
 
-    const enumerateUsables = (usables: Array<string>) => {
+    const enumerateUsables = (usables: Array<string>, active) => {
         
-        if (Math.random()===-1){
+        if (Math.random()===-1){ //NOSONAR sonar hates fun
             //formats usables in a prettier grid
             let len=usables.length
             let magicNumber=max(ceil(len/2), 2)
@@ -727,24 +890,35 @@ const Board = () => { //NOSONAR
         
         return(
             <div className="item-container">
-                {usables.map(usable => singleUsable(usable))}
+                {usables.map(usable => singleUsable(usable, active))}
             </div>
         )
     }
+
+    let previewImageHTML = (previewImage!=="" ?
+        <div className="preview-box" style={{color: cardColours[allData[previewImage]["Category"]][1], backgroundColor: cardColours[allData[previewImage]["Category"]][0]}}>
+            <div className="preview-name-class-box">
+                <div>{allData[previewImage]["Type"]}</div>
+                <b><div>{allData[previewImage]["DisplayName"]}</div></b>
+            </div>
+            
+            <div className="preview-picture-text-box">
+                <img
+                    className="preview-picture"
+                    src={require((`../../assets/usables/${previewImage}.png`))}
+                    style={{imageRendering: pixelItems.has(previewImage) ? "pixelated" : "inherit"}}
+                    alt={`${allData[previewImage]["DisplayName"]}`}
+                />
+                <div className="preview-text" dangerouslySetInnerHTML={{ __html: allData[previewImage]["Description"].replace(/\n/g, "<br />") }} />
+            </div>
+        </div>
+        : "")
     
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
             <div className="board-container">
-                <div className="preview-picture-box">
-                    {previewImage!=="" ? <img
-                        className="preview-picture"
-                        src={require((`../../assets/usables/${previewImage}.png`))}
-                        // className="board-background"
-                        alt={`Preview of ${previewImage}`}
-                    />: ""}
-                </div>
-                
+                {previewImageHTML}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
@@ -781,13 +955,18 @@ const Board = () => { //NOSONAR
                         {orderBox}
                     </div>
                     <div className="ultimate-win-box">
-                        <div className="win-condition-box">
+                        <div className="win-condition-box"
+                            onMouseEnter={() => setPreviewImage(currWinCondition)}
+                            onMouseLeave={() => setPreviewImage("")}>
                             <div className="win-condition-chart" style={{backgroundImage: `conic-gradient(#0fdf0f ${winConditionProgress[0]/winConditionProgress[1]*100}%, #004f00 ${winConditionProgress[0]/winConditionProgress[1]*100}%)`}}/>
                             <div className="win-condition-name">
-                                {winConditionData[winCondition]["DisplayName"]}
+                                {winConditionData[currWinCondition]["DisplayName"]}
                             </div>
+                            
                         </div>
-                        <div className="ultimate-box">
+                        <div className="ultimate-box"
+                            onMouseEnter={() => setPreviewImage(ultimate)}
+                            onMouseLeave={() => setPreviewImage("")}>
                             <div className="ultimate-name">
                                 <i>{ultimateData[ultimate]["DisplayName"]}</i>
                             </div>
@@ -797,7 +976,8 @@ const Board = () => { //NOSONAR
                     <div className="player-status-controls">
                         <button
                             // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
-                            onClick={ () => forDice()}
+                            onClick={ () => sendDice()}
+                            //TODO deactivate button after clicking once
                             disabled={activePlayer!==displayPlayerIds[0]}
                         >
                             Roll Dice
