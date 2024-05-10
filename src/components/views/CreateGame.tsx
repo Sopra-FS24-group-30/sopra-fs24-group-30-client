@@ -33,12 +33,11 @@ const CreateGame:  React.FC = () =>{
     console.log("playerId create: ", playerId);
 
     useEffect(() => {
-
         if (client && isConnected){
             if(localStorage.getItem("gameId")===null){
                 sendMessage("/app/game/create", {playerId});
             }
-            const subscription = client.subscribe("/topic/gameCreated", (message) => {
+            const subscription = client.subscribe(`/user/queue/gameCreated`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
                 localStorage.setItem("gameId", data.gameId);

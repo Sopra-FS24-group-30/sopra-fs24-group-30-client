@@ -9,8 +9,11 @@ import {WebsocketProvider} from "./components/views/Websockets";
  * Updated by Marco Leder
  */
 const App = () => {
+
+    const userId = localStorage.getItem("userId");
+
     return (
-        <WebsocketProvider>
+        <WebsocketProvider userId={userId}>
             <AppRouter/>
         </WebsocketProvider>
     );
