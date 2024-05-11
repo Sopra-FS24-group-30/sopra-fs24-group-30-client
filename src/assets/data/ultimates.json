@@ -4,7 +4,7 @@
         "Description": "The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)",
         "Choice": []
     },
-    "Pickpocket": {
+    "PickPocket": {
         "DisplayName": "Pickpocket",
         "Description": "Steal half of the Coins of all other players (including your teammate (fuck your teammate)).",
         "Choice": []

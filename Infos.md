@@ -65,7 +65,7 @@
 | BackEnd Name | Pretty Name                                       | Effect                                                                                                                                | Priority |
 |--------------|---------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|----------|
 | BigShuffle   | The Big Shuffle                                   | The Win-Conditions of all Players get shuffled (It is possible to receive the one you originally had)                                 | ❌ |
-| Pickpocket   | Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your teamm8).                                                | ✅ |
+| PickPocket   | Pickpocket                                        | Steal half of the money of each player (including your teammate cuz fuck your teamm8).                                                | ✅ |
 | FreshStart   | Fresh start :)                                    | All other Players get thrown back to their starting field.                                                                            | ✅ |
 | Stop         | 🛑                                                | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)                                           | ❌ |
 | Tp           | /tp                                               | Move to any Space on the board.                                                                                                       | ❌ |

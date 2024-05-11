@@ -78,7 +78,4 @@ const leaveVoice = async () =>  {
     console.log("You left the channel");
 };
 
-
-
-
 export {joinVoice, leaveVoice, adjustVolume, toggleChannel, setMuted};

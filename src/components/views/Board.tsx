@@ -17,6 +17,13 @@ Object.keys(ultimateData).forEach(key => {
     ultimateData[key]["Type"] = "Ultimate Attack";
 });
 
+const map100to3 = (number) => {
+    if (number<1){return 0}
+    if (number<36){return 1}
+    if (number<71){return 2}
+    return 3
+}
+
 const allData={...usablesData, ...winConditionData, ...ultimateData};
 
 const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
@@ -108,6 +115,11 @@ const PlayerStatus: React.FC<{
             </div>
             {audio ? <div className="player-status-audio-box">
                 <div className="player-status-audio">
+                    <img
+                        src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
+                        alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
+                        className="player-status-audio-logo"
+                    />
                     <input 
                         style={{
                             background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
@@ -584,7 +596,6 @@ const Board = () => { //NOSONAR
         //TODO: add ids here
         let userUid = Number(localStorage.getItem("gameId") + name)
         adjustVolume(userUid,value);
-        alert(userUid)
         console.log("adjusted volume to: " + value);
         console.log("gameId" + localStorage.getItem("gameId"));
         console.log("name" + name);
@@ -710,6 +721,9 @@ const Board = () => { //NOSONAR
                     break;
                 case "x":
                     setDisplayPlayerIds([displayPlayerIds[0], displayPlayerIds[2], displayPlayerIds[1], displayPlayerIds[3]])
+                    break;
+                case "m":
+                    handleMute();
                     break;
                 case ".":
                     zoomOut();
@@ -1059,6 +1073,19 @@ const Board = () => { //NOSONAR
                             Roll Dice
                         </button><br/>
                         {/* <button onClick={ () => alert("a")}>Use Item</button> */}
+                        <button onClick={() => {joinVoice("main")}}>
+                            joinVoice
+                        </button>
+                        <button onClick={() => {leaveVoice()}}>
+
+                            leaveVoice
+                        </button>
+                        <button onClick={(event) => {toggleVoice(event,getTeam())}}>
+                            {inTeam ? "teamVoice" : "globalVoice"}
+                        </button>
+                        <button onClick={() => {handleMute()}}>
+                            {mute ? "mute" : "unmute"}
+                        </button>
                     </div>
                 </div>
             </div>
