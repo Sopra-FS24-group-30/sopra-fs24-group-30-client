@@ -28,10 +28,7 @@
     "no-unreachable": "error",
     "no-duplicate-imports": "error",
     "no-multiple-empty-lines": "warn",
-    "indent": [
-      "warn",
-      4
-    ],
+    "indent": "off",
     "quotes": [
       "warn",
       "double"
