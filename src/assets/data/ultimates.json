@@ -6,7 +6,7 @@
     },
     "Pickpocket": {
         "DisplayName": "Pickpocket",
-        "Description": "Steal half of the Moneys of all other players (including your teammate (fuck your teammate)).",
+        "Description": "Steal half of the Coins of all other players (including your teammate (fuck your teammate)).",
         "Choice": []
     },
     "FreshStart": {
@@ -41,7 +41,7 @@
     },
     "CatBell": {
         "DisplayName": "Cat bell",
-        "Description": "Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Moneys if it was your Teammate",
+        "Description": "Reset the Win Condition progress of every Win Condition of one Player of your choosing. +1 Catmeme.+20 Coins if it was your Teammate",
         "Choice": "otherPlayerId"
     }
 }

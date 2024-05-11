@@ -5,6 +5,7 @@ import { useWebsocket } from "./Websockets";
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
+import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js"
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -81,13 +82,16 @@ const ScalableOverlay: React.FC<{
 }
 
 const PlayerStatus: React.FC<{
+    playerId: string;
+    playerVolumes: Object;
+    handleVolumeChange;
     playerMoney: string;
     playerColour: string;
     displayables: Array<string>;
     userName: string;
     active: boolean;
     audio: boolean;
-}> = ({ playerMoney, playerColour, displayables , userName, active, audio}) => {
+}> = ({playerId, playerVolumes, handleVolumeChange, playerMoney, playerColour, displayables , userName, active, audio}) => {
 
     return (
         <div className="player-status-box" style={{height: audio ? "" : "27.5vh"}}>
@@ -102,8 +106,26 @@ const PlayerStatus: React.FC<{
                     {active ? <img className="money-logo" src={require("../../assets/icons/money.gif")} alt="Money Icon"/> : <img className="money-logo-static" src={require("../../assets/icons/money.png")} alt="Money Icon"/>}
                 </div>
             </div>
-            {audio ? <div className="player-status-audio">
-                🔊
+            {audio ? <div className="player-status-audio-box">
+                <div className="player-status-audio">
+                    <input 
+                        style={{
+                            background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
+                            borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
+                        }}
+                        className="player-status-audio-slider"
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={1}
+                        name={playerId}
+                        
+                        value={playerVolumes[playerId]}
+                        onChange={event => {
+                            handleVolumeChange(event);
+                        }}
+                    />
+                </div>
             </div>: ""}
             {/* <div style={{overflow:"hidden", width:"100%", height:"100%"}}> */}
             {displayables}
@@ -289,6 +311,12 @@ const Board = () => { //NOSONAR
     const hoverFilter="invert(54%) sepia(82%) saturate(1944%) hue-rotate(80deg) brightness(114%) contrast(126%)";
     const unlockedFilter="invert(14%) sepia(83%) saturate(7026%) hue-rotate(359deg) brightness(99%) contrast(109%)";
     const lockedFilter="invert(53%) sepia(8%) saturate(15%) hue-rotate(358deg) brightness(92%) contrast(92%)";
+    
+    //! Audio
+    const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
+    const [inTeam, setInTeam] = useState(false);
+    const [mute,setMute] = useState(false);
+    
     const [imageId, setImageId]=useState("0"); //which goal state is used
     const [overlayActive, setOverlayActive]=useState(0);
     const [figurineSize, setFigurineSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
@@ -320,7 +348,7 @@ const Board = () => { //NOSONAR
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
 
     //~ interpretation of websocket messages
-
+    //#region 
     const move = (data) => {
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
@@ -395,7 +423,7 @@ const Board = () => { //NOSONAR
             break;
         case "maxmoney":
         case "maxcash":
-            msg=`${playerStrings} won because ${userNames[who]} had the highest amount of money after 20 Turns.`
+            msg=`${playerStrings} won because ${userNames[who]} had the highest amount of Coins after 20 Turns.`
             break;
         default: 
             msg=`${playerStrings} won because ${userNames[who]} passed the goal while having fulfilled the Win Condition «${allData[why]["DisplayName"]}»${jackText}.`
@@ -504,9 +532,9 @@ const Board = () => { //NOSONAR
         
         }
     }
+    //#endregion
 
     //$ websockets
-
     useEffect(() => {
         if (client && isConnected){
             client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
@@ -542,7 +570,49 @@ const Board = () => { //NOSONAR
 
     }, [client, isConnected, sendMessage, disconnect])
 
+    //! Audio  
+    //#region
+    
+    const handleVolumeChange = (event) => {
+        let {name,value} = event.target;
+        setPlayerVolumes(
+            {
+                ...playerVolumes,
+                [name]:value
+            }
+        )
+        //TODO: add ids here
+        let userUid = Number(localStorage.getItem("gameId") + name)
+        adjustVolume(userUid,value);
+        alert(userUid)
+        console.log("adjusted volume to: " + value);
+        console.log("gameId" + localStorage.getItem("gameId"));
+        console.log("name" + name);
+        console.log("adjusted for " + userUid);
+    }
+
+    const toggleVoice = (event, teamColor) => {
+        if(inTeam){
+            toggleChannel(inTeam,teamColor);
+            setInTeam(false)
+        }else{
+            toggleChannel(inTeam,teamColor);
+            setInTeam(true);
+        }
+    }
+
+    const handleMute = () => {
+        setMute(!mute);
+        setMuted(mute);
+    }
+
+    const getTeam = () => {
+        return Number(localStorage.getItem("playerId"))%2 === 0 ? "even" : "odd";
+    }
+    //#endregion
+
     //^ Helper functions
+    //#region 
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -613,6 +683,7 @@ const Board = () => { //NOSONAR
     
         return [x+arrowGlobalOffset[0]/100, y+arrowGlobalOffset[1]/100, rot];
     }
+    //#endregion
 
     //$ UseEffects
 
@@ -781,12 +852,14 @@ const Board = () => { //NOSONAR
     };
 
     useEffect(() => {
-
+        joinVoice("main");
+        localStorage.setItem("gameId", "0");
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
 
         return () => {
+            leaveVoice();
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
             document.body.classList.remove("scrollbar-removal")
@@ -850,11 +923,14 @@ const Board = () => { //NOSONAR
         return (
             <PlayerStatus   
                 userName={userNames[playerId]}
+                handleVolumeChange={handleVolumeChange}
                 playerColour={playerColour[playerId]}
                 displayables={enumerateUsables(itemsDictToList(usables[playerId]), active)}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
                 audio={!active}
+                playerVolumes={playerVolumes}
+                playerId={playerId}
             />)
     }
 

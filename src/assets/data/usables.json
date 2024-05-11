@@ -155,7 +155,7 @@
     },
     "MagicMushroom": {
         "DisplayName": "Magic Mushroom",
-        "Description": "This turn you roll 2 dice.\nIf you roll doubles: +10 Moneys.",
+        "Description": "This turn you roll 2 dice.\nIf you roll doubles: +10 Coins.",
         "Category": "Bronze",
         "Type": "Item",
         "Choice": []
@@ -197,14 +197,14 @@
     },
     "SuperMagicMushroom": {
         "DisplayName": "Super Magic Mushroom",
-        "Description": "This turn you roll 3 dice.\nIf you roll triplets: +30 Moneys.",
+        "Description": "This turn you roll 3 dice.\nIf you roll triplets: +30 Coins.",
         "Category": "Silver",
         "Type": "Item",
         "Choice": []
     },
     "Stick": {
         "DisplayName": "Stick",
-        "Description": "If you pass a player this turn, steal 15 Moneys from them.",
+        "Description": "If you pass a player this turn, steal 15 Coins from them.",
         "Category": "Silver",
         "Type": "Item",
         "Choice": []
@@ -232,7 +232,7 @@
     },
     "XboxController": {
         "DisplayName": "Steering a submarine using an Xbox Controller",
-        "Description": "Every player (including yourself) loses 5 Moneys.",
+        "Description": "Every player (including yourself) loses 5 Coins.",
         "Category": "Silver",
         "Type": "Item",
         "Choice": []
@@ -246,7 +246,7 @@
     },
     "UltraMagicMushroom": {
         "DisplayName": "Ultra Magic Mushroom",
-        "Description": "This turn you roll 4 dice.\nIf you roll quadruplets: +69 Moneys.",
+        "Description": "This turn you roll 4 dice.\nIf you roll quadruplets: +69 Coins.",
         "Category": "Gold",
         "Type": "Item",
         "Choice": []
@@ -274,21 +274,21 @@
     },
     "GoldenSnitch": {
         "DisplayName": "Golden Snitch",
-        "Description": "A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.",
+        "Description": "A Player of your choice has to roll the Big Oops Roulette. +10 Coins if it was your teammate.",
         "Category": "Gold",
         "Type": "Item",
         "Choice": "playerId"
     },
     "OnlyFansSub": {
         "DisplayName": "Only-Fans Subscription",
-        "Description": "Steal 7 Moneys from every other player (even your Teammate (simp))",
+        "Description": "Steal 7 Coins from every other player (even your Teammate (simp))",
         "Category": "Gold",
         "Type": "Item",
         "Choice": []
     },
     "ChickyNuggie": {
         "DisplayName": "Dino Chicky Nuggie",
-        "Description": "−20 Moneys, your ultimate becomes usable again.",
+        "Description": "−20 Coins, your ultimate becomes usable again.",
         "Category": "Gold",
         "Type": "Item",
         "Choice": []
