@@ -21,13 +21,14 @@ const map100to3 = (number) => {
     if (number<1){return 0}
     if (number<36){return 1}
     if (number<71){return 2}
+
     return 3
 }
 
 const allData={...usablesData, ...winConditionData, ...ultimateData};
 
 const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
-const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d"}
+const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
@@ -114,34 +115,30 @@ const PlayerStatus: React.FC<{
                 </div>
             </div>
             {audio ? <div className="player-status-audio-box">
-                <div className="player-status-audio">
-                    <img
-                        src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
-                        alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
-                        className="player-status-audio-logo"
-                    />
-                    <input 
-                        style={{
-                            background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
-                            borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
-                        }}
-                        className="player-status-audio-slider"
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={1}
-                        name={playerId}
-                        
-                        value={playerVolumes[playerId]}
-                        onChange={event => {
-                            handleVolumeChange(event);
-                        }}
-                    />
-                </div>
+                <img
+                    src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
+                    alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
+                    className="player-status-audio-logo"
+                />
+                <input 
+                    style={{
+                        background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
+                        borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
+                    }}
+                    className="player-status-audio-slider"
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    name={playerId}
+                    
+                    value={playerVolumes[playerId]}
+                    onChange={event => {
+                        handleVolumeChange(event);
+                    }}
+                />
             </div>: ""}
-            {/* <div style={{overflow:"hidden", width:"100%", height:"100%"}}> */}
             {displayables}
-            {/* </div> */}
         </div>
     )
 };
@@ -351,11 +348,14 @@ const Board = () => { //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
+    
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
+    const [usingRetro, setUsingRetro]=useState(false)
+    
     const gameId="" //TODO insert real GameId
     const boardRef=useRef(null);
-    const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
+    const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
 
@@ -737,6 +737,9 @@ const Board = () => { //NOSONAR
                 case "Escape":
                     setOverlayActive(0);
                     break;
+                case "$":
+                    setUsingRetro(1-usingRetro);
+                    break;
                     //~ ↓ debug options, will be removed in the production build
                 case "~":
                     processCommands(datata1)
@@ -806,7 +809,7 @@ const Board = () => { //NOSONAR
                 case "[":
                     setUsables({...usables, "2": initialUsables})
                     break;
-                case "$":
+                case "£":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
                 case "J":
@@ -839,6 +842,12 @@ const Board = () => { //NOSONAR
                     break;
                 case "c":
                     setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
+                    break;
+                case "C":
+                    setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
+                    break;
+                case "©":
+                    setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
                     break;
                 default:
 
@@ -1031,7 +1040,7 @@ const Board = () => { //NOSONAR
                         {arrows}
                         {figurines} {/* all 4 player figurines */}
                         <img
-                            src={ require((`../../assets/boards/board_${imageId}.png`))}
+                            src={ require((`../../assets/boards/${usingRetro ? "retro_" : ""}board_${imageId}.png`))}
                             className="board-background"
                             alt="Gameboard"
                         />
