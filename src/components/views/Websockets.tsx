@@ -1,7 +1,7 @@
 // @ts-ignore
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import {Client, IFrame} from "@stomp/stompjs";
-import SockJS from 'sockjs-client';
+import SockJS from "sockjs-client";
 
 interface WebsocketsType{
     client: Client | null;

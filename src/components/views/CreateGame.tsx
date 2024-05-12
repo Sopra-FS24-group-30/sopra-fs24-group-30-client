@@ -37,7 +37,7 @@ const CreateGame:  React.FC = () =>{
             if(localStorage.getItem("gameId")===null){
                 sendMessage("/app/game/create", {playerId});
             }
-            const subscription = client.subscribe(`/user/queue/gameCreated`, (message) => {
+            const subscription = client.subscribe("/user/queue/gameCreated", (message) => {
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
                 localStorage.setItem("gameId", data.gameId);

@@ -1,13 +1,13 @@
 class Player{
     constructor(data = {}){
-        this.id = null;
+        this.playerId = null;
         this.username = null;
         this.gameId = null;
+        this.coins = null;
         this.wincondition = null;
         this.ultimateattack = null;
         this.items = null;
         this.cards = null;
-        this.teammate = null;
 
         Object.assign(this, data);
     }
