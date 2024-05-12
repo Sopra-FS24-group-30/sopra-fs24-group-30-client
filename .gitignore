@@ -22,3 +22,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .idea
+src/assets/usables/Cards.psd
+src/assets/usables/Golden.psd

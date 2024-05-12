@@ -1,0 +1,52 @@
+{
+    "Golden": {
+        "DisplayName": "Golden is my …",
+        "Description": "Land on seven Yellow spaces.",
+        "Activation": ""
+    },
+    "Ship": {
+        "DisplayName": "🛥️ ← this is a ship (it goes Zvvvvvvvvvvv or blubblub)",
+        "Description": "Move 15 Spaces in one turn, or move 0 Spaces twice in a row.",
+        "Activation": ""
+    },
+    "Shiny": {
+        "DisplayName": "Ohh shiny",
+        "Description": "Use one Bronze, Silver and Gold Item, and one Bronze, Silver and Gold Card.",
+        "Activation": ""
+    },
+    "ThirdTime": {
+        "DisplayName": "Third time's the charm",
+        "Description": "Pass the goal twice",
+        "Activation": ""
+    },
+    "Explorer": {
+        "DisplayName": "Explorer of the Seven seas",
+        "Description": "Pass every Space at least once.",
+        "Activation": ""
+    },
+    "Drunk": {
+        "DisplayName": "Drunk",
+        "Description": "Land on a Catnami Space thrice.",
+        "Activation": ""
+    },
+    "Unlucky": {
+        "DisplayName": "Unlucky",
+        "Description": "Lose a total of 40 Coins.",
+        "Activation": ""
+    },
+    "JackSparrow": {
+        "DisplayName": "Jack Sparrow, CAPTAIN Jack Sparrow",
+        "Description": "You win if the other Team wins, and you lose if your Partner wins. If the game ends after 20 Turns, everyone except for your Partner loses.",
+        "Activation": "Automatically activates after 20 Turns have passed."
+    },
+    "Company": {
+        "DisplayName": "East Indian Trading Company",
+        "Description": "As long as you have at least 60 Coins, the Win Condition is fulfilled. If you have less than 60 Coins at any point in time, your Wincondition is no longer fulfilled.",
+        "Activation": "Can be deactivated if the condition isn't met anymore."
+    },
+    "Marooned": {
+        "DisplayName": "The Marooned",
+        "Description": "As long as you have exactly 0 Coins, 0 Items and 0 Cards the Win Condition is fulfilled. If you gain any Coins, Items or Cards at any point in time, your Win Condition is no longer fulfilled.",
+        "Activation": "Can be deactivated if the condition isn't met anymore."
+    }
+}
