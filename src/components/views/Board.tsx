@@ -23,6 +23,7 @@ const map100to3 = (number) => {
     if (number<1){return 0}
     if (number<36){return 1}
     if (number<71){return 2}
+
     return 3
 }
 
@@ -355,12 +356,11 @@ const Board = () => { //NOSONAR
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
-    const gameId="" //TODO insert real GameId
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-    const gameId = localStorage.get("gameId");
+    const gameId = localStorage.getItem("gameId");
     const [players, setPlayers] = useState<Player[]>(null);
     //~ interpretation of websocket messages
     //#region 
