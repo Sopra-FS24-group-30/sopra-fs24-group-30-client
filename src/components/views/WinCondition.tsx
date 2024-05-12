@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
 import "styles/ui/FlipCard.scss"
@@ -14,6 +14,7 @@ import toggle = Simulate.toggle;
 
 const WinConditionCards = (props) => {
     const navigate = useNavigate()
+    const gameId = useParams(); 
     const [flippedStates, setFlippedStates] = useState({
         card1: false,
         card2: false,
@@ -30,7 +31,7 @@ const WinConditionCards = (props) => {
             setSelectedCard(cardKey); // Set the current card as selected
 
             setTimeout(()=>{
-                navigate("/ultimateAttack")
+                navigate(`/game/${gameId}/ultimateAttack`)
             }, 1000);
         }
     };

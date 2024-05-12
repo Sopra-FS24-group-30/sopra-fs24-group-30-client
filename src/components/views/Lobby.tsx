@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Lobby.scss";
 import BaseContainer from "components/ui/BaseContainer";
@@ -31,26 +31,26 @@ const Lobby: React.FC = () =>{
 
     useEffect(() => {
         if(client && isConnected){
-            const subscriptionPlayers = client.subscribe("/topic/players", (message) => {
+            const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setUsers(data);
             });
 
-            const subscriptionGameReady = client.subscribe("/topic/gameReady", (message) =>{
+            const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
             })
 
-            const subscriptionStatus = client.subscribe("/topic/game/status", (message) => {
+            const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data.status);
                 setGameStatus(data.status);
             })
 
-            sendMessage("/app/game/lobby", {gameId});
-            sendMessage("/app/gameReady", {gameId});
-            sendMessage("/app/game/status", {gameId});
+            sendMessage(`/app/game/${gameId}/lobby`, {});
+            sendMessage(`/app/game/${gameId}/gameReady`, {});
+            sendMessage(`/app/game/${gameId}/status`, {});
             console.log(gameStatus);
 
             return () =>{
@@ -63,7 +63,7 @@ const Lobby: React.FC = () =>{
     }, [client, isConnected, sendMessage, disconnect]);
 
     if (gameStatus === "SETUP"){
-        navigate("/wincondition");
+        navigate(`/game/${gameId}/wincondition`);
     }
 
     const leave = async () => {

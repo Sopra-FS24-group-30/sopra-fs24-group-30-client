@@ -15,25 +15,36 @@ const SelectTeam : React.FC = () => {
     const [players, setPlayers] = useState<string[]>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
+    const host = localStorage.getItem("username");
 
     useEffect(() => {
-        if(client && isConnected){
-            const subscriptionPlayers = client.subscribe("/topic/players", (message) => {
-                const data = JSON.parse(message.body);
-                console.log(data);
-                setPlayers(data);
-            });
+        async function fetchData(){
+            try {
+                if(client && isConnected){
+                    const subscriptionPlayers = client.subscribe(`/topic/game/players/${gameId}`, (message) => {
+                        const data = JSON.parse(message.body);
+                        console.log(data.players);
+                        setPlayers(data.players);
+                    });
 
-            sendMessage("/app/game/players", {gameId});
+                    sendMessage(`/app/game/${gameId}/players`, {host});
 
-            return () => {
-                subscriptionPlayers.unsubscribe();
+                    return () => {
+                        subscriptionPlayers.unsubscribe();
+                    }
+                }
+            } catch (error) {
+                console.error("Something went wrong while fetching the users: \n$")
             }
         }
+        console.log("Here");
+        fetchData();
     }, [client, isConnected, sendMessage, disconnect]);
 
-    const setTeammate = (teamMate) =>{
-        sendMessage("/app/game/setTeammate", {gameId, teamMate, });
+    const setTeammate = (teammate) =>{
+        console.log("setTeam");
+        sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
+        //TODO: when app router is changed, also change the url here
         navigate("/board");
     }
 
@@ -46,12 +57,11 @@ const SelectTeam : React.FC = () => {
                 <ul className="selection player-list">
                     {players.map((player: String) => (
                         <li key={player}>
-                            <div className="player container">
-                                <div className="player username"
-                                    onClick={() => setTeammate(player)}>
+                            <Button className="player container" onClick={() => setTeammate(player)}>
+                                <div className="player username">
                                     {player}
                                 </div>
-                            </div>
+                            </Button>
                         </li>
                     ))}
                 </ul>

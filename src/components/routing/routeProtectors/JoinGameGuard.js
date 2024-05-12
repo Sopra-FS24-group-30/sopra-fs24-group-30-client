@@ -12,6 +12,6 @@ export const JoinGameGuard = () => {
     return <Navigate to="/login" replace/>;
 };
 
-JoinGameGuard.PropTypes = {
+JoinGameGuard.propTypes = {
     children: PropTypes.node
 }

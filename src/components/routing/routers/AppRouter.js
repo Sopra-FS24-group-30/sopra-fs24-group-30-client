@@ -72,37 +72,23 @@ const AppRouter = () => {
                     <Route path="/home" element={<Home/>}/>
                 </Route>
 
-                <Route path="/createGame" element={<CreateGameGuard/>}>
-                    <Route path="/createGame" element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
+                <Route path="/join" element={<JoinGameGuard/>}>
+                    <Route path="/join" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
-                <Route path="/joinGame" element={<JoinGameGuard/>}>
-                    <Route path="/joinGame" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
-                </Route>
-
-                <Route path="/loading" element={<LoadingGuard/>}>
-                    <Route path="/loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
-                </Route>
-
+                {/*TODO: add board to game*/}
                 <Route path="/board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
                 </Route>
 
-                <Route path="/lobby" element={<LobbyGuard/>}>
-                    <Route path="/lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
+                <Route path="/game/:gameId/*" element={<CreateGameGuard/>}>
+                    <Route index element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
+                    <Route path="loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
+                    <Route path="lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
+                    <Route path="wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
+                    <Route path="ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
+                    <Route path="selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
+                    {/*TODO: add board here*/}
                 </Route>
-
-                <Route path="/wincondition" element={<WinConditionGuard/>}>
-                    <Route path="/wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
-                </Route>
-
-                <Route path="/ultimateAttack" element={<UltimateAttackGuard/>}>
-                    <Route path="/ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
-                </Route>
-
-                <Route path="/selectTeam" element={<SelectTeamGuard/>}>
-                    <Route path="/selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
-                </Route>
-
             </Routes>
         </BrowserRouter>
     );

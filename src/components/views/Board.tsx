@@ -2,6 +2,8 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
+import {Player} from "types";
+
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
@@ -358,7 +360,8 @@ const Board = () => { //NOSONAR
     const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-
+    const gameId = localStorage.get("gameId");
+    const [players, setPlayers] = useState<Player[]>(null);
     //~ interpretation of websocket messages
     //#region 
     const move = (data) => {
@@ -549,7 +552,11 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
+            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
+                const data = JSON.parse(message.body);
+                setPlayers(data.players);
+            })
+            client.subscribe("/topic/board/goal", (message) => {
                 const data = JSON.parse(message.body);
                 goal(data)
             });
@@ -580,7 +587,11 @@ const Board = () => { //NOSONAR
             });
         }
 
-    }, [client, isConnected, sendMessage, disconnect])
+        if(players === null){
+            sendMessage(`/app/game/${gameId}/board/start`, {});
+        }
+
+    }, [client, isConnected, sendMessage, disconnect, players])
 
     //! Audio  
     //#region
