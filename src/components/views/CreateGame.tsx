@@ -28,19 +28,20 @@ const CreateGame:  React.FC = () =>{
     const [gameId, setGameId] = useState(localStorage.getItem("gameId") || null);
     const [players, setPlayers] = useState<User[]>(null);
     const [gameReady, setGameReady] = useState<boolean>(false);
-    localStorage.setItem("host", "true");
 
+    localStorage.setItem("host", "true");
     console.log("playerId create: ", playerId);
 
     useEffect(() => {
         if (client && isConnected){
-            if(localStorage.getItem("gameId")===null){
+            if(!localStorage.getItem("gameId")){
                 sendMessage("/app/game/create", {playerId});
             }
             const subscription = client.subscribe("/user/queue/gameCreated", (message) => {
                 const data = JSON.parse(message.body);
                 console.log("Received data: ", data);
                 localStorage.setItem("gameId", data.gameId);
+                setGameId(data.gameId);
                 navigate(`/game/${gameId}`, {replace: true});
             });
 

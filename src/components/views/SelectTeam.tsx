@@ -37,7 +37,7 @@ const SelectTeam : React.FC = () => {
                 console.error("Something went wrong while fetching the users: \n$")
             }
         }
-        console.log("Here");
+
         fetchData();
     }, [client, isConnected, sendMessage, disconnect]);
 
@@ -45,7 +45,7 @@ const SelectTeam : React.FC = () => {
         console.log("setTeam");
         sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
         //TODO: when app router is changed, also change the url here
-        navigate("/board");
+        navigate(`/game/${gameId}/loading`);
     }
 
     let content = <Spinner/>
