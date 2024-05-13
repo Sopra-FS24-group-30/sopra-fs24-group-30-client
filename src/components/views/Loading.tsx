@@ -11,6 +11,7 @@ const Loading = () => {
     const gameId = localStorage.getItem("gameId");
     const [status, setStatus] = useState<String>(null); //NOSONAR
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
+    const username = localStorage.getItem("username");
 
     useEffect(() => {
         if(client && isConnected){
@@ -21,12 +22,8 @@ const Loading = () => {
                 console.log(status);
             });
 
-            sendMessage(`/app/game/${gameId}/status`, {});
-
-            if(status === "PLAYING"){
-                //TODO: When url in app router is being changed also change here
-                navigate("/board");
-            }
+            console.log("send message");
+            sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
 
             return ()=> {
                 subscriptionStatus.unsubscribe();
@@ -34,6 +31,29 @@ const Loading = () => {
         }
 
     }, [client, isConnected, status]);
+
+    useEffect(() => {
+        if(client && isConnected && gameId){
+            const checkGameStatus = () => {
+                console.log("Requesting game status...");
+                sendMessage(`/app/game/${gameId}/status`, {});
+            };
+            console.log("here");
+            checkGameStatus();
+
+            const intervalId = setInterval(checkGameStatus, 5000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [client, isConnected, sendMessage, gameId, status]);
+
+    useEffect(() => {
+        if (status === "READY"){
+            console.log("Navigating to board");
+            navigate("/board");
+        }
+    })
+
     let content = <Spinner/>
 
     return (

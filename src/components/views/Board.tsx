@@ -556,35 +556,45 @@ const Board = () => { //NOSONAR
                 const data = JSON.parse(message.body);
                 setPlayers(data.players);
             })
-            client.subscribe("/topic/board/goal", (message) => {
+            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
                 const data = JSON.parse(message.body);
                 goal(data)
             });
 
-            client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+            const subsriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            client.subscribe(`/topic/board/move/${gameId}`, (message) => {
+            const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
             });
 
-            client.subscribe(`/topic/board/mone/${gameId}`, (message) => {
+            const subscriptionMoney = client.subscribe(`/topic/board/money/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
+            const subscriptionActivePlayer = client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+            const subscriptionGameEnd = client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
+
+            return () => {
+                subscriptionStart.unsubscribe();
+                subscrpitionGoal.unsubscribe();
+                subsriptionJunction.unsubscribe();
+                subscriptionMove.unsubscribe();
+                subscriptionMoney.unsubscribe();
+                subscriptionActivePlayer.unsubscribe();
+                subscriptionGameEnd.unsubscribe();
+            }
         }
 
         if(players === null){
