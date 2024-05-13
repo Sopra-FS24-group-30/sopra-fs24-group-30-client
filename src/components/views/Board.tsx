@@ -555,6 +555,8 @@ const Board = () => { //NOSONAR
             const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
                 setPlayers(data.players);
+                localStorage.setItem("players", players);
+                console.log(players);
             })
             const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
                 const data = JSON.parse(message.body);
@@ -598,6 +600,7 @@ const Board = () => { //NOSONAR
         }
 
         if(players === null){
+            console.log("here");
             sendMessage(`/app/game/${gameId}/board/start`, {});
         }
 
@@ -886,6 +889,7 @@ const Board = () => { //NOSONAR
         setArrowSize(`${arrowSize}px`);
     };
 
+    //voice api stuff
     useEffect(() => {
         joinVoice("main");
         localStorage.setItem("gameId", "0");
@@ -902,7 +906,6 @@ const Board = () => { //NOSONAR
     }, []);
 
     // Scalable Objects
-
     let figurines = (
         <div className="scalable-overlay">
             {[1, 2, 3, 4].map(id => (
