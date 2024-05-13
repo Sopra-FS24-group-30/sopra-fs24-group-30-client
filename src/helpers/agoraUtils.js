@@ -10,12 +10,12 @@ let channelParameters = {
 const handleVSDKEvents = (eventName, ...args) => {
     let id = args[0].uid;
     switch (eventName) {
-        case "user-published":
-            // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
-            channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
-            // Play the remote audio track. No need to pass any DOM element.
-            channelParameters.remoteAudioTrack[id].play();
-            break;
+    case "user-published":
+        // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
+        channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
+        // Play the remote audio track. No need to pass any DOM element.
+        channelParameters.remoteAudioTrack[id].play();
+        break;
     }
 };
 

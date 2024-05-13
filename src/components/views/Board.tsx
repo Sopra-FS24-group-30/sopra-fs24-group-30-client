@@ -330,11 +330,12 @@ const Board = () => { //NOSONAR
     const [overlayActive, setOverlayActive]=useState(0);
     const [figurineSize, setFigurineSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
     const [arrowSize, setArrowSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
-    type UsableState = {[playerId: string]: {[itemName: string]: number}};
-    const initialUsables = Object.fromEntries(Array.from(allUsables).map(card => [card, 0]));
-    const [usables, setUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const relativeFigurineSize=.025 //figurine width in % of boardwidth
     const relativeArrowSize=.035 //arrow width in % of boardwidth
+    
+    type UsableState = {[playerId: string]: {[itemName: string]: number}};
+    const initialUsables = Object.fromEntries(Array.from(allUsables).map(card => [card, 0]));
+    const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
@@ -490,6 +491,10 @@ const Board = () => { //NOSONAR
         setWinConditionProgress([data["progress"], data["total"]])
     }
 
+    const usables = (data) => {
+
+    }
+
     //^ response to Websockets
 
     const sendArrowChoice = (choice) => {
@@ -628,7 +633,7 @@ const Board = () => { //NOSONAR
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
     const addUsable = (playerId: string, name: string) => {
-        setUsables(prevUsables => ({
+        setPlayerUsables(prevUsables => ({
             ...prevUsables,
             [playerId]: {
                 ...prevUsables[playerId],
@@ -638,7 +643,7 @@ const Board = () => { //NOSONAR
     };
 
     const removeUsable = (playerId: string, name: string) => {
-        setUsables(prevUsable => ({
+        setPlayerUsables(prevUsable => ({
             ...prevUsable,
             [playerId]: {
                 ...prevUsable[playerId],
@@ -807,7 +812,7 @@ const Board = () => { //NOSONAR
                     addUsable("2", getRandomItemFromSet(allItems))
                     break;
                 case "[":
-                    setUsables({...usables, "2": initialUsables})
+                    setPlayerUsables({...playerUsables, "2": initialUsables})
                     break;
                 case "£":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
@@ -948,7 +953,7 @@ const Board = () => { //NOSONAR
                 userName={userNames[playerId]}
                 handleVolumeChange={handleVolumeChange}
                 playerColour={playerColour[playerId]}
-                displayables={enumerateUsables(itemsDictToList(usables[playerId]), active)}
+                displayables={enumerateUsables(itemsDictToList(playerUsables[playerId]), active)}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
                 audio={!active}
@@ -1041,6 +1046,7 @@ const Board = () => { //NOSONAR
                         {figurines} {/* all 4 player figurines */}
                         <img
                             src={ require((`../../assets/boards/${usingRetro ? "retro_" : ""}board_${imageId}.png`))}
+                            style={{imageRendering: usingRetro ? "pixelated" : "inherit"}}
                             className="board-background"
                             alt="Gameboard"
                         />
