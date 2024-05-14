@@ -30,7 +30,7 @@ const map100to3 = (number) => {
 const allData={...usablesData, ...winConditionData, ...ultimateData};
 
 const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
-const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d"}
+const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
@@ -117,34 +117,30 @@ const PlayerStatus: React.FC<{
                 </div>
             </div>
             {audio ? <div className="player-status-audio-box">
-                <div className="player-status-audio">
-                    <img
-                        src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
-                        alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
-                        className="player-status-audio-logo"
-                    />
-                    <input 
-                        style={{
-                            background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
-                            borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
-                        }}
-                        className="player-status-audio-slider"
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={1}
-                        name={playerId}
-                        
-                        value={playerVolumes[playerId]}
-                        onChange={event => {
-                            handleVolumeChange(event);
-                        }}
-                    />
-                </div>
+                <img
+                    src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
+                    alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
+                    className="player-status-audio-logo"
+                />
+                <input 
+                    style={{
+                        background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
+                        borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
+                    }}
+                    className="player-status-audio-slider"
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    name={playerId}
+                    
+                    value={playerVolumes[playerId]}
+                    onChange={event => {
+                        handleVolumeChange(event);
+                    }}
+                />
             </div>: ""}
-            {/* <div style={{overflow:"hidden", width:"100%", height:"100%"}}> */}
             {displayables}
-            {/* </div> */}
         </div>
     )
 };
@@ -164,6 +160,23 @@ const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B4
 const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}},{"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
 const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
 const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}${"]"}`
+
+const usablesExampleData1 = {
+    "data" :{
+        "1": {
+            "usables": ["MagicMushroom"]
+        },
+        "2": {
+            "usables": ["B14", "TwoMushrooms"]
+        },
+        "3": {
+            "usables": []
+        },
+        "4": {
+            "usables": ["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick"]
+        },
+    }
+}
 
 const moveDataExample2 = {
     "type": "move",
@@ -336,11 +349,12 @@ const Board = () => { //NOSONAR
     const [overlayActive, setOverlayActive]=useState(0);
     const [figurineSize, setFigurineSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
     const [arrowSize, setArrowSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
-    type UsableState = {[playerId: string]: {[itemName: string]: number}};
-    const initialUsables = Object.fromEntries(Array.from(allUsables).map(card => [card, 0]));
-    const [usables, setUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const relativeFigurineSize=.025 //figurine width in % of boardwidth
     const relativeArrowSize=.035 //arrow width in % of boardwidth
+    
+    type UsableState = {[playerId: string]: {[itemName: string]: number}};
+    const initialUsables = Object.fromEntries(Array.from(allUsables).map(usable => [usable, 0]));
+    const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
@@ -354,14 +368,18 @@ const Board = () => { //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
+    
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
+    const [usingRetro, setUsingRetro]=useState(false)
+    
+    const gameId = localStorage.getItem("gameId");
     const boardRef=useRef(null);
-    const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
+    const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-    const gameId = localStorage.getItem("gameId");
     const [players, setPlayers] = useState<Player[]>(null);
+
     //~ interpretation of websocket messages
     //#region 
     const move = (data) => {
@@ -493,6 +511,31 @@ const Board = () => { //NOSONAR
         setWinConditionProgress([data["progress"], data["total"]])
     }
 
+    const usables = (data) => {
+        let res = playerUsables;
+        for (const player in data) {
+            for (const item in res[player]) {
+                
+                let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
+                let numberOfOld=res[player][item]
+                
+                if (numberOfOld !== numberOfNew){
+                    let dif = numberOfNew-numberOfOld
+                    if (dif>=1){
+                        for (let i=0; i<dif; i++){
+                            addUsable(player, item)
+                        }
+                    }
+                    else if (dif<=-1){
+                        for (let i=0; i>dif; i--){
+                            removeUsable(player, item)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     //^ response to Websockets
 
     const sendArrowChoice = (choice) => {
@@ -568,6 +611,11 @@ const Board = () => { //NOSONAR
                 junction(data)
             });
 
+            const subsriptionUsables = client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
+                const data = JSON.parse(message.body);
+                usables(data)
+            });
+
             const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
@@ -592,6 +640,7 @@ const Board = () => { //NOSONAR
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
                 subsriptionJunction.unsubscribe();
+                subsriptionUsables.unsubscribe();
                 subscriptionMove.unsubscribe();
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
@@ -652,7 +701,7 @@ const Board = () => { //NOSONAR
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
     const addUsable = (playerId: string, name: string) => {
-        setUsables(prevUsables => ({
+        setPlayerUsables(prevUsables => ({
             ...prevUsables,
             [playerId]: {
                 ...prevUsables[playerId],
@@ -662,7 +711,7 @@ const Board = () => { //NOSONAR
     };
 
     const removeUsable = (playerId: string, name: string) => {
-        setUsables(prevUsable => ({
+        setPlayerUsables(prevUsable => ({
             ...prevUsable,
             [playerId]: {
                 ...prevUsable[playerId],
@@ -761,7 +810,13 @@ const Board = () => { //NOSONAR
                 case "Escape":
                     setOverlayActive(0);
                     break;
+                case "$":
+                    setUsingRetro(1-usingRetro);
+                    break;
                     //~ ↓ debug options, will be removed in the production build
+                case "y":
+                    usables(usablesExampleData1["data"])
+                    break;
                 case "~":
                     processCommands(datata1)
                     break;
@@ -828,9 +883,9 @@ const Board = () => { //NOSONAR
                     addUsable("2", getRandomItemFromSet(allItems))
                     break;
                 case "[":
-                    setUsables({...usables, "2": initialUsables})
+                    setPlayerUsables({...playerUsables, "2": initialUsables})
                     break;
-                case "$":
+                case "£":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
                 case "J":
@@ -864,6 +919,12 @@ const Board = () => { //NOSONAR
                 case "c":
                     setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
                     break;
+                case "C":
+                    setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
+                    break;
+                case "©":
+                    setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
+                    break;
                 default:
 
                     if (["1", "2", "3", "4", "5", "6", "7", "8", "0"].includes(event.key))
@@ -889,7 +950,6 @@ const Board = () => { //NOSONAR
         setArrowSize(`${arrowSize}px`);
     };
 
-    //voice api stuff
     useEffect(() => {
         joinVoice("main");
         localStorage.setItem("gameId", "0");
@@ -934,7 +994,6 @@ const Board = () => { //NOSONAR
                         alt="arrow"
                         pathToPicture={"figurines/arrow.svg"}
                         className="arrow-picture"
-                        // clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
                         clickFunction= {() => sendArrowChoice(id[1])}
                         colours={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
                     />))
@@ -950,7 +1009,7 @@ const Board = () => { //NOSONAR
                     {index<turnOrder.length-1 ? <div className="turn-order-arrow"/> : ""}
                 </React.Fragment>
             ))
-            //insert active player circle if needed (moving coin already indicates active player)
+            // insert active player circle if needed (moving coin already indicates active player)
             }
         </div>
     )
@@ -963,7 +1022,7 @@ const Board = () => { //NOSONAR
                 userName={userNames[playerId]}
                 handleVolumeChange={handleVolumeChange}
                 playerColour={playerColour[playerId]}
-                displayables={enumerateUsables(itemsDictToList(usables[playerId]), active)}
+                displayables={enumerateUsables(itemsDictToList(playerUsables[playerId]), active)}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
                 audio={!active}
@@ -1055,7 +1114,8 @@ const Board = () => { //NOSONAR
                         {arrows}
                         {figurines} {/* all 4 player figurines */}
                         <img
-                            src={ require((`../../assets/boards/board_${imageId}.png`))}
+                            src={ require((`../../assets/boards/${usingRetro ? "retro_" : ""}board_${imageId}.png`))}
+                            style={{imageRendering: usingRetro ? "pixelated" : "inherit"}}
                             className="board-background"
                             alt="Gameboard"
                         />
@@ -1089,7 +1149,6 @@ const Board = () => { //NOSONAR
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
                         <button
-                            // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
                             onClick={ () => sendDice()}
                             //TODO deactivate button after clicking once
                             disabled={activePlayer!==displayPlayerIds[0]}
