@@ -1,260 +1,296 @@
 {
     "B14": {
-        "DisplayName": "1/4",
-        "Description": "",
+        "DisplayName": "1/4 (Bronze)",
+        "Description": "Instead of rolling, randomly move 1 or 4 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B26": {
-        "DisplayName": "2/6",
-        "Description": "",
+        "DisplayName": "2/6 (Bronze)",
+        "Description": "Instead of rolling, randomly move 2 or 6 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B35": {
-        "DisplayName": "3/5",
-        "Description": "",
+        "DisplayName": "3/5 (Bronze)",
+        "Description": "Instead of rolling, randomly move 3 or 5 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B135": {
-        "DisplayName": "1/3/5",
-        "Description": "",
+        "DisplayName": "1/3/5 (Bronze)",
+        "Description": "Instead of rolling, randomly move 1, 3 or 5 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B246": {
-        "DisplayName": "2/4/6",
-        "Description": "",
+        "DisplayName": "2/4/6 (Bronze)",
+        "Description": "Instead of rolling, randomly move 2, 4 or 6 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B123": {
-        "DisplayName": "1/2/3",
-        "Description": "",
+        "DisplayName": "1/2/3 (Bronze)",
+        "Description": "Instead of rolling, randomly move 1, 2 or 3 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B456": {
-        "DisplayName": "4/5/6",
-        "Description": "",
+        "DisplayName": "4/5/6 (Bronze)",
+        "Description": "Instead of rolling, randomly move 4, 5 or 6 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "B07": {
-        "DisplayName": "0/7",
-        "Description": "",
+        "DisplayName": "0/7 (Bronze)",
+        "Description": "Instead of rolling, randomly move 1 or 4 spaces.",
         "Category": "Bronze",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S0": {
-        "DisplayName": "0",
-        "Description": "",
+        "DisplayName": "0 (Silver)",
+        "Description": "Instead of rolling, move 0 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S1": {
-        "DisplayName": "1",
-        "Description": "",
+        "DisplayName": "1 (Silver)",
+        "Description": "Instead of rolling, move 1 space(s).",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S2": {
-        "DisplayName": "2",
-        "Description": "",
+        "DisplayName": "2 (Silver)",
+        "Description": "Instead of rolling, move 2 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S3": {
-        "DisplayName": "3",
-        "Description": "",
+        "DisplayName": "3 (Silver)",
+        "Description": "Instead of rolling, move 3 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S4": {
-        "DisplayName": "4",
-        "Description": "",
+        "DisplayName": "4 (Silver)",
+        "Description": "Instead of rolling, move 4 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S5": {
-        "DisplayName": "4",
-        "Description": "",
+        "DisplayName": "5 (Silver)",
+        "Description": "Instead of rolling, move 5 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S6": {
-        "DisplayName": "5",
-        "Description": "",
+        "DisplayName": "6 (Silver)",
+        "Description": "Instead of rolling, move 6 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "S7": {
-        "DisplayName": "7",
-        "Description": "",
+        "DisplayName": "7 (Silver)",
+        "Description": "Instead of rolling, move 7 spaces.",
         "Category": "Silver",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": []
     },
     "G13": {
-        "DisplayName": "1/3",
-        "Description": "",
+        "DisplayName": "1/3 (Gold)",
+        "Description": "Instead of rolling, move either\n1 or 3 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [1,3]
     },
     "G26": {
-        "DisplayName": "2/6",
-        "Description": "",
+        "DisplayName": "2/6 (Gold)",
+        "Description": "Instead of rolling, move either\n2 or 6 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [2,6]
     },
     "G45": {
-        "DisplayName": "4/5",
-        "Description": "",
+        "DisplayName": "4/5 (Gold)",
+        "Description": "Instead of rolling, move either\n4 or 5 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [4,5]
     },
     "G04": {
-        "DisplayName": "0/4",
-        "Description": "",
+        "DisplayName": "0/4 (Gold)",
+        "Description": "Instead of rolling, move either\n0 or 4 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [0,4]
     },
     "G37": {
-        "DisplayName": "3/7",
-        "Description": "",
+        "DisplayName": "3/7 (Gold)",
+        "Description": "Instead of rolling, move either\n3 or 7 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [3,7]
     },
     "G1256": {
-        "DisplayName": "1/2/5/6",
-        "Description": "",
+        "DisplayName": "1/2/5/6 (Gold)",
+        "Description": "Instead of rolling, move either 1, 2, 5 or 6 spaces (your choice).",
         "Category": "Gold",
-        "Type": "Card"
+        "Type": "Card",
+        "Choice": [1,2,5,6]
     },
     "MagicMushroom": {
         "DisplayName": "Magic Mushroom",
-        "Description": "This turn you roll 2 dice. If you roll doubles: +10 Moneys.",
+        "Description": "This turn you roll 2 dice.\nIf you roll doubles: +10 Coins.",
         "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "TwoMushrooms": {
         "DisplayName": "Two (Regular) Mushrooms",
         "Description": "This turn you move twice as many spaces.",
         "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "TheBrotherAndCo": {
         "DisplayName": "The uncle of your sister's cousin, has a brother-in-law, who once worked at Facebook",
-        "Description": "Use this item to pass a gate, you can use this item at a gate, even if you have already used an item this turn.",
+        "Description": "Use this item to enter a gate. This item gets used automatically at a gate.",
         "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "PeaceImOut": {
         "DisplayName": "Peace I'm out",
         "Description": "Teleport to a random other player.",
         "Category": "Bronze",
-        "Type": "Item"
-    },
-    "Fusion": {
-        "DisplayName": "Fuuuuuuuusion",
-        "Description": "Choose up to 2 cards. This turn move as many Spaces as the sum of the combined numbers on the cards.",
-        "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "IceCreamChest": {
-        "DisplayName": "Treasure chest- Ice cream",
+        "DisplayName": "Ice cream treasure chest ",
         "Description": "Steal a random card from a player of your choosing.",
         "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "otherPlayerId"
     },
     "WhatsThis": {
         "DisplayName": "OwO what's this",
         "Description": "You receive a random card.",
         "Category": "Bronze",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "SuperMagicMushroom": {
         "DisplayName": "Super Magic Mushroom",
-        "Description": "This turn you roll 3 dice. If you roll triplets: +30 Moneys.",
+        "Description": "This turn you roll 3 dice.\nIf you roll triplets: +30 Coins.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "Stick": {
         "DisplayName": "Stick",
-        "Description": "If you pass a player this turn, steal 15 coins from them.",
+        "Description": "If you pass a player this turn, steal 15 Coins from them.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "ImOut": {
         "DisplayName": "Meow it I'm out",
         "Description": "Switch places with a random other player.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "TreasureChest": {
         "DisplayName": "Treasure chest",
         "Description": "Steal a random Item from a player of your choice.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "otherPlayerId"
     },
     "MeowYou": {
         "DisplayName": "Meow you in particular",
-        "Description": "The goal moves.",
+        "Description": "The goal moves to a different spot.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "XboxController": {
         "DisplayName": "Steering a submarine using an Xbox Controller",
-        "Description": "Every player (including yourself) loses 5 coins.",
+        "Description": "Every player (including yourself) loses 5 Coins.",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "BadWifi": {
         "DisplayName": "Bad Wifi",
         "Description": "Chose a player, they get muted for 1 turn (2 if it was your teammate)",
         "Category": "Silver",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "playerId"
     },
     "UltraMagicMushroom": {
         "DisplayName": "Ultra Magic Mushroom",
-        "Description": "This turn you roll 4 dice. If you roll quadruplets: +69 Moneys.",
+        "Description": "This turn you roll 4 dice.\nIf you roll quadruplets: +69 Coins.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "BestTradeDeal": {
         "DisplayName": "Best Trade deal in the history of Trade deals maybe ever",
         "Description": "Give another player of your choosing all of your cards, and steal all of their items in return.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "otherPlayerId"
     },
     "ItemsAreBelongToMe": {
-        "DisplayName": "(Almost) all your Items are belong to me",
+        "DisplayName": "(Almost) all your Items are belong to mine",
         "Description": "Steal 4 random items from a player of your choice.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "otherPlayerId"
     },
     "Confusion": {
         "DisplayName": "I am confusion",
         "Description": "This turn you move backwards instead of forwards.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "GoldenSnitch": {
         "DisplayName": "Golden Snitch",
-        "Description": "A Player of your choice has to roll the Big Oops Roulette. +10 Moneys if it was your teammate.",
+        "Description": "A Player of your choice has to roll the Big Oops Roulette. +10 Coins if it was your teammate.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": "playerId"
     },
     "OnlyFansSub": {
-        "DisplayName": "Only-Fans Abo",
-        "Description": "Steal 7 coins from every other player (even your Teammate (simp))",
+        "DisplayName": "Only-Fans Subscription",
+        "Description": "Steal 7 Coins from every other player (even your Teammate (simp))",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     },
     "ChickyNuggie": {
         "DisplayName": "Dino Chicky Nuggie",
-        "Description": "-20 Moneys, your ultimate becomes usable again. (You can't use this Item unless your Ultimate has been used already)",
+        "Description": "−20 Coins, your ultimate becomes usable again.",
         "Category": "Gold",
-        "Type": "Item"
+        "Type": "Item",
+        "Choice": []
     }
 }

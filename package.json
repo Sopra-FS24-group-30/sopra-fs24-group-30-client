@@ -3,8 +3,8 @@
   "version": "0.24.0",
   "private": true,
   "dependencies": {
-    "agora-rtc-sdk-ng": "^4.20.2",
     "@stomp/stompjs": "^7.0.0",
+    "agora-rtc-sdk-ng": "^4.20.2",
     "axios": "^1.6.7",
     "eslint-config-react-app": "^7.0.1",
     "react": "^18.2.0",
@@ -13,7 +13,9 @@
     "react-scripts": "^5.0.1",
     "react-zoom-pan-pinch": "^3.4.3",
     "serve": "^14.2.1",
+    "sock-client": "^0.0.0",
     "socket.io-client": "^4.7.5",
+    "sockjs-client": "^1.6.1",
     "typescript": "^3.2.1",
     "ws": "^8.16.0"
   },

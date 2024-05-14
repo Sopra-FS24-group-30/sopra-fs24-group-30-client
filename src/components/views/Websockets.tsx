@@ -1,6 +1,7 @@
 // @ts-ignore
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import {Client} from "@stomp/stompjs";
+import {Client, IFrame} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 interface WebsocketsType{
     client: Client | null;
@@ -13,20 +14,22 @@ const Websockets = createContext<WebsocketsType | null>(null);
 
 interface WebsocketProviderProps{
     children: ReactNode;
+    userId: string;
 }
 
-export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children}) =>{
+export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children, userId}) =>{
     const [client, setClient] = useState<Client | null>(null);
     const [isConnected, setIsConnected] = useState<boolean>(false);
 
     useEffect(() => {
+        const socket = new SockJS(`wss:////sopra-fs24-group-30-server.oa.r.appspot.com/ws?userId=${localStorage.getItem("userId")}`);
         const newClient = new Client({
-            brokerURL: "wss://sopra-fs24-group-30-server.oa.r.appspot.com/ws",
+            webSocketFactory: () => socket,
             onConnect: () =>{
                 console.log("Connected to WS");
                 setIsConnected(true);
             },
-            onStompError: (frame) =>{
+            onStompError: (frame: IFrame) =>{
                 console.error("Broker reported error: " + frame.headers["message"]);
                 console.error("Additional details: " + frame.body);
                 setIsConnected(false);
@@ -38,9 +41,9 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children}) 
         setClient(newClient);
 
         return () => {
-            newClient.deactivate()
-        }
-    }, []);
+            newClient.deactivate();
+        };
+    }, [userId]);
 
     const sendMessage = (destination: string, body: any) => {
         if (isConnected) {
