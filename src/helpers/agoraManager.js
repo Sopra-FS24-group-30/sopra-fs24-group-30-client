@@ -42,7 +42,7 @@ const agoraRTCManager = async (eventsCallback) => {
             channelName,
             TOKEN,
             agoraUid
-          )
+        )
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
         await agoraEngine.publish([

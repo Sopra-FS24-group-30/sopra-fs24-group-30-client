@@ -25,7 +25,6 @@ const Lobby: React.FC = () =>{
     const gameId = localStorage.getItem("gameId");
     const navigate = useNavigate();
     const [users, setUsers] = useState<User[]>(null);
-    const [gameReady, setGameReady] = useState(false);
     const [gameStatus, setGameStatus] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
 
@@ -36,12 +35,6 @@ const Lobby: React.FC = () =>{
                 console.log(data);
                 setUsers(data);
             });
-
-            const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
-                const data = JSON.parse(message.body);
-                setGameReady(data.gameReady);
-            })
-
             const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data.status);
@@ -49,22 +42,37 @@ const Lobby: React.FC = () =>{
             })
 
             sendMessage(`/app/game/${gameId}/lobby`, {});
-            sendMessage(`/app/game/${gameId}/gameReady`, {});
-            sendMessage(`/app/game/${gameId}/status`, {});
+
             console.log(gameStatus);
 
             return () =>{
                 subscriptionPlayers.unsubscribe();
-                subscriptionGameReady.unsubscribe();
                 subscriptionStatus.unsubscribe();
             };
         }
 
     }, [client, isConnected, sendMessage, disconnect]);
 
-    if (gameStatus === "SETUP"){
-        navigate(`/game/${gameId}/wincondition`);
-    }
+    useEffect(() => {
+        if(client && isConnected && gameId){
+            const checkStatus = () => {
+                console.log("Getting gameStatus...");
+                sendMessage(`/app/game/${gameId}/status`, {});
+            };
+            checkStatus();
+
+            const intervalId = setInterval(checkStatus, 5000);
+            
+            return () => clearInterval(intervalId);
+        }
+    }, [client, isConnected, gameStatus, gameId, navigate]);
+
+    useEffect(() => {
+        if(gameStatus==="SETUP"){
+            console.log("Navigating to wincondition");
+            navigate(`/game/${gameId}/wincondition`);
+        }
+    })
 
     const leave = async () => {
         try {

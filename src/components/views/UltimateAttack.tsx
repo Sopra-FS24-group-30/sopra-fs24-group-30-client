@@ -34,7 +34,7 @@ const UltimateAttackCards = (props) => {
                 if(localStorage.getItem("host")!== null){
                     navigate(`/game/${gameId}/selectTeam`)
                 } else{
-                    navigate("/game/${gameId}/loading")
+                    navigate(`/game/${gameId}/loading`)
                 }
 
             }, 1000);
