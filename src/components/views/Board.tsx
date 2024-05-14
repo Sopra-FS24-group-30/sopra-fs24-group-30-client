@@ -961,11 +961,12 @@ const Board = () => { //NOSONAR
     };
 
     useEffect(() => {
-        joinVoice("main");
         localStorage.setItem("gameId", "0");
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
+        setTimeout(joinVoice("main"),7000);
+
 
         return () => {
             leaveVoice();
