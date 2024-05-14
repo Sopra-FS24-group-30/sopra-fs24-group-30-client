@@ -12,6 +12,6 @@ export const HomeGuard = () => {
     return <Navigate to="/login" replace/>;
 };
 
-HomeGuard.PropTypes = {
+HomeGuard.propTypes = {
     children: PropTypes.node
 }

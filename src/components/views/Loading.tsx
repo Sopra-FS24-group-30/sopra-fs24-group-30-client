@@ -4,26 +4,56 @@ import {useNavigate} from "react-router-dom";
 import "styles/views/Loading.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import {Spinner} from "components/ui/Spinner";
+import {useWebsocket} from "./Websockets";
 
 const Loading = () => {
     const navigate = useNavigate();
-    const [gameStatus, setGameStatus] = useState<boolean>(false); //NOSONAR
+    const gameId = localStorage.getItem("gameId");
+    const [status, setStatus] = useState<String>(null); //NOSONAR
+    const {client, sendMessage, isConnected, disconnect} = useWebsocket();
+    const username = localStorage.getItem("username");
 
     useEffect(() => {
-        async  function gameSet(){
-            try {
-                const gameID = localStorage.getItem("gameID");
-                const requestBody = JSON.stringify({gameID});
-                const response = await api.get(`/game/${gameID}/status`, requestBody);
-                setGameStatus(response.data);
-            }catch (error){
-                alert(
-                    `Something went wrong while creating the game: ${handleError(error)}`
-                )
-                navigate("/home");
+        if(client && isConnected){
+            const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
+                const data = JSON.parse(message.body);
+                console.log(data);
+                setStatus(data.status);
+                console.log(status);
+            });
+
+            console.log("send message");
+            sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
+
+            return ()=> {
+                subscriptionStatus.unsubscribe();
             }
         }
-    }, []);
+
+    }, [client, isConnected, status]);
+
+    useEffect(() => {
+        if(client && isConnected && gameId){
+            const checkGameStatus = () => {
+                console.log("Requesting game status...");
+                sendMessage(`/app/game/${gameId}/status`, {});
+            };
+            console.log("here");
+            checkGameStatus();
+
+            const intervalId = setInterval(checkGameStatus, 5000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [client, isConnected, sendMessage, gameId, status]);
+
+    useEffect(() => {
+        if (status === "READY"){
+            console.log("Navigating to board");
+            navigate("/board");
+        }
+    })
+
     let content = <Spinner/>
 
     return (

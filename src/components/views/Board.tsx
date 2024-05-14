@@ -2,6 +2,8 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
+import {Player} from "types";
+
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
@@ -352,14 +354,18 @@ const Board = () => { //NOSONAR
     
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
+<<<<<<< HEAD
     const [usingRetro, setUsingRetro]=useState(false)
     
     const gameId="" //TODO insert real GameId
+=======
+>>>>>>> 383b4a7f1374086933a527d166a32018b718ffe4
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-
+    const gameId = localStorage.getItem("gameId");
+    const [players, setPlayers] = useState<Player[]>(null);
     //~ interpretation of websocket messages
     //#region 
     const move = (data) => {
@@ -554,38 +560,59 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
+            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
+                const data = JSON.parse(message.body);
+                setPlayers(data.players);
+                localStorage.setItem("players", players);
+                console.log(players);
+            })
+            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
                 const data = JSON.parse(message.body);
                 goal(data)
             });
 
-            client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+            const subsriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            client.subscribe(`/topic/board/move/${gameId}`, (message) => {
+            const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
             });
 
-            client.subscribe(`/topic/board/mone/${gameId}`, (message) => {
+            const subscriptionMoney = client.subscribe(`/topic/board/money/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
+            const subscriptionActivePlayer = client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+            const subscriptionGameEnd = client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
+
+            return () => {
+                subscriptionStart.unsubscribe();
+                subscrpitionGoal.unsubscribe();
+                subsriptionJunction.unsubscribe();
+                subscriptionMove.unsubscribe();
+                subscriptionMoney.unsubscribe();
+                subscriptionActivePlayer.unsubscribe();
+                subscriptionGameEnd.unsubscribe();
+            }
         }
 
-    }, [client, isConnected, sendMessage, disconnect])
+        if(players === null){
+            console.log("here");
+            sendMessage(`/app/game/${gameId}/board/start`, {});
+        }
+
+    }, [client, isConnected, sendMessage, disconnect, players])
 
     //! Audio  
     //#region
@@ -879,6 +906,7 @@ const Board = () => { //NOSONAR
         setArrowSize(`${arrowSize}px`);
     };
 
+    //voice api stuff
     useEffect(() => {
         joinVoice("main");
         localStorage.setItem("gameId", "0");
@@ -895,7 +923,6 @@ const Board = () => { //NOSONAR
     }, []);
 
     // Scalable Objects
-
     let figurines = (
         <div className="scalable-overlay">
             {[1, 2, 3, 4].map(id => (

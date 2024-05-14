@@ -28,7 +28,7 @@ PinField.propTypes = {
 
 const JoinGame: React.FC = () => {
     const navigate = useNavigate();
-    const [gameId, setgameId] = useState<string>(null);
+    const [gameId, setgameId] = useState<string>("");
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const playerId = localStorage.getItem("userId");
     const [joined, setJoined] = useState(false);
@@ -40,6 +40,7 @@ const JoinGame: React.FC = () => {
             const subscription = client.subscribe("/topic/gameJoined", (message) => {
                 const data= JSON.parse(message.body);
                 setJoined(data.joined);
+                console.log(joined);
             });
 
             return () => {
@@ -53,11 +54,14 @@ const JoinGame: React.FC = () => {
     const joinGame = async () => {
         if (client && isConnected && gameId){
             try{
+                console.log("Attempting to join game with ID:", gameId);
                 const msg = {gameId, playerId}
-                sendMessage("/app/game/join", JSON.stringify(msg));
                 if (joined){
                     localStorage.setItem("gameId", gameId);
-                    navigate("/lobby");
+                    navigate(`/game/${gameId}/lobby`);
+                }else if(!joined){
+                    console.log("Here");
+                    sendMessage("/app/game/join", JSON.stringify(msg));
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);

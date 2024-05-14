@@ -12,6 +12,6 @@ export const CreateGameGuard = () => {
     return <Navigate to="/login" replace/>;
 };
 
-CreateGameGuard.PropTypes = {
+CreateGameGuard.propTypes = {
     children: PropTypes.node
 }

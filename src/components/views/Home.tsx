@@ -11,17 +11,19 @@ const Home = () => {
         navigate("/users");
     }
     const createGame = (): void=>{
-        navigate("/createGame");
+        navigate("/game/create");
     }
 
     const joinGame= (): void =>{
-        navigate("/joinGame");
+        navigate("/join");
     }
 
     const doLogout = (): void =>{
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("userId");
+        localStorage.removeItem("gameId");
+        localStorage.removeItem("host");
         navigate("/login");
     }
 
