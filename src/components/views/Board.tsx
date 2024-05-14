@@ -164,16 +164,19 @@ const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue
 const usablesExampleData1 = {
     "data" :{
         "1": {
-            "usables": ["MagicMushroom"]
+            "items": ["MagicMushroom"],
+            "cards":[]
         },
         "2": {
-            "usables": ["B14", "TwoMushrooms"]
+            "cards": ["B14", "TwoMushrooms"],
+            "items": ["G1256"]
         },
         "3": {
-            "usables": []
+            "items": []
         },
         "4": {
-            "usables": ["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick"]
+            "items":[],
+            "cards": ["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick"]
         },
     }
 }
@@ -360,7 +363,8 @@ const Board = () => { //NOSONAR
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
     const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) // represents a fraction
     const [currWinCondition, setCurrWinCondition]=useState("JackSparrow")
-    const [ultimate, setUltimate]=useState("Nothing")
+    const [ultimateName, setUltimateName]=useState("Nothing")
+    const [ultimateState, setUltimateState]=useState(true) //NOSONAR
     const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
@@ -386,7 +390,7 @@ const Board = () => { //NOSONAR
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
 
-            return Promise.resolve();; //in case BE sends an empty array
+            return Promise.resolve(); //in case BE sends an empty array
         }
         const movingType=toRead["movementType"];
         delete toRead["movementType"];
@@ -440,7 +444,7 @@ const Board = () => { //NOSONAR
                 foreignJack = winners.filter(winner => winner !== 2 && winner !== 4).toString();
             }
         }
-        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}`
+        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}` //NOSONAR
         const who=reason[0].toString() //who is responsable
         const why=reason[1].toString() //which wincondition/reason lead to winning
         let msg=""
@@ -511,9 +515,16 @@ const Board = () => { //NOSONAR
         setWinConditionProgress([data["progress"], data["total"]])
     }
 
+    const ultimate = (data) => { //NOSONAR
+        setUltimateName(data["name"])
+        setUltimateState(data["active"])
+    }
+
     const usables = (data) => {
         let res = playerUsables;
         for (const player in data) {
+            //Combining items and cards into usables
+            data[player]["usables"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
             for (const item in res[player]) {
                 
                 let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
@@ -521,15 +532,11 @@ const Board = () => { //NOSONAR
                 
                 if (numberOfOld !== numberOfNew){
                     let dif = numberOfNew-numberOfOld
-                    if (dif>=1){
-                        for (let i=0; i<dif; i++){
-                            addUsable(player, item)
-                        }
+                    for (let i=0; i<dif; i++){
+                        addUsable(player, item)
                     }
-                    else if (dif<=-1){
-                        for (let i=0; i>dif; i--){
-                            removeUsable(player, item)
-                        }
+                    for (let i=0; i>dif; i--){
+                        removeUsable(player, item)
                     }
                 }
             }
@@ -601,17 +608,17 @@ const Board = () => { //NOSONAR
                 localStorage.setItem("players", players);
                 console.log(players);
             })
-            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
+            const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 goal(data)
             });
 
-            const subsriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+            const subscriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            const subsriptionUsables = client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
+            const subscriptionUsables = client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 usables(data)
             });
@@ -639,8 +646,8 @@ const Board = () => { //NOSONAR
             return () => {
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
-                subsriptionJunction.unsubscribe();
-                subsriptionUsables.unsubscribe();
+                subscriptionJunction.unsubscribe();
+                subscriptionUsables.unsubscribe();
                 subscriptionMove.unsubscribe();
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
@@ -813,6 +820,10 @@ const Board = () => { //NOSONAR
                 case "$":
                     setUsingRetro(1-usingRetro);
                     break;
+                case "F1":
+                    //TODO insert help
+                    alert("Insert Help");
+                    break;
                     //~ ↓ debug options, will be removed in the production build
                 case "y":
                     usables(usablesExampleData1["data"])
@@ -888,14 +899,11 @@ const Board = () => { //NOSONAR
                 case "£":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
-                case "J":
-                    let choice=4
-                    alert(JSON.stringify({"choice": choice}))
                 case "i":
                     setCurrWinCondition(getRandomKey(winConditionData))
                     break;
                 case "I":
-                    setUltimate(getRandomKey(ultimateData))
+                    setUltimateName(getRandomKey(ultimateData))
                     break;
                 case "q":
                     setPlayerSpace({"1":(playerSpace["1"]%numberOfCoordinates)+1, "2":(playerSpace["2"]%numberOfCoordinates)+1, "3":(playerSpace["3"]%numberOfCoordinates)+1, "4":(playerSpace["4"]%numberOfCoordinates)+1})
@@ -1129,7 +1137,7 @@ const Board = () => { //NOSONAR
                         {orderBox}
                     </div>
                     <div className="ultimate-win-box">
-                        <div className="win-condition-box"
+                        <div className="win-condition-box" //NOSONAR
                             onMouseEnter={() => setPreviewImage(currWinCondition)}
                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="win-condition-chart" style={{backgroundImage: `conic-gradient(#0fdf0f ${winConditionProgress[0]/winConditionProgress[1]*100}%, #004f00 ${winConditionProgress[0]/winConditionProgress[1]*100}%)`}}/>
@@ -1138,11 +1146,11 @@ const Board = () => { //NOSONAR
                             </div>
                             
                         </div>
-                        <div className="ultimate-box"
-                            onMouseEnter={() => setPreviewImage(ultimate)}
+                        <div className="ultimate-box" //NOSONAR
+                            onMouseEnter={() => setPreviewImage(ultimateName)} 
                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="ultimate-name">
-                                <i>{ultimateData[ultimate]["DisplayName"]}</i>
+                                <i>{ultimateData[ultimateName]["DisplayName"]}</i>
                             </div>
                         </div>
                     </div>
