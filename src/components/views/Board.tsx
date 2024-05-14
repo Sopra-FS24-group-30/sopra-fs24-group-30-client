@@ -161,6 +161,23 @@ const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"mo
 const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
 const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}${"]"}`
 
+const usablesExampleData1 = {
+    "data" :{
+        "1": {
+            "usables": ["MagicMushroom"]
+        },
+        "2": {
+            "usables": ["B14", "TwoMushrooms"]
+        },
+        "3": {
+            "usables": []
+        },
+        "4": {
+            "usables": ["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick"]
+        },
+    }
+}
+
 const moveDataExample2 = {
     "type": "move",
     "data": {
@@ -336,7 +353,7 @@ const Board = () => { //NOSONAR
     const relativeArrowSize=.035 //arrow width in % of boardwidth
     
     type UsableState = {[playerId: string]: {[itemName: string]: number}};
-    const initialUsables = Object.fromEntries(Array.from(allUsables).map(card => [card, 0]));
+    const initialUsables = Object.fromEntries(Array.from(allUsables).map(usable => [usable, 0]));
     const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
@@ -354,18 +371,15 @@ const Board = () => { //NOSONAR
     
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
-<<<<<<< HEAD
     const [usingRetro, setUsingRetro]=useState(false)
     
-    const gameId="" //TODO insert real GameId
-=======
->>>>>>> 383b4a7f1374086933a527d166a32018b718ffe4
+    const gameId = localStorage.getItem("gameId");
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
-    const gameId = localStorage.getItem("gameId");
     const [players, setPlayers] = useState<Player[]>(null);
+
     //~ interpretation of websocket messages
     //#region 
     const move = (data) => {
@@ -498,7 +512,28 @@ const Board = () => { //NOSONAR
     }
 
     const usables = (data) => {
-
+        let res = playerUsables;
+        for (const player in data) {
+            for (const item in res[player]) {
+                
+                let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
+                let numberOfOld=res[player][item]
+                
+                if (numberOfOld !== numberOfNew){
+                    let dif = numberOfNew-numberOfOld
+                    if (dif>=1){
+                        for (let i=0; i<dif; i++){
+                            addUsable(player, item)
+                        }
+                    }
+                    else if (dif<=-1){
+                        for (let i=0; i>dif; i--){
+                            removeUsable(player, item)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //^ response to Websockets
@@ -576,6 +611,11 @@ const Board = () => { //NOSONAR
                 junction(data)
             });
 
+            const subsriptionUsables = client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
+                const data = JSON.parse(message.body);
+                usables(data)
+            });
+
             const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
@@ -600,6 +640,7 @@ const Board = () => { //NOSONAR
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
                 subsriptionJunction.unsubscribe();
+                subsriptionUsables.unsubscribe();
                 subscriptionMove.unsubscribe();
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
@@ -773,6 +814,9 @@ const Board = () => { //NOSONAR
                     setUsingRetro(1-usingRetro);
                     break;
                     //~ ↓ debug options, will be removed in the production build
+                case "y":
+                    usables(usablesExampleData1["data"])
+                    break;
                 case "~":
                     processCommands(datata1)
                     break;
@@ -906,7 +950,6 @@ const Board = () => { //NOSONAR
         setArrowSize(`${arrowSize}px`);
     };
 
-    //voice api stuff
     useEffect(() => {
         joinVoice("main");
         localStorage.setItem("gameId", "0");
@@ -951,7 +994,6 @@ const Board = () => { //NOSONAR
                         alt="arrow"
                         pathToPicture={"figurines/arrow.svg"}
                         className="arrow-picture"
-                        // clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
                         clickFunction= {() => sendArrowChoice(id[1])}
                         colours={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
                     />))
@@ -967,7 +1009,7 @@ const Board = () => { //NOSONAR
                     {index<turnOrder.length-1 ? <div className="turn-order-arrow"/> : ""}
                 </React.Fragment>
             ))
-            //insert active player circle if needed (moving coin already indicates active player)
+            // insert active player circle if needed (moving coin already indicates active player)
             }
         </div>
     )
@@ -1107,7 +1149,6 @@ const Board = () => { //NOSONAR
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
                         <button
-                            // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
                             onClick={ () => sendDice()}
                             //TODO deactivate button after clicking once
                             disabled={activePlayer!==displayPlayerIds[0]}
