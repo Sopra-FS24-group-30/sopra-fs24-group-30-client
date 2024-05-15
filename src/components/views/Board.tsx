@@ -892,7 +892,6 @@ const Board = () => { //NOSONAR
     //voice api stuff
     useEffect(() => {
         joinVoice("main");
-        localStorage.setItem("gameId", "0");
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
