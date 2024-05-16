@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import {Player} from "models/Player";
+import Player from "models/Player";
 import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";

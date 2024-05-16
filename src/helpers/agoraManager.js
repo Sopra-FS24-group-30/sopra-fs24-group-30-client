@@ -23,11 +23,16 @@ const agoraRTCManager = async (eventsCallback) => {
     });
 
     // Listen for the "user-unpublished" event.
-    agoraEngine.on("user-unpublished", async (user) => {
+    agoraEngine.on("user-unpublished", async (user, mediaType) => {
         await agoraEngine.unsubscribe(user, mediaType);
         console.log(user.uid + "has left the channel");
         eventsCallback("user-unpublished", user, mediaType)
     });
+
+    agoraEngine.on("user-left", async (user) => {
+        console.log(user.uid + "has left the channel");
+        eventsCallback("user-left", user)
+    })
 
     const join = async (channelName, channelParameters) => {
         let playerId = localStorage.getItem("playerId");
@@ -37,7 +42,7 @@ const agoraRTCManager = async (eventsCallback) => {
             channelName,
             TOKEN,
             agoraUid
-          )
+        )
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
         await agoraEngine.publish([

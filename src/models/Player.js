@@ -12,4 +12,5 @@ class Player{
         Object.assign(this, data);
     }
 }
+
 export default Player;
