@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
-import {Player} from "types";
+import {Player} from "models/Player";
 
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
@@ -361,7 +361,12 @@ const Board = () => { //NOSONAR
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
     const gameId = localStorage.getItem("gameId");
-    const [players, setPlayers] = useState<Player[]>(null);
+    const userId = localStorage.getItem("userId");
+    const [thisPlayer, setThisPlayer] = useState(new Player(localStorage.getItem("thisPlayer")));
+    const [teammate, setTeammate] = useState<Player>(null);
+    const [enemy1, setEnemy1] = useState<Player>(null);
+    const [enemy2, setEnemy2] = useState<Player>(null);
+
     //~ interpretation of websocket messages
     //#region 
     const move = (data) => {
@@ -552,15 +557,28 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
+            const subscriptionStart = client.subscribe(`/user/queue/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
-                setPlayers(data.players);
-                localStorage.setItem("players", players);
-                console.log(players);
+                const updates = data.thisPlayer;
+                const updated = new Player({
+                    ...thisPlayer,
+                    ...updates,
+                    wincondition: thisPlayer.wincondition,
+                    ultimateattack: thisPlayer.ultimateattack,
+                });
+                setThisPlayer(updated);
+                localStorage.setItem("thisPlayer", JSON.stringify(updated));
+                setTeammate(data.Teammate);
+                localStorage.setItem("teammate", JSON.stringify(teammate));
+                setEnemy1(data.Enemy1);
+                localStorage.setItem("enemy1", JSON.stringify(enemy1));
+                setEnemy2(data.Enemy2);
+                localStorage.setItem("enemy2", JSON.stringify(enemy2));
             })
+
             const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
                 const data = JSON.parse(message.body);
-                goal(data)
+                goal(data);
             });
 
             const subsriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
@@ -599,12 +617,9 @@ const Board = () => { //NOSONAR
             }
         }
 
-        if(players === null){
-            console.log("here");
-            sendMessage(`/app/game/${gameId}/board/start`, {});
-        }
+        sendMessage(`/app/game/${gameId}/board/start`, {userId});
 
-    }, [client, isConnected, sendMessage, disconnect, players])
+    }, [client, isConnected, sendMessage, disconnect])
 
     //! Audio  
     //#region

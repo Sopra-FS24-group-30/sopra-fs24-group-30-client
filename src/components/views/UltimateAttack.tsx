@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import User from "models/User";
+import {Player} from "models/Player";
 import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
@@ -80,6 +80,8 @@ const UltimateAttack: React.FC = () => {
     const [UA, setUA] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
+    const [thisPlayer, setThisPlayer] = useState(new Player(localStorage.getItem("thisPlayer")));
 
     useEffect(() => {
         if (client && isConnected) {
@@ -87,9 +89,16 @@ const UltimateAttack: React.FC = () => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setUA(data.UltimateAttack);
+                localStorage.removeItem("thisPlayer");
+                const updated = new Player({
+                    ...thisPlayer,
+                    ultimateattack: data.UltimateAttack
+                });
+                setThisPlayer(updated);
+                localStorage.setItem("thisPlayer", updated);
             });
 
-            sendMessage(`/app/${gameId}/selection`, {});
+            sendMessage(`/app/${gameId}/selection`, {userId});
 
             return () => {
                 subscriptionSelection.unsubscribe();
