@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import User from "models/User";
+import Player from "models/Player";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
@@ -75,16 +75,24 @@ const WinCondition: React.FC = () => {
     const [WC, setWC] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
+    const [thisPlayer, setThisPlayer] = useState(new Player());
 
     useEffect(() => {
         if (client && isConnected) {
-            const subscriptionSelection = client.subscribe(`/topic/${gameId}/selection`, (message) => {
+            const subscriptionSelection = client.subscribe(`/user/queue/${gameId}/selection`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setWC(data.WinCondition);
+
+                const updated = new Player({
+                    ...thisPlayer,
+                    wincondition: data.WinCondition
+                });
+                setThisPlayer(updated);
             });
 
-            sendMessage(`/app/${gameId}/selection`, {});
+            sendMessage(`/app/game/${gameId}/wincondition`, {userId});
 
             return () => {
                 subscriptionSelection.unsubscribe();

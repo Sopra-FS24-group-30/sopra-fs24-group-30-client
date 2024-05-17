@@ -10,12 +10,24 @@ let channelParameters = {
 const handleVSDKEvents = (eventName, ...args) => {
     let id = args[0].uid;
     switch (eventName) {
-    case "user-published":
-        // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
-        channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
-        // Play the remote audio track. No need to pass any DOM element.
-        channelParameters.remoteAudioTrack[id].play();
-        break;
+        case "user-published":
+            // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
+            channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
+            // Play the remote audio track. No need to pass any DOM element.
+            channelParameters.remoteAudioTrack[id].play();
+            break;
+        case "user-unpublished":
+            if(channelParameters.remoteAudioTrack[id]){
+                channelParameters.remoteAudioTrack[id].stop();
+                delete channelParameters.remoteAudioTrack[id];
+            }
+            break;
+        case "user-left":
+            if(channelParameters.remoteAudioTrack[id]){
+                channelParameters.remoteAudioTrack[id].stop();
+                delete channelParameters.remoteAudioTrack[id];
+            }
+            break;
     }
 };
 
@@ -51,7 +63,9 @@ const toggleChannel = async (inTeam, team) => {
 }
 
 const adjustVolume = async (userId, newVolume) => {
-    channelParameters.remoteAudioTrack[userId].setVolume(newVolume);
+    if(channelParameters.remoteAudioTrack[userId]){
+        channelParameters.remoteAudioTrack[userId].setVolume(newVolume);
+    }
 }
 
 const setMuted = (muted) => {
@@ -70,6 +84,10 @@ const leaveVoice = async () =>  {
     // Leave the channel
     try{
         await leave(channelParameters);
+        for(let trackId in channelParameters.remoteAudioTrack){
+            channelParameters.remoteAudioTrack[trackId].stop();
+            delete channelParameters.remoteAudioTrack[trackId];
+        }
     }catch(e){
         //could not leave channel
         setTimeout(() => leaveVoice(),5000);

@@ -50,7 +50,7 @@ const Loading = () => {
     useEffect(() => {
         if (status === "READY"){
             console.log("Navigating to board");
-            navigate("/board");
+            navigate(`/game/${gameId}/board`);
         }
     })
 
