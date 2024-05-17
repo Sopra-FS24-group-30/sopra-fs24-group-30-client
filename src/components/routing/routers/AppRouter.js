@@ -76,10 +76,6 @@ const AppRouter = () => {
                     <Route path="/join" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
-                {/*TODO: add board to game*/}
-                <Route path="/board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
-                </Route>
-
                 <Route path="/game/:gameId/*" element={<CreateGameGuard/>}>
                     <Route index element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
                     <Route path="loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
@@ -87,7 +83,7 @@ const AppRouter = () => {
                     <Route path="wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
                     <Route path="ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
                     <Route path="selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
-                    {/*TODO: add board here*/}
+                    <Route path="board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
