@@ -580,12 +580,6 @@ const Board = () => { //NOSONAR
         sendMessage(address, JSON.stringify({"used": usable}))
     }
 
-    // const forFour = async () => {
-    //     await sleep(2500);
-    //     // setResult("")
-    //     processCommands(datata4)
-    // }
-
     async function processCommands(datata) {
         const exampleFunctions: { [key: string]: (arg: any) => void } = {
             move, //NOSONAR
@@ -638,6 +632,10 @@ const Board = () => { //NOSONAR
                 goal(data);
             });
 
+            const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
+                alert(message.body);
+            });
+
             const subscriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
@@ -671,6 +669,7 @@ const Board = () => { //NOSONAR
             return () => {
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
+                subscriptionError.unsubscribe();
                 subscriptionJunction.unsubscribe();
                 subscriptionUsables.unsubscribe();
                 subscriptionMove.unsubscribe();
