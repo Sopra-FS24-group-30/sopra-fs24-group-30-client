@@ -17,14 +17,23 @@ const agoraRTCManager = async (eventsCallback) => {
 
     agoraEngine.on("user-published", async (user, mediaType) => {
         // Subscribe to the remote user when the SDK triggers the "user-published" event.
-        await agoraEngine.subscribe(user, mediaType);
+        try{
+            await agoraEngine.subscribe(user, mediaType);
+        }catch(error){
+            //add logging for errors here
+        }
         console.log("subscribe success");
         eventsCallback("user-published", user, mediaType)
     });
 
     // Listen for the "user-unpublished" event.
     agoraEngine.on("user-unpublished", async (user, mediaType) => {
-        await agoraEngine.unsubscribe(user, mediaType);
+        try{
+            await agoraEngine.unsubscribe(user, mediaType);
+        }catch (error){
+            //add error logging here
+        }
+
         console.log(user.uid + "has left the channel");
         eventsCallback("user-unpublished", user, mediaType)
     });
@@ -37,17 +46,25 @@ const agoraRTCManager = async (eventsCallback) => {
     const join = async (channelName, channelParameters) => {
         let playerId = localStorage.getItem("playerId");
         let agoraUid = Number(localStorage.getItem("gameId") + playerId);
-        await agoraEngine.join(
-            APP_ID,
-            channelName,
-            TOKEN,
-            agoraUid
-        )
+        try{
+            await agoraEngine.join(
+                APP_ID,
+                channelName,
+                TOKEN,
+                agoraUid
+            )
+        }catch (error){
+            //add logging for errors here
+        }
 
         channelParameters.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        await agoraEngine.publish([
-            channelParameters.localAudioTrack
-        ]);
+        try{
+            await agoraEngine.publish([
+                channelParameters.localAudioTrack
+            ]);
+        }catch(error){
+            //add logging for errors here
+        }
     }
 
     const leave = async (channelParameters) => {
@@ -58,7 +75,12 @@ const agoraRTCManager = async (eventsCallback) => {
         }else{
             console.log("already out of channel")
         }
-        await agoraEngine.leave();
+        try{
+            await agoraEngine.leave();
+        }catch (error){
+            //add error logging here
+        }
+
     };
 
     return {
