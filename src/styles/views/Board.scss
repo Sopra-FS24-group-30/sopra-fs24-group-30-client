@@ -338,9 +338,9 @@ $item-container-width: 23vh;
     
     &-name {
         font-size: status-font-size(3);
-        text-overflow: "...";
+        text-overflow: "..";
         overflow: hidden;
-        text-align: center; 
+        text-align: center;
         padding-left: .4em;
         padding-right: .2em;
         flex: 1;

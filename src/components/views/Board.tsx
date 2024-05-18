@@ -79,13 +79,13 @@ const ScalableOverlay: React.FC<{
             bottom: `${y}%`,
             transform: `translate(-50%, 50%) translate(-${centering}px, ${centering}px) rotate(${rotation}deg)`,
             transformOrigin: "center center",
-            filter: colours[0],
+            filter: colours[0]
         }}
         onClick={clickFunction}
         className={className}
         onMouseEnter={e => e.currentTarget.style.filter = colours[1]}
         onMouseLeave={e => e.currentTarget.style.filter = colours[0]}
-        onKeyPress={console.log("")}
+        onKeyPress={""}
         alt={alt}
     />
     );
@@ -157,10 +157,10 @@ const numberOfCoordinates=Object.keys(coordinates).length;
 const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 
-const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}}, {"goal":{"result": 5}}, {"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
-const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
-const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}, {"newActivePlayer":{"currentTurn":1,"activePlayer":"3"}}, {"money": {"1": {"newAmountOfMoney": 13, "changeAmountOfMoney": 3}}}${"]"}`
-const datata4 = `[{"move":{"3":{"spaces":[25],"moves":1,"spaceColour":"Red"},"movementType":"walk"}}, {"money": {"3": {"newAmountOfMoney": 7, "changeAmountOfMoney": -3}}}${"]"}`
+// const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}}, {"goal":{"result": 5}}, {"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
+// const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
+// const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}, {"newActivePlayer":{"currentTurn":1,"activePlayer":"3"}}, {"money": {"1": {"newAmountOfMoney": 13, "changeAmountOfMoney": 3}}}${"]"}`
+// const datata4 = `[{"move":{"3":{"spaces":[25],"moves":1,"spaceColour":"Red"},"movementType":"walk"}}, {"money": {"3": {"newAmountOfMoney": 7, "changeAmountOfMoney": -3}}}${"]"}`
 
 const usablesExampleData1 = {
     "data" :{
@@ -580,11 +580,11 @@ const Board = () => { //NOSONAR
         sendMessage(address, JSON.stringify({"used": usable}))
     }
 
-    const forFour = async () => {
-        await sleep(2500);
-        // setResult("")
-        processCommands(datata4)
-    }
+    // const forFour = async () => {
+    //     await sleep(2500);
+    //     // setResult("")
+    //     processCommands(datata4)
+    // }
 
     async function processCommands(datata) {
         const exampleFunctions: { [key: string]: (arg: any) => void } = {
@@ -852,7 +852,7 @@ const Board = () => { //NOSONAR
                     usables(usablesExampleData1["data"])
                     break;
                 case "~":
-                    processCommands(datata1)
+                    // processCommands(datata1)
                     break;
                 case "n":
                     setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
@@ -861,7 +861,7 @@ const Board = () => { //NOSONAR
                     setDice(3);
                     break;
                 case "m":
-                    forFour()
+                    // forFour()
                     break;
                 case "p":
                     winCondition(winConditionDataExample1["data"])
@@ -982,7 +982,6 @@ const Board = () => { //NOSONAR
     };
 
     useEffect(() => {
-
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
@@ -993,15 +992,12 @@ const Board = () => { //NOSONAR
         };
         window.addEventListener("beforeunload", handleBeforeUnload);
 
-        setTimeout(joinVoice("main"),7000);
-    
         return () => {
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
             document.body.classList.remove("scrollbar-removal")
             
             window.removeEventListener("beforeunload", handleBeforeUnload);
-            leaveVoice();
         }
     }, []);
 
@@ -1086,7 +1082,7 @@ const Board = () => { //NOSONAR
                     className="item-picture"
                     onMouseEnter={() => setPreviewImage(name)}
                     onMouseLeave={() => setPreviewImage("")}
-                    onClick={() => sendUsable(name)}
+                    onClick={active ? () => sendUsable(name) : () => console.log(`${name} doesn't belong to the active player`)}
                 />
             </span>
         )
@@ -1179,14 +1175,15 @@ const Board = () => { //NOSONAR
                             
                         </div>
                         <div className="ultimate-box" //NOSONAR
-                            style={{
-                                backgroundColor: ultimateState ? "#b1001d":"#5e0000",
-                                cursor: ultimateState ? "cursor" : "default"
-                            }}
                             onMouseEnter={() => setPreviewImage(ultimateName)} 
                             onMouseLeave={() => setPreviewImage("")}>
-                            <div className="ultimate-name">
-                                <i>{ultimateData[ultimateName]["DisplayName"]}</i>
+                            <div className="ultimate-name"
+                                style={{
+                                    backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                    cursor: ultimateState ? "cursor" : "default"
+                                }}
+                                >
+                                {ultimateData[ultimateName]["DisplayName"]}
                             </div>
                         </div>
                     </div>
