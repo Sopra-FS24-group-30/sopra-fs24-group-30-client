@@ -7,7 +7,7 @@ import Player from "models/Player";
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
-import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js"
+import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -984,6 +984,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
+        setTimeout(() => {joinVoice("main")},7000);
         
         const handleBeforeUnload = (event) => {
             event.preventDefault();
@@ -992,11 +993,12 @@ const Board = () => { //NOSONAR
         window.addEventListener("beforeunload", handleBeforeUnload);
 
         return () => {
+            leaveVoice("main")
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
-            document.body.classList.remove("scrollbar-removal")
             
             window.removeEventListener("beforeunload", handleBeforeUnload);
+            document.body.classList.remove("scrollbar-removal");
         }
     }, []);
 
@@ -1200,7 +1202,6 @@ const Board = () => { //NOSONAR
                             joinVoice
                         </button>
                         <button onClick={() => {leaveVoice()}}>
-
                             leaveVoice
                         </button>
                         <button onClick={(event) => {toggleVoice(event,getTeam())}}>
@@ -1217,4 +1218,4 @@ const Board = () => { //NOSONAR
     )
 }
 
-export default Board
+export default Board;
