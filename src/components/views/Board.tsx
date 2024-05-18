@@ -986,21 +986,22 @@ const Board = () => { //NOSONAR
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
-        setTimeout(joinVoice("main"),7000);
-
+        
         const handleBeforeUnload = (event) => {
             event.preventDefault();
             event.returnValue = "";
         };
         window.addEventListener("beforeunload", handleBeforeUnload);
+
+        setTimeout(joinVoice("main"),7000);
     
         return () => {
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
             document.body.classList.remove("scrollbar-removal")
-            leaveVoice();
             
             window.removeEventListener("beforeunload", handleBeforeUnload);
+            leaveVoice();
         }
     }, []);
 
@@ -1178,6 +1179,10 @@ const Board = () => { //NOSONAR
                             
                         </div>
                         <div className="ultimate-box" //NOSONAR
+                            style={{
+                                backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                cursor: ultimateState ? "cursor" : "default"
+                            }}
                             onMouseEnter={() => setPreviewImage(ultimateName)} 
                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="ultimate-name">
