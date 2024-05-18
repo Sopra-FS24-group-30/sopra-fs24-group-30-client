@@ -58,7 +58,6 @@ $box-bg-colour: #fff5;
         vertical-align: center;
         box-sizing: border-box;
         padding: calc($box-margin/1.5);
-        background-color: #b1001d;
         background-color: $box-bg-colour;
         margin-left: calc($box-margin/2);
         margin-right: calc($box-margin/2);
@@ -122,7 +121,7 @@ $box-bg-colour: #fff5;
         &-logo{
             height: 200%;
             aspect-ratio: 1;
-            margin-right: status-font-size(.5);
+            margin-right: status-font-size(.4);
 
         }
         &-slider {
@@ -339,9 +338,9 @@ $item-container-width: 23vh;
     
     &-name {
         font-size: status-font-size(3);
-        text-overflow: "...";
+        text-overflow: "..";
         overflow: hidden;
-        text-align: center; 
+        text-align: center;
         padding-left: .4em;
         padding-right: .2em;
         flex: 1;
