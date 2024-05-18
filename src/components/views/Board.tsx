@@ -7,7 +7,7 @@ import Player from "models/Player";
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
-import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js"
+import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -391,8 +391,7 @@ const Board = () => { //NOSONAR
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
     const [usingRetro, setUsingRetro]=useState(false)
-    
-    const gameId = localStorage.getItem("gameId");
+
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
@@ -994,7 +993,6 @@ const Board = () => { //NOSONAR
     };
 
     useEffect(() => {
-        localStorage.setItem("gameId", "0");
         joinVoice("main");
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
@@ -1005,7 +1003,7 @@ const Board = () => { //NOSONAR
             leaveVoice();
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
-            document.body.classList.remove("scrollbar-removal")
+            document.body.classList.remove("scrollbar-removal");
         }
     }, []);
 
@@ -1204,7 +1202,6 @@ const Board = () => { //NOSONAR
                             joinVoice
                         </button>
                         <button onClick={() => {leaveVoice()}}>
-
                             leaveVoice
                         </button>
                         <button onClick={(event) => {toggleVoice(event,getTeam())}}>
@@ -1221,4 +1218,4 @@ const Board = () => { //NOSONAR
     )
 }
 
-export default Board
+export default Board;
