@@ -379,10 +379,7 @@ const Board = () => { //NOSONAR
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
     const gameId = localStorage.getItem("gameId");
     const userId = localStorage.getItem("userId");
-    const [thisPlayer, setThisPlayer] = useState(new Player(localStorage.getItem("thisPlayer")));
-    const [teammate, setTeammate] = useState<Player>(null);
-    const [enemy1, setEnemy1] = useState<Player>(null);
-    const [enemy2, setEnemy2] = useState<Player>(null);
+    const [players, setPlayers] = useState<Player[]>(null); 
 
     //~ interpretation of websocket messages
 
@@ -606,23 +603,22 @@ const Board = () => { //NOSONAR
         if (client && isConnected){
             const subscriptionStart = client.subscribe(`/user/queue/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
-                const updates = data.thisPlayer;
-                const updated = new Player({
-                    ...thisPlayer,
-                    ...updates,
-                    wincondition: thisPlayer.wincondition,
-                    ultimateattack: thisPlayer.ultimateattack,
-                });
-                setThisPlayer(updated);
-                localStorage.setItem("thisPlayer", JSON.stringify(updated));
-                setTeammate(data.Teammate);
-                localStorage.setItem("teammate", JSON.stringify(teammate));
-                setEnemy1(data.Enemy1);
-                localStorage.setItem("enemy1", JSON.stringify(enemy1));
-                setEnemy2(data.Enemy2);
-                localStorage.setItem("enemy2", JSON.stringify(enemy2));
-            })
-            const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
+                setTurnOrder(data.TurnOrder);
+
+                const newPlayers = {};
+                for (const playerId in data.players){
+                    newPlayers[playerId] = new Player({
+                        playerId,
+                        ...data.players[playerId]
+                    });
+                    localStorage.setItem(playerId, newPlayers[playerId]);
+                }
+
+                setPlayers(newPlayers);
+            });
+
+            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
+
                 const data = JSON.parse(message.body);
                 goal(data);
             });
@@ -651,7 +647,7 @@ const Board = () => { //NOSONAR
                 money(data)
             });
 
-            const subscriptionActivePlayer = client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
+            const subscriptionActivePlayer = client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) => {
                 const data = JSON.parse(message.body);
                 newActivePlayer(data)
             });
