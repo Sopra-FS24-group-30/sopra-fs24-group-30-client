@@ -601,11 +601,20 @@ const Board = () => { //NOSONAR
     }
     //#endregion
 
+    const sendMessageWeb = () => {
+        console.log("sending msg");
+        sendMessage(`/app/game/${gameId}/board/start`, {userId});
+         sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+    }
+
     //$ websockets
     useEffect(() => {
+        console.log(client);
+        console.log(isConnected)
         if (client && isConnected){
             const subscriptionStart = client.subscribe(`/user/queue/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
+                console.log(data);
                 const updates = data.thisPlayer;
                 const updated = new Player({
                     ...thisPlayer,
@@ -624,9 +633,9 @@ const Board = () => { //NOSONAR
             })
             const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                goal(data);
+                console.log(data)
+                //goal(data);
             });
-
             const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
                 alert(message.body);
             });
@@ -661,6 +670,11 @@ const Board = () => { //NOSONAR
                 gameEnd(data)
             });
 
+            console.log(client);
+            console.log(isConnected);
+            console.log("starting game")
+            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+
             return () => {
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
@@ -673,8 +687,6 @@ const Board = () => { //NOSONAR
                 subscriptionGameEnd.unsubscribe();
             }
         }
-
-        sendMessage(`/app/game/${gameId}/board/start`, {userId});
 
     }, [client, isConnected, sendMessage, disconnect])
 
@@ -1204,6 +1216,9 @@ const Board = () => { //NOSONAR
                         </button>
                         <button onClick={() => {handleMute()}}>
                             {mute ? "mute" : "unmute"}
+                        </button>
+                        <button onClick={() => {sendMessageWeb()}}>
+                            sendMessage
                         </button>
                     </div>
                 </div>
