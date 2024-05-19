@@ -601,9 +601,11 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            const subscriptionStart = client.subscribe(`/user/queue/game/${gameId}/board/start`, (message)=>{
+            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
+                console.log("Start PlayerInfo", data);
                 setTurnOrder(data.TurnOrder);
+                localStorage.setItem("jup", "jup");
 
                 const newPlayers = {};
                 for (const playerId in data.players){
@@ -657,6 +659,8 @@ const Board = () => { //NOSONAR
                 gameEnd(data)
             });
 
+            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+
             return () => {
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
@@ -669,8 +673,6 @@ const Board = () => { //NOSONAR
                 subscriptionGameEnd.unsubscribe();
             }
         }
-
-        sendMessage(`/app/game/${gameId}/board/start`, {userId});
 
     }, [client, isConnected, sendMessage, disconnect])
 
