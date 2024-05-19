@@ -13,7 +13,7 @@ class Achievements{
         this.endurance3 = false;
         this.gamer = false;
         this.doingYourBest = false;
-        this.totalWins = null;
+        this.totalGamesWon = null;
         this.maxMoneyInGame = null;
         this.winStreak = null;
         this.loseStreak = null;

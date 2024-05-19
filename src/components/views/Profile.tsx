@@ -114,7 +114,7 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        <Information title={"Games Won: "} description={user.achievement.totalWins}></Information>
+                        <Information title={"Games Won: "} description={user.achievement.totalGamesWon}></Information>
                         <Information title={"highest Money ingame: "} description={user.achievement.maxMoneyInGame}></Information>
                         <Information title={"Win Streak: "} description={user.achievement.winStreak}></Information>
                     </li>
