@@ -15,6 +15,7 @@ const handleVSDKEvents = (eventName, ...args) => {
             channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
             // Play the remote audio track. No need to pass any DOM element.
             channelParameters.remoteAudioTrack[id].play();
+
             break;
         case "user-unpublished":
             if(channelParameters.remoteAudioTrack[id]){
@@ -53,12 +54,27 @@ const joinVoice = async (channelName) => {
 const toggleChannel = async (inTeam, team) => {
     await leaveVoice();
     if(inTeam){
-        await joinVoice("main");
+        try{
+            await joinVoice("main");
+        }catch (error){
+            //add logging here
+        }
+
     }
     else if (team === "odd"){
-        await joinVoice("odd");
-    }else{
-        await joinVoice("even");
+        try{
+            await joinVoice("odd");
+        }catch (error){
+            //add logging here
+        }
+    }
+    else{
+        try{
+            await joinVoice("even");
+        }catch (error){
+            //add logging here
+        }
+
     }
 }
 
