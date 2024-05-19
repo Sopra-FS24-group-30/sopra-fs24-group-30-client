@@ -368,7 +368,8 @@ const Board = () => { //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
-    
+    const [socketReady, setSocketReady] = useState(false);
+
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
     const [usingRetro, setUsingRetro]=useState(false)
@@ -379,7 +380,7 @@ const Board = () => { //NOSONAR
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
     const gameId = localStorage.getItem("gameId");
     const userId = localStorage.getItem("userId");
-    const [players, setPlayers] = useState<Player[]>(null); 
+    const [players, setPlayers] = useState<Player[]>(null);
 
     //~ interpretation of websocket messages
 
@@ -598,6 +599,11 @@ const Board = () => { //NOSONAR
     }
     //#endregion
 
+    const sendMessageWeb = () => {
+        console.log("sending msg");
+        sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+    }
+
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
@@ -617,10 +623,12 @@ const Board = () => { //NOSONAR
                 setPlayers(newPlayers);
             });
 
-            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
+            const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
 
                 const data = JSON.parse(message.body);
-                goal(data);
+                console.log("the data is")
+                console.log(data)
+                //goal(data);
             });
 
             const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
@@ -656,6 +664,8 @@ const Board = () => { //NOSONAR
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
+            setSocketReady(true);
+
 
             sendMessage(`/app/game/${gameId}/board/start`, {userId});
 
@@ -676,7 +686,13 @@ const Board = () => { //NOSONAR
 
     //! Audio  
     //#region
-    
+
+    useEffect(() => {
+        if(socketReady){
+            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+        }
+    }, [socketReady]);
+
     const handleVolumeChange = (event) => {
         let {name,value} = event.target;
         setPlayerVolumes(
@@ -975,7 +991,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
-        setTimeout(() => {joinVoice("main")},7000);
+        //setTimeout(() => {joinVoice("main")},7000);
         
         const handleBeforeUnload = (event) => {
             event.preventDefault();
@@ -1200,6 +1216,9 @@ const Board = () => { //NOSONAR
                         </button>
                         <button onClick={() => {handleMute()}}>
                             {mute ? "mute" : "unmute"}
+                        </button>
+                        <button onClick={() => {sendMessageWeb()}}>
+                            sendMessage
                         </button>
                     </div>
                 </div>
