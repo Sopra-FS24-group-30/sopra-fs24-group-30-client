@@ -77,28 +77,20 @@ UltimateAttackCards.propTypes = {
 }
 
 const UltimateAttack: React.FC = () => {
-    const [UA, setUA] = useState<String>(null);
+    const [ultimate, setUltimate] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
     const userId = localStorage.getItem("userId");
-    const [thisPlayer, setThisPlayer] = useState(new Player(localStorage.getItem("thisPlayer")));
 
     useEffect(() => {
         if (client && isConnected) {
-            const subscriptionSelection = client.subscribe(`/topic/${gameId}/selection`, (message) => {
+            const subscriptionSelection = client.subscribe(`/user/queue/game/${gameId}/ultimate`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
-                setUA(data.UltimateAttack);
-                localStorage.removeItem("thisPlayer");
-                const updated = new Player({
-                    ...thisPlayer,
-                    ultimateattack: data.UltimateAttack
-                });
-                setThisPlayer(updated);
-                localStorage.setItem("thisPlayer", updated);
+                setUltimate(data.UltimateAttack);
+                localStorage.setItem("ultimate", data.UltimateAttack);
             });
 
-            sendMessage(`/app/${gameId}/selection`, {userId});
+            sendMessage(`/app/game/${gameId}/ultimateAttack`, {userId});
 
             return () => {
                 subscriptionSelection.unsubscribe();
@@ -108,7 +100,7 @@ const UltimateAttack: React.FC = () => {
 
     return (
         <div className="Selection container">
-            <UltimateAttackCards attack="Catnami"/>
+            <UltimateAttackCards attack={ultimate}/>
         </div>
     )
 }
