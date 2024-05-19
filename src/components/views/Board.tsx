@@ -368,6 +368,7 @@ const Board = () => { //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
+    const [socketReady, setSocketReady] = useState(false);
     
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
@@ -603,8 +604,7 @@ const Board = () => { //NOSONAR
 
     const sendMessageWeb = () => {
         console.log("sending msg");
-        sendMessage(`/app/game/${gameId}/board/start`, {userId});
-         sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+        sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
     }
 
     //$ websockets
@@ -669,11 +669,11 @@ const Board = () => { //NOSONAR
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
+            setSocketReady(true);
 
             console.log(client);
             console.log(isConnected);
             console.log("starting game")
-            sendMessage(`/app/game/${gameId}/board/start`, {userId});
 
             return () => {
                 subscriptionStart.unsubscribe();
@@ -692,7 +692,13 @@ const Board = () => { //NOSONAR
 
     //! Audio  
     //#region
-    
+
+    useEffect(() => {
+        if(socketReady){
+            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+        }
+    }, [socketReady]);
+
     const handleVolumeChange = (event) => {
         let {name,value} = event.target;
         setPlayerVolumes(
