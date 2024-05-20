@@ -22,22 +22,30 @@ Information.propTypes = {
     description: PropTypes.string,
 };
 
+/*
+    Achievements yet to be implemented
+    "Ouch!", "Lost all of your coins in one round"
+    "Smooth criminal", "Betrayed your teammate"
+    "We're all in this together", "No winner in one game"
+    "Orange cat behavior I", "Got on the cat tsunami field 3 times in a game"
+    "Orange cat behavior II", "Got on the cat tsunami field 8 times in a game"
+ */
+
 const ACHIEVEMENTS ={
-    "Baron I": "Own 40 coins in one game",
-    "Baron II": "Own 80 coins in one game",
-    "Baron III": "Own 200 coins in one game",
-    "Ouch!": "Lost all of your coins in one round",
-    "Marathon I": "Be in a game for 60 min",
-    "Marathon II": "Be in a game for 120 min",
-    "Marathon III": "Be in a game for 180 min",
-    "Gamer": "Win 3 games in a row",
-    "Tried your best": "Lost 3 games in a row",
-    "Amateur": "Win one game without using your ultimate attack",
-    "Pro": "Win one game with 0 coins",
-    "Smooth criminal": "Betrayed your teammate",
-    "We're all in this together": "No winner in one game",
-    "Orange cat behavior I": "Got on the cat tsunami field 3 times in a game",
-    "Orange cat behavior II": "Got on the cat tsunami field 8 times in a game",
+    "baron1": ["Baron I","Own 40 coins in one game"],
+    "baron2": ["Baron II","Own 80 coins in one game"],
+    "baron3": ["Baron III", "Own 200 coins in one game"],
+    "endurance1": ["Marathon I", "Be in a game for 60 min"],
+    "endurance2": ["Marathon II", "Be in a game for 120 min"],
+    "endurance3": ["Marathon III", "Be in a game for 180 min"],
+    "gamer": ["Gamer", "Win 3 games in a row"],
+    "doingYourBest": ["Tried your best", "Lost 3 games in a row"],
+    "noUltimate": ["Amateur", "Win one game without using your ultimate attack"],
+    "noMoney": ["Pro", "Win one game with 0 coins"]
+
+
+
+
 };
 
 const Profile = () => {
@@ -74,79 +82,50 @@ const Profile = () => {
     }
 
     let content = <Spinner/>
-
     if (user) {
-        if (user.username === localStorage.getItem("username")) {
-            content = (
-                <div className="Your profile">
-                    <ul className="profile information-list">
-                        <li>
-                            <Information title="ID" description={user.id}/>
-                            <Information title="Username" description={user.username}/>
-                            <Information title="Birthday" description={user.birthday}/>
-                            <Information title="Creation date" description={user.creationDate}/>
-                            <Information title="Password" description={user.password}/>
-                            <div className="user-information container">
-                                <div className="user-information title">Achievements</div>
-                                <div className="user-information description">
-                                    <div className="achievements container">
-                                        {Object.entries(ACHIEVEMENTS).map(([title, description], index) => (
-                                            <div key={index} className="achievements circle-container"> {/*NOSONAR*/}
-                                                <div className="achievements circle"/>
-                                                <span className="achievements description-container">
-                                                    {title}: {description}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
+        let ownProfile;
+        if(parseInt(localStorage.getItem("userId")) === user.id){
+            ownProfile = true;
+        }else{
+            ownProfile = false;
+        }
+        content = (
+            <div className="Your profile">
+                <ul className="profile information-list">
+                    <li>
+                        <Information title="ID" description={user.id}/>
+                        <Information title="Username" description={user.username}/>
+                        <Information title="Birthday" description={user.birthday}/>
+                        <Information title="Creation date" description={user.creationDate}/>
+                        {ownProfile ? <Information title="Password" description={user.password}/> : null}
+                        {ownProfile ?  null : <Information title="Status" description={user.status} />}
+                        <Information title={"Games Won: "} description={user.achievement.totalGamesWon}></Information>
+                        <div className="user-information container">
+                            <div className="user-information title">Achievements</div>
+                            <div className="user-information description">
+                                <div className="achievements container">
+                                    {Object.entries(ACHIEVEMENTS).map(([achievementName,[title,description]], index) => (
+                                        <div key={index} className="achievements circle-container"> {/*NOSONAR*/}
+                                            <div className={"achievements " + (user.achievement[achievementName] ? "circleTrue" : "circleFalse")}/>
+                                            <span className="achievements description-container">
+                                                {title}: {description}
+                                            </span>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        </li>
-                    </ul>
-                    <ul className="profile button-container">
-                        <Button width="100%" onClick={() => goBack()}>
-                            Go Back
-                        </Button>
-                        <Button width="100%" onClick={() => Edit(user.id)}>Edit</Button>
-                    </ul>
-                </div>
-            )
-        } else {
-            content = (
-                <div className="profile">
-                    <title>Hello</title>
-                    <ul className="profile information-list">
-                        <li>
-                            <Information title="ID" description={user.id}/>
-                            <Information title="Username" description={user.username}/>
-                            <Information title="Birthday" description={user.birthday}/>
-                            <Information title="Creation date" description={user.creationDate}/>
-                            <Information title="Status" description={user.status}/>
-                            <div className="user-information container">
-                                <div className="user-information title">Achievements</div>
-                                <div className="user-information description">
-                                    <div className="achievements container">
-                                        {Object.entries(ACHIEVEMENTS).map(([title, description], index) => (
-                                            <div key={index} className="achievements circle-container"> {/*NOSONAR*/}
-                                                <div className="achievements circle"/>
-                                                <span className="achievements description-container">
-                                                    {title}: {description}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </li>
+                </ul>
+                <ul className="profile button-container">
                     <Button width="100%" onClick={() => goBack()}>
                         Go Back
                     </Button>
-                </div>
-            )
-        }
+                    {ownProfile ? <Button width="100%" onClick={() => Edit(user.id)}>Edit</Button> : null}
+                </ul>
+            </div>
+        )
     }
-
     return (
         <div className="profile box-image">
             <BaseContainer className="profile container">
