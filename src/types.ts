@@ -10,10 +10,11 @@ export type User = {
 
 export type Player = {
     playerId: number;
+    userId: number;
     username: string;
+    teammateId: number;
+    cash: number;
     wincondition: string;
     ultimateattack: string;
-    coins: number;
-    items: string[];
-    cards: string[];
+    usables: string[];
 };

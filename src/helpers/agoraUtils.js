@@ -15,6 +15,19 @@ const handleVSDKEvents = (eventName, ...args) => {
             channelParameters.remoteAudioTrack[id] = args[0].audioTrack;
             // Play the remote audio track. No need to pass any DOM element.
             channelParameters.remoteAudioTrack[id].play();
+
+            break;
+        case "user-unpublished":
+            if(channelParameters.remoteAudioTrack[id]){
+                channelParameters.remoteAudioTrack[id].stop();
+                delete channelParameters.remoteAudioTrack[id];
+            }
+            break;
+        case "user-left":
+            if(channelParameters.remoteAudioTrack[id]){
+                channelParameters.remoteAudioTrack[id].stop();
+                delete channelParameters.remoteAudioTrack[id];
+            }
             break;
     }
 };
@@ -41,17 +54,34 @@ const joinVoice = async (channelName) => {
 const toggleChannel = async (inTeam, team) => {
     await leaveVoice();
     if(inTeam){
-        await joinVoice("main");
+        try{
+            await joinVoice("main");
+        }catch (error){
+            //add logging here
+        }
+
     }
     else if (team === "odd"){
-        await joinVoice("odd");
-    }else{
-        await joinVoice("even");
+        try{
+            await joinVoice("odd");
+        }catch (error){
+            //add logging here
+        }
+    }
+    else{
+        try{
+            await joinVoice("even");
+        }catch (error){
+            //add logging here
+        }
+
     }
 }
 
 const adjustVolume = async (userId, newVolume) => {
-    channelParameters.remoteAudioTrack[userId].setVolume(newVolume);
+    if(channelParameters.remoteAudioTrack[userId]){
+        channelParameters.remoteAudioTrack[userId].setVolume(newVolume);
+    }
 }
 
 const setMuted = (muted) => {
@@ -70,6 +100,10 @@ const leaveVoice = async () =>  {
     // Leave the channel
     try{
         await leave(channelParameters);
+        for(let trackId in channelParameters.remoteAudioTrack){
+            channelParameters.remoteAudioTrack[trackId].stop();
+            delete channelParameters.remoteAudioTrack[trackId];
+        }
     }catch(e){
         //could not leave channel
         setTimeout(() => leaveVoice(),5000);

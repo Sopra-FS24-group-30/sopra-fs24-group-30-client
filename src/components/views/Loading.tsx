@@ -12,6 +12,7 @@ const Loading = () => {
     const [status, setStatus] = useState<String>(null); //NOSONAR
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const username = localStorage.getItem("username");
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
         if(client && isConnected){
@@ -19,14 +20,20 @@ const Loading = () => {
                 const data = JSON.parse(message.body);
                 console.log(data);
                 setStatus(data.status);
-                console.log(status);
             });
+
+            const subscriptionPlayerId = client.subscribe("/user/queue/game/PlayerId", (message) => {
+                const data = JSON.parse(message.body);
+                console.log("Received playerId:",data);
+                localStorage.setItem("playerId", data.playerId);
+            })
 
             console.log("send message");
             sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
 
             return ()=> {
                 subscriptionStatus.unsubscribe();
+                subscriptionPlayerId.unsubscribe();
             }
         }
 
@@ -38,7 +45,6 @@ const Loading = () => {
                 console.log("Requesting game status...");
                 sendMessage(`/app/game/${gameId}/status`, {});
             };
-            console.log("here");
             checkGameStatus();
 
             const intervalId = setInterval(checkGameStatus, 5000);
@@ -48,9 +54,9 @@ const Loading = () => {
     }, [client, isConnected, sendMessage, gameId, status]);
 
     useEffect(() => {
-        if (status === "READY"){
+        if (status === "READY" && localStorage.getItem("playerId")){
             console.log("Navigating to board");
-            navigate("/board");
+            navigate(`/game/${gameId}/board`);
         }
     })
 

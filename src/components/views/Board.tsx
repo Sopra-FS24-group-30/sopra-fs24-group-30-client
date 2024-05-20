@@ -2,12 +2,13 @@ import React, {useEffect, useState, useRef} from "react";
 import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-pinch";
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
-import {Player} from "types";
+import Player from "models/Player";
+import TurnOverlay from "../ui/TurnOverlay";
 
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
-import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js"
+import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -30,7 +31,7 @@ const map100to3 = (number) => {
 const allData={...usablesData, ...winConditionData, ...ultimateData};
 
 const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
-const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d"}
+const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
@@ -79,13 +80,13 @@ const ScalableOverlay: React.FC<{
             bottom: `${y}%`,
             transform: `translate(-50%, 50%) translate(-${centering}px, ${centering}px) rotate(${rotation}deg)`,
             transformOrigin: "center center",
-            filter: colours[0],
+            filter: colours[0]
         }}
         onClick={clickFunction}
         className={className}
         onMouseEnter={e => e.currentTarget.style.filter = colours[1]}
         onMouseLeave={e => e.currentTarget.style.filter = colours[0]}
-        onKeyPress={console.log("")}
+        onKeyPress={""}
         alt={alt}
     />
     );
@@ -117,41 +118,37 @@ const PlayerStatus: React.FC<{
                 </div>
             </div>
             {audio ? <div className="player-status-audio-box">
-                <div className="player-status-audio">
-                    <img
-                        src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
-                        alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
-                        className="player-status-audio-logo"
-                    />
-                    <input 
-                        style={{
-                            background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
-                            borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
-                        }}
-                        className="player-status-audio-slider"
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={1}
-                        name={playerId}
-                        
-                        value={playerVolumes[playerId]}
-                        onChange={event => {
-                            handleVolumeChange(event);
-                        }}
-                    />
-                </div>
+                <img
+                    src={require(`../../assets/icons/speaker_${map100to3(playerVolumes[playerId])}.png`)}
+                    alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
+                    className="player-status-audio-logo"
+                />
+                <input 
+                    style={{
+                        background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
+                        borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
+                    }}
+                    className="player-status-audio-slider"
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    name={playerId}
+                    value={playerVolumes[playerId]}
+                    onChange={event => {
+                        handleVolumeChange(event);
+                    }}
+                />
+
             </div>: ""}
-            {/* <div style={{overflow:"hidden", width:"100%", height:"100%"}}> */}
             {displayables}
-            {/* </div> */}
         </div>
     )
 };
 //#endregion
 
 //are to be loaded from burger.json/be sent from the backend
-const coordinates = {"1":[0.17012893982808, 0.440532417346501], "2":[0.641833810888252, 0.670244740231859], "3":[0.327722063037249, 0.504508372692143], "4":[0.600286532951289, 0.477458136539287], "5":[0.900787965616046, 0.613997423787033], "6":[0.322349570200573, 0.844568484328038], "7":[0.403295128939828, 0.293258909403177], "8":[0.333810888252149, 0.127093173035638], "9":[0.827722063037249, 0.772434521253757], "10":[0.876074498567335, 0.702018033490768], "11":[0.469914040114613, 0.850579647917561], "12":[0.893624641833811, 0.522971232288536], "13":[0.846704871060172, 0.440103048518678], "14":[0.790472779369627, 0.375268355517389], "15":[0.723853868194842, 0.321597252039502], "16":[0.660458452722063, 0.180334907685702], "17":[0.599212034383954, 0.133533705452984], "18":[0.413323782234957, 0.126234435379991], "19":[0.53474212034384, 0.851438385573207], "20":[0.285100286532951, 0.187634177758695], "21":[0.212392550143266, 0.20781451266638], "22":[0.169054441260745, 0.279089738085015], "23":[0.170845272206304, 0.36152855302705], "24":[0.192335243553009, 0.797337913267497], "25":[0.170487106017192, 0.522971232288536], "26":[0.169770773638968, 0.605839416058394], "27":[0.242836676217765, 0.693430656934307], "28":[0.26432664756447, 0.62043795620438], "29":[0.398638968481375, 0.585659081150708], "30":[0.459169054441261, 0.612709317303564], "31":[0.434813753581662, 0.67582653499356], "32":[0.421919770773639, 0.782739373121511], "33":[0.709885386819484, 0.741949334478317], "34":[0.253939828080229, 0.848003434950623], "35":[0.573424068767908, 0.670244740231859], "36":[0.507879656160459, 0.677114641477029], "37":[0.744985673352435, 0.581365392872477], "38":[0.727793696275072, 0.500644053241735], "39":[0.726361031518625, 0.407471017604122], "40":[0.613538681948424, 0.285959639330185], "41":[0.549426934097421, 0.321167883211679], "42":[0.492836676217765, 0.367969085444397], "43":[0.456661891117478, 0.433233147273508], "44":[0.543696275071633, 0.507943323314727], "45":[0.38932664756447, 0.8475740661228], "46":[0.660458452722063, 0.431515671962216], "47":[0.76432664756447, 0.826534993559468], "48":[0.338825214899713, 0.418205238299699], "49":[0.352793696275072, 0.337054529841133], "50":[0.314469914040115, 0.259768140832975], "51":[0.484598853868195, 0.210390725633319], "52":[0.612464183381089, 0.84070416487763], "53":[0.0744985673352436, 0.512666380420782], "54":[0.819842406876791, 0.612279948475741], "55":[0.427292263610315, 0.728209531987978], "56":[0.443409742120344, 0.251610133104337], "57":[0.175143266475645, 0.709317303563761], "58":[0.686962750716332, 0.837269214255045], "59":[0.726570200573066, 0.673380420781451], "60":[0.691618911174785, 0.249033920137398], "61":[0.51432664756447, 0.137398024903392], "62":[0.325573065902579, 0.588235294117647], "63":[0.453080229226361, 0.519106912838128]}
+const coordinates = {"1": [0.17012893982808, 0.440532417346501], "2": [0.641833810888252, 0.670244740231859], "3": [0.327722063037249, 0.504508372692143], "4": [0.600286532951289, 0.477458136539287], "5": [0.900787965616046, 0.613997423787033], "6": [0.322349570200573, 0.844568484328038], "7": [0.403295128939828, 0.293258909403177], "8": [0.333810888252149, 0.127093173035638], "9": [0.827722063037249, 0.772434521253757], "10": [0.876074498567335, 0.702018033490768], "11": [0.469914040114613, 0.850579647917561], "12": [0.893624641833811, 0.522971232288536], "13": [0.846704871060172, 0.440103048518678], "14": [0.790472779369627, 0.375268355517389], "15": [0.723853868194842, 0.321597252039502], "16": [0.660458452722063, 0.180334907685702], "17": [0.599212034383954, 0.133533705452984], "18": [0.413323782234957, 0.126234435379991], "19":[0.53474212034384, 0.851438385573207], "20":[0.285100286532951, 0.187634177758695], "21":[0.212392550143266, 0.20781451266638], "22":[0.169054441260745, 0.279089738085015], "23":[0.170845272206304, 0.36152855302705], "24":[0.192335243553009, 0.797337913267497], "25":[0.170487106017192, 0.522971232288536], "26":[0.169770773638968, 0.605839416058394], "27":[0.242836676217765, 0.693430656934307], "28":[0.26432664756447, 0.62043795620438], "29":[0.398638968481375, 0.585659081150708], "30":[0.459169054441261, 0.612709317303564], "31":[0.434813753581662, 0.67582653499356], "32":[0.421919770773639, 0.782739373121511], "33":[0.709885386819484, 0.741949334478317], "34":[0.253939828080229, 0.848003434950623], "35":[0.573424068767908, 0.670244740231859], "36":[0.507879656160459, 0.677114641477029], "37":[0.744985673352435, 0.581365392872477], "38":[0.727793696275072, 0.500644053241735], "39":[0.726361031518625, 0.407471017604122], "40":[0.613538681948424, 0.285959639330185], "41":[0.549426934097421, 0.321167883211679], "42":[0.492836676217765, 0.367969085444397], "43":[0.456661891117478, 0.433233147273508], "44":[0.543696275071633, 0.507943323314727], "45":[0.38932664756447, 0.8475740661228], "46":[0.660458452722063, 0.431515671962216], "47":[0.76432664756447, 0.826534993559468], "48":[0.338825214899713, 0.418205238299699], "49":[0.352793696275072, 0.337054529841133], "50":[0.314469914040115, 0.259768140832975], "51":[0.484598853868195, 0.210390725633319], "52":[0.612464183381089, 0.84070416487763], "53":[0.0744985673352436, 0.512666380420782], "54":[0.819842406876791, 0.612279948475741], "55":[0.427292263610315, 0.728209531987978], "56":[0.443409742120344, 0.251610133104337], "57":[0.175143266475645, 0.709317303563761], "58":[0.686962750716332, 0.837269214255045], "59":[0.726570200573066, 0.673380420781451], "60":[0.691618911174785, 0.249033920137398], "61":[0.51432664756447, 0.137398024903392], "62":[0.325573065902579, 0.588235294117647], "63":[0.453080229226361, 0.519106912838128]}
 const allUsables=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie", "B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
 
@@ -161,9 +158,25 @@ const numberOfCoordinates=Object.keys(coordinates).length;
 const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 
-const datata1 = `[{"newActivePlayer":{"currentTurn":1,"activePlayer":"4"}}, {"move":{"1":{"spaces":[53],"moves":0,"spaceColour":null},"3":{"spaces":[53],"moves":0,"spaceColour":null},"2":{"spaces":[54],"moves":0,"spaceColour":null},"4":{"spaces":[54],"moves":0,"spaceColour":null},"movementType":"teleport"}}, {"money": {"1": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"2": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"3": {"newAmountOfMoney": 10, "changeAmountOfMoney": 0},"4":{"newAmountOfMoney": 10, "changeAmountOfMoney": 0}}},{"sleep": 2500},{"move":{"4":{"spaces":[37,38,39,15],"moves":4,"spaceColour":"Blue"},"movementType":"walk"}},{"money": {"4":{"newAmountOfMoney": 13,"changeAmountOfMoney":"3"}}},{"newActivePlayer":{"currentTurn":1,"activePlayer":"1"}}${"]"}`
-const datata2 = `[{"move":{"1":{"spaces":[25,26,57],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}},{"junction":{"playerId":"1","currentSpace":57,"nextUnlockedSpaces":[24,27],"nextLockedSpaces":[]}}${"]"}`;
-const datata3 = `[{"move":{"1":{"spaces":[24,34,6],"moves":5,"spaceColour":"Blue"},"movementType":"walk"}}${"]"}`
+const usablesExampleData1 = {
+    "data" :{
+        "1": {
+            "items": ["MagicMushroom"],
+            "cards":[]
+        },
+        "2": {
+            "cards": ["B14", "TwoMushrooms"],
+            "items": ["G1256"]
+        },
+        "3": {
+            "items": []
+        },
+        "4": {
+            "items":[],
+            "cards": ["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick"]
+        },
+    }
+}
 
 const moveDataExample2 = {
     "type": "move",
@@ -336,39 +349,50 @@ const Board = () => { //NOSONAR
     const [overlayActive, setOverlayActive]=useState(0);
     const [figurineSize, setFigurineSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
     const [arrowSize, setArrowSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
-    type UsableState = {[playerId: string]: {[itemName: string]: number}};
-    const initialUsables = Object.fromEntries(Array.from(allUsables).map(card => [card, 0]));
-    const [usables, setUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const relativeFigurineSize=.025 //figurine width in % of boardwidth
     const relativeArrowSize=.035 //arrow width in % of boardwidth
+    
+    type UsableState = {[playerId: string]: {[itemName: string]: number}};
+    const initialUsables = Object.fromEntries(Array.from(allUsables).map(usable => [usable, 0]));
+    const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
     const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
     const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) // represents a fraction
     const [currWinCondition, setCurrWinCondition]=useState("JackSparrow")
-    const [ultimate, setUltimate]=useState("Nothing")
+    const [ultimateName, setUltimateName]=useState("Nothing")
+    const [ultimateState, setUltimateState]=useState(true) //NOSONAR
     const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
-    const [dice, setDice]=useState(0); //NOSONAR
+    const [dice, setDice]=useState<number[]>(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
+    const [socketReady, setSocketReady] = useState(false);
+
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
+    const [usingRetro, setUsingRetro]=useState(false)
+    
     const boardRef=useRef(null);
-    const figurineGlobalOffset=[-1.3, -2.05] //offset to center figurines on the spaces
+    const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
     const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
     const [players, setPlayers] = useState<Player[]>(null);
+    const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
     //~ interpretation of websocket messages
+
     //#region 
+
     const move = (data) => {
         let toRead=structuredClone(data)
         if (toRead["movementType"] === undefined) {
 
-            return Promise.resolve();; //in case BE sends an empty array
+            return Promise.resolve(); //in case BE sends an empty array
         }
         const movingType=toRead["movementType"];
         delete toRead["movementType"];
@@ -422,7 +446,7 @@ const Board = () => { //NOSONAR
                 foreignJack = winners.filter(winner => winner !== 2 && winner !== 4).toString();
             }
         }
-        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}`
+        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}` //NOSONAR
         const who=reason[0].toString() //who is responsable
         const why=reason[1].toString() //which wincondition/reason lead to winning
         let msg=""
@@ -484,8 +508,14 @@ const Board = () => { //NOSONAR
     }   
     
     const newActivePlayer = (data) => {
-        setTurnNumber(data["currentTurn"]);
-        setActivePlayer(data["activePlayer"])
+        setTurnNumber(data.currentTurn);
+        setActivePlayer(data.activePlayer);
+
+        setShowOverlay(true);
+
+        setTimeout(() => {
+            setShowOverlay(false);
+        }, 3000);
     }
 
     const winCondition = (data) => {
@@ -493,28 +523,58 @@ const Board = () => { //NOSONAR
         setWinConditionProgress([data["progress"], data["total"]])
     }
 
+    const ultimate = (data) => { //NOSONAR
+        setUltimateName(data["name"])
+        setUltimateState(data["active"])
+    }
+
+    const usables = (data) => {
+        let res = playerUsables;
+        for (const player in data) {
+            //Combining items and cards into usables
+            data[player]["usables"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
+            for (const item in res[player]) {
+                
+                let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
+                let numberOfOld=res[player][item]
+                
+                if (numberOfOld !== numberOfNew){
+                    let dif = numberOfNew-numberOfOld
+                    for (let i=0; i<dif; i++){
+                        addUsable(player, item)
+                    }
+                    for (let i=0; i>dif; i--){
+                        removeUsable(player, item)
+                    }
+                }
+            }
+        }
+    }
+
     //^ response to Websockets
 
     const sendArrowChoice = (choice) => {
         setArrowPositions(null);
-        sendMessage(`/board/junction/${gameId}`, JSON.stringify({"selectedSpace": choice}))
+        sendMessage(`/app/game/${gameId}/board/junction`, JSON.stringify({"selectedSpace": choice}))
     }
-    
+
     const sendDice = () => {
-        sendMessage(`/board/dice/${gameId}`, JSON.stringify({}))
+        console.log("Requesting dice");
+        console.log(gameId);
+        sendMessage(`/app/game/${gameId}/board/dice`, {})
     }
 
     const sendUsable = (usable) => {
         let address=""
         switch (allData[usable]["Type"]){
         case "Card":
-            address=`/board/cards/${gameId}`
+            address=`/app/game/${gameId}/board/cards`
             break;
         case "Item":
-            address=`/board/items/${gameId}`
+            address=`/app/game/${gameId}/board/items`
             break;
         case "Ultimate":
-            address=`/board/ultimate/${gameId}`
+            address=`/app/game/${gameId}/board/ultimate`
             break;
         }
         switch (allData[usable]["choice"]){
@@ -549,66 +609,105 @@ const Board = () => { //NOSONAR
     }
     //#endregion
 
+    const sendMessageWeb = () => {
+        console.log("sending msg");
+        //sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
+    }
+
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
             const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
-                setPlayers(data.players);
-                localStorage.setItem("players", players);
+                console.log("Start PlayerInfo", data);
+                setTurnOrder(data.TurnOrder);
+                localStorage.setItem("turnorder", data.TurnOrder);
+
+                const playerInfos = Object.keys(data.players).reduce((acc, key) => {
+                    const playerData = data.players[key];
+                    acc[key] = new Player(playerData);
+                    return acc;
+                }, {});
+
+                setPlayers(playerInfos);
                 console.log(players);
-            })
-            const subscrpitionGoal = client.subscribe("/topic/board/goal", (message) => {
-                const data = JSON.parse(message.body);
-                goal(data)
             });
 
-            const subsriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+            const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
+                const data = JSON.parse(message.body);
+                goal(data);
+            });
+
+            const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
+                alert(message.body);
+            });
+
+            const subscriptionJunction = client.subscribe(`/topic/game/${gameId}/board/junction`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
+            const subscriptionUsables = client.subscribe(`/topic/game/${gameId}/board/usables`, (message) => {
+                const data = JSON.parse(message.body);
+                usables(data)
+            });
+
+            const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
             });
 
-            const subscriptionMoney = client.subscribe(`/topic/board/money/${gameId}`, (message) => {
+            const subscriptionMoney = client.subscribe(`/topic/game/${gameId}/board/money`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
 
-            const subscriptionActivePlayer = client.subscribe(`/topic/board/newActivePlayer/${gameId}`, (message) => {
+            const subscriptionActivePlayer = client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) => {
                 const data = JSON.parse(message.body);
-                money(data)
+                newActivePlayer(data)
             });
 
-            const subscriptionGameEnd = client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+            const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
+                const data = JSON.parse(message.body);
+                //TODO show number of moves of dice
+                setDice(data.results)
+            });
+
+            const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
+            setSocketReady(true);
+
+            if(!localStorage.getItem("turnorder")){
+                sendMessage(`/app/game/${gameId}/board/start`, {userId});
+            }
 
             return () => {
                 subscriptionStart.unsubscribe();
                 subscrpitionGoal.unsubscribe();
-                subsriptionJunction.unsubscribe();
+                subscriptionError.unsubscribe();
+                subscriptionJunction.unsubscribe();
+                subscriptionUsables.unsubscribe();
                 subscriptionMove.unsubscribe();
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
+                subscriptionDice.unsubscribe();
                 subscriptionGameEnd.unsubscribe();
             }
         }
 
-        if(players === null){
-            console.log("here");
-            sendMessage(`/app/game/${gameId}/board/start`, {});
-        }
-
-    }, [client, isConnected, sendMessage, disconnect, players])
+    }, [client, isConnected, sendMessage, disconnect])
 
     //! Audio  
     //#region
-    
+
+    useEffect(() => {
+        if(socketReady){
+            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+        }
+    }, [socketReady]);
+
     const handleVolumeChange = (event) => {
         let {name,value} = event.target;
         setPlayerVolumes(
@@ -652,7 +751,7 @@ const Board = () => { //NOSONAR
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
     const addUsable = (playerId: string, name: string) => {
-        setUsables(prevUsables => ({
+        setPlayerUsables(prevUsables => ({
             ...prevUsables,
             [playerId]: {
                 ...prevUsables[playerId],
@@ -662,7 +761,7 @@ const Board = () => { //NOSONAR
     };
 
     const removeUsable = (playerId: string, name: string) => {
-        setUsables(prevUsable => ({
+        setPlayerUsables(prevUsable => ({
             ...prevUsable,
             [playerId]: {
                 ...prevUsable[playerId],
@@ -761,9 +860,20 @@ const Board = () => { //NOSONAR
                 case "Escape":
                     setOverlayActive(0);
                     break;
-                    //~ ↓ debug options, will be removed in the production build
+                case "$":
+                    setUsingRetro(1-usingRetro);
+                    break;
+                case "F1":
+                    //TODO insert help //NOSONAR
+                    alert("Insert Help");
+                    break;
+
+                //~ ↓ debug options, will be removed in the production build
+                case "y":
+                    usables(usablesExampleData1["data"])
+                    break;
                 case "~":
-                    processCommands(datata1)
+                    // processCommands(datata1)
                     break;
                 case "n":
                     setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
@@ -772,7 +882,7 @@ const Board = () => { //NOSONAR
                     setDice(3);
                     break;
                 case "m":
-                    money(moneyDataExample1["data"]);
+                    // forFour()
                     break;
                 case "p":
                     winCondition(winConditionDataExample1["data"])
@@ -805,11 +915,11 @@ const Board = () => { //NOSONAR
                     (move(moveDataExample1["data"]));
                     break;
                 case "h":
-                    (gameEnd(endDataExample1["data"]));
-                    (gameEnd(endDataExample2["data"]));
-                    (gameEnd(endDataExample3["data"]));
-                    (gameEnd(endDataExample4["data"]));
-                    (gameEnd(endDataExample5["data"]));
+                    gameEnd(endDataExample1["data"]);
+                    gameEnd(endDataExample2["data"]);
+                    gameEnd(endDataExample3["data"]);
+                    gameEnd(endDataExample4["data"]);
+                    gameEnd(endDataExample5["data"]);
                     break;
                 case "ü":
                     addUsable("2", getRandomItemFromSet(allCards))
@@ -828,19 +938,16 @@ const Board = () => { //NOSONAR
                     addUsable("2", getRandomItemFromSet(allItems))
                     break;
                 case "[":
-                    setUsables({...usables, "2": initialUsables})
+                    setPlayerUsables({...playerUsables, "2": initialUsables})
                     break;
-                case "$":
+                case "£":
                     setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
                     break;
-                case "J":
-                    let choice=4
-                    alert(JSON.stringify({"choice": choice}))
                 case "i":
                     setCurrWinCondition(getRandomKey(winConditionData))
                     break;
                 case "I":
-                    setUltimate(getRandomKey(ultimateData))
+                    setUltimateName(getRandomKey(ultimateData))
                     break;
                 case "q":
                     setPlayerSpace({"1":(playerSpace["1"]%numberOfCoordinates)+1, "2":(playerSpace["2"]%numberOfCoordinates)+1, "3":(playerSpace["3"]%numberOfCoordinates)+1, "4":(playerSpace["4"]%numberOfCoordinates)+1})
@@ -863,6 +970,12 @@ const Board = () => { //NOSONAR
                     break;
                 case "c":
                     setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
+                    break;
+                case "C":
+                    setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
+                    break;
+                case "©":
+                    setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
                     break;
                 default:
 
@@ -889,19 +1002,25 @@ const Board = () => { //NOSONAR
         setArrowSize(`${arrowSize}px`);
     };
 
-    //voice api stuff
     useEffect(() => {
-        joinVoice("main");
-        localStorage.setItem("gameId", "0");
         window.addEventListener("load", adjustFigurineSize);
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
+        //setTimeout(() => {joinVoice("main")},7000);
+        
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+        };
+        window.addEventListener("beforeunload", handleBeforeUnload);
 
         return () => {
-            leaveVoice();
+            leaveVoice("main")
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
-            document.body.classList.remove("scrollbar-removal")
+            
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+            document.body.classList.remove("scrollbar-removal");
         }
     }, []);
 
@@ -934,7 +1053,6 @@ const Board = () => { //NOSONAR
                         alt="arrow"
                         pathToPicture={"figurines/arrow.svg"}
                         className="arrow-picture"
-                        // clickFunction= {() => sendMessage("/board/junction", JSON.stringify({"selectedSpace":id[1]}))}
                         clickFunction= {() => sendArrowChoice(id[1])}
                         colours={[id[2]===1 ? lockedFilter : unlockedFilter, hoverFilter]}
                     />))
@@ -950,7 +1068,7 @@ const Board = () => { //NOSONAR
                     {index<turnOrder.length-1 ? <div className="turn-order-arrow"/> : ""}
                 </React.Fragment>
             ))
-            //insert active player circle if needed (moving coin already indicates active player)
+            // insert active player circle if needed (moving coin already indicates active player)
             }
         </div>
     )
@@ -959,11 +1077,11 @@ const Board = () => { //NOSONAR
         const active = playerId===displayPlayerIds[0]
 
         return (
-            <PlayerStatus   
+            <PlayerStatus
                 userName={userNames[playerId]}
                 handleVolumeChange={handleVolumeChange}
                 playerColour={playerColour[playerId]}
-                displayables={enumerateUsables(itemsDictToList(usables[playerId]), active)}
+                displayables={enumerateUsables(itemsDictToList(playerUsables[playerId]), active)}
                 playerMoney={playerMoney[playerId]}
                 active={activePlayer===playerId}
                 audio={!active}
@@ -987,7 +1105,7 @@ const Board = () => { //NOSONAR
                     className="item-picture"
                     onMouseEnter={() => setPreviewImage(name)}
                     onMouseLeave={() => setPreviewImage("")}
-                    onClick={() => sendUsable(name)}
+                    onClick={active ? () => sendUsable(name) : () => console.log(`${name} doesn't belong to the active player`)}
                 />
             </span>
         )
@@ -1031,6 +1149,11 @@ const Board = () => { //NOSONAR
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
+            <TurnOverlay
+                activePlayerName={userNames[activePlayer]}  // Ensure `activePlayer` and `userNames` are defined and updated elsewhere in your component
+                isVisible={showOverlay}
+                closeOverlay={() => setShowOverlay(false)}
+            />
             <div className="board-container">
                 {previewImageHTML}
                 <div className="player-status">
@@ -1055,7 +1178,8 @@ const Board = () => { //NOSONAR
                         {arrows}
                         {figurines} {/* all 4 player figurines */}
                         <img
-                            src={ require((`../../assets/boards/board_${imageId}.png`))}
+                            src={ require((`../../assets/boards/${usingRetro ? "retro_" : ""}board_${imageId}.png`))}
+                            style={{imageRendering: usingRetro ? "pixelated" : "inherit"}}
                             className="board-background"
                             alt="Gameboard"
                         />
@@ -1069,7 +1193,7 @@ const Board = () => { //NOSONAR
                         {orderBox}
                     </div>
                     <div className="ultimate-win-box">
-                        <div className="win-condition-box"
+                        <div className="win-condition-box" //NOSONAR
                             onMouseEnter={() => setPreviewImage(currWinCondition)}
                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="win-condition-chart" style={{backgroundImage: `conic-gradient(#0fdf0f ${winConditionProgress[0]/winConditionProgress[1]*100}%, #004f00 ${winConditionProgress[0]/winConditionProgress[1]*100}%)`}}/>
@@ -1078,21 +1202,25 @@ const Board = () => { //NOSONAR
                             </div>
                             
                         </div>
-                        <div className="ultimate-box"
-                            onMouseEnter={() => setPreviewImage(ultimate)}
+                        <div className="ultimate-box" //NOSONAR
+                            onMouseEnter={() => setPreviewImage(ultimateName)} 
                             onMouseLeave={() => setPreviewImage("")}>
-                            <div className="ultimate-name">
-                                <i>{ultimateData[ultimate]["DisplayName"]}</i>
+                            <div className="ultimate-name"
+                                style={{
+                                    backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                    cursor: ultimateState ? "cursor" : "default"
+                                }}
+                                >
+                                {ultimateData[ultimateName]["DisplayName"]}
                             </div>
                         </div>
                     </div>
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
                         <button
-                            // onClick={ () => sendMessage("/board/dice", JSON.stringify({}))} //NOSONAR
                             onClick={ () => sendDice()}
                             //TODO deactivate button after clicking once
-                            disabled={activePlayer!==displayPlayerIds[0]}
+                            disabled={parseInt(activePlayer, 10) !== parseInt(localStorage.getItem("playerId"), 10)}
                         >
                             Roll Dice
                         </button><br/>
@@ -1101,7 +1229,6 @@ const Board = () => { //NOSONAR
                             joinVoice
                         </button>
                         <button onClick={() => {leaveVoice()}}>
-
                             leaveVoice
                         </button>
                         <button onClick={(event) => {toggleVoice(event,getTeam())}}>
@@ -1109,6 +1236,9 @@ const Board = () => { //NOSONAR
                         </button>
                         <button onClick={() => {handleMute()}}>
                             {mute ? "mute" : "unmute"}
+                        </button>
+                        <button onClick={() => {sendMessageWeb()}}>
+                            sendMessage
                         </button>
                     </div>
                 </div>
@@ -1118,4 +1248,4 @@ const Board = () => { //NOSONAR
     )
 }
 
-export default Board
+export default Board;

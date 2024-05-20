@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {api, handleError} from "helpers/api";
-import User from "models/User";
+import Player from "models/Player";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "components/ui/Button";
 import "styles/views/Selection.scss";
@@ -72,19 +72,21 @@ WinConditionCards.propTypes = {
 }
 
 const WinCondition: React.FC = () => {
-    const [WC, setWC] = useState<String>(null);
+    const [wincondition, setWincondition] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
     const gameId = localStorage.getItem("gameId");
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
         if (client && isConnected) {
-            const subscriptionSelection = client.subscribe(`/topic/${gameId}/selection`, (message) => {
+            const subscriptionSelection = client.subscribe(`/user/queue/game/${gameId}/wincondition`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
-                setWC(data.WinCondition);
+                localStorage.setItem("wincondition", data.Wincondition);
+                setWincondition(data.Wincondition);
             });
 
-            sendMessage(`/app/${gameId}/selection`, {});
+            sendMessage(`/app/game/${gameId}/wincondition`, {userId});
 
             return () => {
                 subscriptionSelection.unsubscribe();
@@ -94,7 +96,7 @@ const WinCondition: React.FC = () => {
 
     return (
         <div className="Selection container">
-            <WinConditionCards condition="Zürcher"/>
+            <WinConditionCards condition={wincondition}/>
         </div>
     )
 }
