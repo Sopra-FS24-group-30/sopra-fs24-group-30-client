@@ -365,7 +365,7 @@ const Board = () => { //NOSONAR
     const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
-    const [dice, setDice]=useState(0); //NOSONAR
+    const [dice, setDice]=useState<number[]>(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
@@ -555,7 +555,7 @@ const Board = () => { //NOSONAR
 
     const sendArrowChoice = (choice) => {
         setArrowPositions(null);
-        sendMessage(`/board/junction/${gameId}`, JSON.stringify({"selectedSpace": choice}))
+        sendMessage(`/app/game/${gameId}/board/junction`, JSON.stringify({"selectedSpace": choice}))
     }
 
     const sendDice = () => {
@@ -568,13 +568,13 @@ const Board = () => { //NOSONAR
         let address=""
         switch (allData[usable]["Type"]){
         case "Card":
-            address=`/board/cards/${gameId}`
+            address=`/app/game/${gameId}/board/cards`
             break;
         case "Item":
-            address=`/board/items/${gameId}`
+            address=`/app/game/${gameId}/board/items`
             break;
         case "Ultimate":
-            address=`/board/ultimate/${gameId}`
+            address=`/app/game/${gameId}/board/ultimate`
             break;
         }
         switch (allData[usable]["choice"]){
@@ -611,7 +611,7 @@ const Board = () => { //NOSONAR
 
     const sendMessageWeb = () => {
         console.log("sending msg");
-        //sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+        //sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
     }
 
     //$ websockets
@@ -633,8 +633,7 @@ const Board = () => { //NOSONAR
                 console.log(players);
             });
 
-            const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
-
+            const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
                 const data = JSON.parse(message.body);
                 goal(data);
             });
@@ -643,22 +642,22 @@ const Board = () => { //NOSONAR
                 alert(message.body);
             });
 
-            const subscriptionJunction = client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+            const subscriptionJunction = client.subscribe(`/topic/game/${gameId}/board/junction`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
 
-            const subscriptionUsables = client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
+            const subscriptionUsables = client.subscribe(`/topic/game/${gameId}/board/usables`, (message) => {
                 const data = JSON.parse(message.body);
                 usables(data)
             });
 
-            const subscriptionMove = client.subscribe(`/topic/board/move/${gameId}`, (message) => {
+            const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
                 const data = JSON.parse(message.body);
                 move(data)
             });
 
-            const subscriptionMoney = client.subscribe(`/topic/board/money/${gameId}`, (message) => {
+            const subscriptionMoney = client.subscribe(`/topic/game/${gameId}/board/money`, (message) => {
                 const data = JSON.parse(message.body);
                 money(data)
             });
@@ -668,7 +667,13 @@ const Board = () => { //NOSONAR
                 newActivePlayer(data)
             });
 
-            const subscriptionGameEnd = client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+            const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
+                const data = JSON.parse(message.body);
+                //TODO show number of moves of dice
+                setDice(data.results)
+            });
+
+            const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
             });
@@ -687,6 +692,7 @@ const Board = () => { //NOSONAR
                 subscriptionMove.unsubscribe();
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
+                subscriptionDice.unsubscribe();
                 subscriptionGameEnd.unsubscribe();
             }
         }
