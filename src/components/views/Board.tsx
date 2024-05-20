@@ -611,7 +611,7 @@ const Board = () => { //NOSONAR
 
     const sendMessageWeb = () => {
         console.log("sending msg");
-        sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+        //sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
     }
 
     //$ websockets
@@ -636,9 +636,7 @@ const Board = () => { //NOSONAR
             const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
 
                 const data = JSON.parse(message.body);
-                console.log("the data is")
-                console.log(data)
-                //goal(data);
+                goal(data);
             });
 
             const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
