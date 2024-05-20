@@ -29,6 +29,7 @@ import UltimateAttack from "../../views/UltimateAttack";
 import {UltimateAttackGuard} from "../routeProtectors/UltimateAttackGuard";
 import SelectTeam from "../../views/SelectTeam";
 import {SelectTeamGuard} from "../routeProtectors/SelectTeamGuard";
+import LoadingHost from "../../views/LoadingHost";
 
 /**
  * Main router of your application.
@@ -79,6 +80,7 @@ const AppRouter = () => {
                 <Route path="/game/:gameId/*" element={<CreateGameGuard/>}>
                     <Route index element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
                     <Route path="loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
+                    <Route path="loadingHost" element={<WebSocketRouteWrapper><LoadingHost/></WebSocketRouteWrapper>}/>
                     <Route path="lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
                     <Route path="wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
                     <Route path="ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>

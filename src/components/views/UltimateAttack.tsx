@@ -32,7 +32,7 @@ const UltimateAttackCards = (props) => {
 
             setTimeout(()=>{
                 if(localStorage.getItem("host")!== null){
-                    navigate(`/game/${gameId}/selectTeam`)
+                    navigate(`/game/${gameId}/loadingHost`)
                 } else{
                     navigate(`/game/${gameId}/loading`)
                 }
