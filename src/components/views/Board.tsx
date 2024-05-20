@@ -3,6 +3,7 @@ import {TransformWrapper, TransformComponent, useControls} from "react-zoom-pan-
 import "styles/views/Board.scss";
 import { useWebsocket } from "./Websockets";
 import Player from "models/Player";
+import TurnOverlay from "../ui/TurnOverlay";
 
 import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
@@ -381,6 +382,7 @@ const Board = () => { //NOSONAR
     const gameId = localStorage.getItem("gameId");
     const userId = localStorage.getItem("userId");
     const [players, setPlayers] = useState<Player[]>(null);
+    const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
     //~ interpretation of websocket messages
 
@@ -506,8 +508,14 @@ const Board = () => { //NOSONAR
     }   
     
     const newActivePlayer = (data) => {
-        setTurnNumber(data["currentTurn"]);
-        setActivePlayer(data["activePlayer"])
+        setTurnNumber(data.currentTurn);
+        setActivePlayer(data.activePlayer);
+
+        setShowOverlay(true);
+
+        setTimeout(() => {
+            setShowOverlay(false);
+        }, 3000);
     }
 
     const winCondition = (data) => {
@@ -551,7 +559,9 @@ const Board = () => { //NOSONAR
     }
 
     const sendDice = () => {
-        sendMessage(`/board/dice/${gameId}`, JSON.stringify({}))
+        console.log("Requesting dice");
+        console.log(gameId);
+        sendMessage(`/app/game/${gameId}/board/dice`, {})
     }
 
     const sendUsable = (usable) => {
@@ -609,18 +619,18 @@ const Board = () => { //NOSONAR
         if (client && isConnected){
             const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
+                console.log("Start PlayerInfo", data);
                 setTurnOrder(data.TurnOrder);
+                localStorage.setItem("turnorder", data.TurnOrder);
 
-                const newPlayers = {};
-                for (const playerId in data.players){
-                    newPlayers[playerId] = new Player({
-                        playerId,
-                        ...data.players[playerId]
-                    });
-                    localStorage.setItem(playerId, newPlayers[playerId]);
-                }
+                const playerInfos = Object.keys(data.players).reduce((acc, key) => {
+                    const playerData = data.players[key];
+                    acc[key] = new Player(playerData);
+                    return acc;
+                }, {});
 
-                setPlayers(newPlayers);
+                setPlayers(playerInfos);
+                console.log(players);
             });
 
             const subscrpitionGoal = client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
@@ -666,8 +676,9 @@ const Board = () => { //NOSONAR
             });
             setSocketReady(true);
 
-
-            sendMessage(`/app/game/${gameId}/board/start`, {userId});
+            if(!localStorage.getItem("turnorder")){
+                sendMessage(`/app/game/${gameId}/board/start`, {userId});
+            }
 
             return () => {
                 subscriptionStart.unsubscribe();
@@ -1134,6 +1145,11 @@ const Board = () => { //NOSONAR
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
+            <TurnOverlay
+                activePlayerName={userNames[activePlayer]}  // Ensure `activePlayer` and `userNames` are defined and updated elsewhere in your component
+                isVisible={showOverlay}
+                closeOverlay={() => setShowOverlay(false)}
+            />
             <div className="board-container">
                 {previewImageHTML}
                 <div className="player-status">
@@ -1200,7 +1216,7 @@ const Board = () => { //NOSONAR
                         <button
                             onClick={ () => sendDice()}
                             //TODO deactivate button after clicking once
-                            disabled={activePlayer!==displayPlayerIds[0]}
+                            disabled={parseInt(activePlayer, 10) !== parseInt(localStorage.getItem("playerId"), 10)}
                         >
                             Roll Dice
                         </button><br/>
