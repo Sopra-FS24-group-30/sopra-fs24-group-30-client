@@ -99,6 +99,7 @@ const Profile = () => {
                         <Information title="Creation date" description={user.creationDate}/>
                         {ownProfile ? <Information title="Password" description={user.password}/> : null}
                         {ownProfile ?  null : <Information title="Status" description={user.status} />}
+                        <Information title={"Games Won: "} description={user.achievement.totalGamesWon}></Information>
                         <div className="user-information container">
                             <div className="user-information title">Achievements</div>
                             <div className="user-information description">
@@ -114,9 +115,6 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        <Information title={"Games Won: "} description={user.achievement.totalGamesWon}></Information>
-                        <Information title={"highest Money ingame: "} description={user.achievement.maxMoneyInGame}></Information>
-                        <Information title={"Win Streak: "} description={user.achievement.winStreak}></Information>
                     </li>
                 </ul>
                 <ul className="profile button-container">
