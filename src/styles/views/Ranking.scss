@@ -1,0 +1,54 @@
+@import "../theme";
+.ranking{
+    &.container {
+        /* we include the center mixin defined in _theme.scss and save three duplicate lines :) */
+        @include center;
+        flex-direction: column;
+        background-image: url("../../assets/backgrounds/BoardgameBox.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 900px;
+        max-width: 1250px;
+        margin: auto;
+        row-gap: 2em;
+    }
+    &.winner-container{
+        @include center;
+        flex-direction: column;
+        background: $background;
+        border-radius: $borderRadius;
+        box-shadow: $dropShadow;
+        min-width: 500px;
+        padding: 2em;
+    }
+    &.winner-title{
+        color: #97abff;
+        font: $fontDefault;
+        font-size: 3em;
+    }
+    &.winner-team{
+        color: $textColor;
+        font: $fontDefault;
+        font-size: 4em;
+    }
+    &.reason-container{
+        @include center;
+        flex-direction: column;
+        background: $background;
+        border-radius: $borderRadius;
+        box-shadow: $dropShadow;
+        min-width: 500px;
+        padding: 2em;
+    }
+    &.reason-title{
+        color: darken(#97abff, 5);
+        font: $fontDefault;
+        font-size: 2em;
+    }
+    &.reason-description{
+        color: darken($textColor, 5);
+        font: $fontDefault;
+        font-size: 1.5em;
+        padding: 1em;
+    }
+}

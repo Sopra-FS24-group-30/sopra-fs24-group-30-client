@@ -30,6 +30,7 @@ import {UltimateAttackGuard} from "../routeProtectors/UltimateAttackGuard";
 import SelectTeam from "../../views/SelectTeam";
 import {SelectTeamGuard} from "../routeProtectors/SelectTeamGuard";
 import LoadingHost from "../../views/LoadingHost";
+import Ranking from "../../views/Ranking";
 
 /**
  * Main router of your application.
@@ -86,6 +87,7 @@ const AppRouter = () => {
                     <Route path="ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
                     <Route path="selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
                     <Route path="board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}/>
+                    <Route path="ranking" element={<WebSocketRouteWrapper><Ranking/></WebSocketRouteWrapper>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
