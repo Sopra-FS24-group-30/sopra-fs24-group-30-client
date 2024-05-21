@@ -1,3 +1,5 @@
+import Achievements from "./Achievements";
+
 /**
  * User model
  */
@@ -11,7 +13,7 @@ class User {
         this.status = null;
         this.creationDate = null;
         this.birthdday = null;
-        this.achievements = null;
+        this.achievement = null;
         Object.assign(this, data);
     }
 }

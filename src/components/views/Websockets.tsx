@@ -22,6 +22,7 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children, u
     const [isConnected, setIsConnected] = useState<boolean>(false);
 
     useEffect(() => {
+
         const socket = new SockJS(`https://sopra-fs24-group-30-server.oa.r.appspot.com/ws?userId=${localStorage.getItem("userId")}`);
         const newClient = new Client({
             webSocketFactory: () => socket,

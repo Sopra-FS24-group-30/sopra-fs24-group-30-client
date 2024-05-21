@@ -94,3 +94,12 @@
 
 }
 
+.Game{
+    &.text{
+        color: darken($textColor, 10);
+    }
+    &.h2{
+        color: $accent;
+        font-weight: bold;
+    }
+}

@@ -83,12 +83,19 @@
         justify-content: center;
         align-items: center;
     }
-    &.circle{
+    &.circleTrue{
         width: 20px;
         height: 20px;
         border: 2px solid $accent;
         border-radius: 50%;
         background-color: #FFC33A;
+    }
+    &.circleFalse{
+        width: 20px;
+        height: 20px;
+        border: 2px solid $accent;
+        border-radius: 50%;
+        background-color: #FF233A;
     }
     &.description-container:disabled {
         background-color: transparent;

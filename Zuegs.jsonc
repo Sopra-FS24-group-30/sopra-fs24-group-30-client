@@ -101,7 +101,7 @@
             {
                 "spaces": [30], 
                 "moves": 0, 
-                "endsWithOver": "Red" 
+                "spaceColour": "Red" 
             },
         "movementType": "teleport" 
     }
@@ -153,6 +153,15 @@
         "name": "Golden",
         "progress": 3,
         "total": 7
+    }
+},
+
+{
+    "address": "/topic/board/wisdom",
+    "data": {
+        "1": {
+            "winConditionName": "JackSparrow"
+        }
     }
 },
 

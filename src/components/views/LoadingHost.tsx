@@ -6,7 +6,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import {Spinner} from "components/ui/Spinner";
 import {useWebsocket} from "./Websockets";
 
-const Loading = () => {
+const LoadingHost = () => {
     const navigate = useNavigate();
     const gameId = localStorage.getItem("gameId");
     const [status, setStatus] = useState<String>(null); //NOSONAR
@@ -22,18 +22,8 @@ const Loading = () => {
                 setStatus(data.status);
             });
 
-            const subscriptionPlayerId = client.subscribe("/user/queue/game/PlayerId", (message) => {
-                const data = JSON.parse(message.body);
-                console.log("Received playerId:",data);
-                localStorage.setItem("playerId", data.playerId);
-            })
-
-            console.log("send message");
-            sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
-
             return ()=> {
                 subscriptionStatus.unsubscribe();
-                subscriptionPlayerId.unsubscribe();
             }
         }
 
@@ -54,9 +44,9 @@ const Loading = () => {
     }, [client, isConnected, sendMessage, gameId, status]);
 
     useEffect(() => {
-        if (status === "READY" && localStorage.getItem("playerId")){
-            console.log("Navigating to board");
-            navigate(`/game/${gameId}/board`);
+        if (status === "ALMOST_READY"){
+            console.log("Navigating to team selection");
+            navigate(`/game/${gameId}/selectTeam`);
         }
     })
 
@@ -72,4 +62,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default LoadingHost;

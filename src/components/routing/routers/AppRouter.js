@@ -29,6 +29,8 @@ import UltimateAttack from "../../views/UltimateAttack";
 import {UltimateAttackGuard} from "../routeProtectors/UltimateAttackGuard";
 import SelectTeam from "../../views/SelectTeam";
 import {SelectTeamGuard} from "../routeProtectors/SelectTeamGuard";
+import LoadingHost from "../../views/LoadingHost";
+import Ranking from "../../views/Ranking";
 
 /**
  * Main router of your application.
@@ -76,18 +78,16 @@ const AppRouter = () => {
                     <Route path="/join" element={<WebSocketRouteWrapper><JoinGame/></WebSocketRouteWrapper>}/>
                 </Route>
 
-                {/*TODO: add board to game*/}
-                <Route path="/board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}>
-                </Route>
-
                 <Route path="/game/:gameId/*" element={<CreateGameGuard/>}>
                     <Route index element={<WebSocketRouteWrapper><CreateGame/></WebSocketRouteWrapper>}/>
                     <Route path="loading" element={<WebSocketRouteWrapper><Loading/></WebSocketRouteWrapper>}/>
+                    <Route path="loadingHost" element={<WebSocketRouteWrapper><LoadingHost/></WebSocketRouteWrapper>}/>
                     <Route path="lobby" element={<WebSocketRouteWrapper><Lobby/></WebSocketRouteWrapper>}/>
                     <Route path="wincondition" element={<WebSocketRouteWrapper><WinCondition/></WebSocketRouteWrapper>}/>
                     <Route path="ultimateAttack" element={<WebSocketRouteWrapper><UltimateAttack/></WebSocketRouteWrapper>}/>
                     <Route path="selectTeam" element={<WebSocketRouteWrapper><SelectTeam/></WebSocketRouteWrapper>}/>
-                    {/*TODO: add board here*/}
+                    <Route path="board/*" element={<WebSocketRouteWrapper><Board/></WebSocketRouteWrapper>}/>
+                    <Route path="ranking" element={<WebSocketRouteWrapper><Ranking/></WebSocketRouteWrapper>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
