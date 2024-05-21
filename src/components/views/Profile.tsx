@@ -42,10 +42,6 @@ const ACHIEVEMENTS ={
     "doingYourBest": ["Tried your best", "Lost 3 games in a row"],
     "noUltimate": ["Amateur", "Win one game without using your ultimate attack"],
     "noMoney": ["Pro", "Win one game with 0 coins"]
-
-
-
-
 };
 
 const Profile = () => {
@@ -126,6 +122,7 @@ const Profile = () => {
             </div>
         )
     }
+
     return (
         <div className="profile box-image">
             <BaseContainer className="profile container">

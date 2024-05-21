@@ -626,6 +626,7 @@ const Board = () => { //NOSONAR
                 const playerInfos = Object.keys(data.players).reduce((acc, key) => {
                     const playerData = data.players[key];
                     acc[key] = new Player(playerData);
+                    
                     return acc;
                 }, {});
 
