@@ -96,7 +96,7 @@
 
 .Game{
     &.text{
-        color: $textColor;
+        color: darken($textColor, 10);
     }
     &.h2{
         color: $accent;
