@@ -3,12 +3,18 @@
 .Selection{
     &.container{
         @include center;
-        flex-direction: row;
+        flex-direction: column;
         background-size: cover;
         background-repeat: no-repeat;
         min-height: 900px;
         margin: auto;
         row-gap: 2em;
+    }
+    &.text{
+        margin-bottom: 1em;
+        font-size: 30px;
+        color: $textColor;
+        font: $fontDefault;
     }
     &.card-container{
         display: flex;

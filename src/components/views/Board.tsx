@@ -383,9 +383,27 @@ const Board = () => { //NOSONAR
     const userId = localStorage.getItem("userId");
     const [players, setPlayers] = useState<Player[]>(null);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
+    const [responseQueue, setResponseQueue] = useState([]);
 
     //~ interpretation of websocket messages
 
+    const processQueue = async() => {
+        if(responseQueue.length > 0) {
+            const {func, data} = responseQueue[0];
+            await func(data);
+            setResponseQueue(responseQueue.slice(1));
+        }
+    }
+
+    useEffect(() => {
+        if(responseQueue.length > 0){
+            setTimeout(processQueue, 1000);
+        }
+    }, [responseQueue]);
+
+    const handleServerResponse = (func, data) => {
+        setResponseQueue([...responseQueue, {func, data}]);
+    }
     //#region 
 
     const move = (data) => {
@@ -607,6 +625,33 @@ const Board = () => { //NOSONAR
         
         }
     }
+
+    const handleStart = (data) => {
+        console.log("Start PlayerInfo", data);
+
+        if(data.TurnOrder){
+            setTurnOrder(data.TurnOrder);
+            localStorage.setItem("turnorder", data.TurnOrder);
+        }
+        if(data.players){
+            const startPlayers = {};
+            Object.keys(data.players).forEach(playerId => {
+                const playerData = data.players[playerId];
+                startPlayers[playerId] = new Player(playerData);
+            });
+            setPlayers(startPlayers);
+        }
+        const playerInfos = Object.keys(data.players).reduce((acc, key) => {
+            const playerData = data.players[key];
+            acc[key] = new Player(playerData);
+
+            return acc;
+        }, {});
+
+        setPlayers(playerInfos);
+        console.log(players);
+
+    }
     //#endregion
 
     const sendMessageWeb = () => {
@@ -617,67 +662,36 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
-                const data = JSON.parse(message.body);
-                console.log("Start PlayerInfo", data);
-                setTurnOrder(data.TurnOrder);
-                localStorage.setItem("turnorder", data.TurnOrder);
-
-                const playerInfos = Object.keys(data.players).reduce((acc, key) => {
-                    const playerData = data.players[key];
-                    acc[key] = new Player(playerData);
-                    
-                    return acc;
-                }, {});
-
-                setPlayers(playerInfos);
-                console.log(players);
-            });
-
-            const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
-                const data = JSON.parse(message.body);
-                goal(data);
-            });
-
-            const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
-                alert(message.body);
-            });
-
-            const subscriptionJunction = client.subscribe(`/topic/game/${gameId}/board/junction`, (message) => {
-                const data = JSON.parse(message.body);
-                junction(data)
-            });
-
-            const subscriptionUsables = client.subscribe(`/topic/game/${gameId}/board/usables`, (message) => {
-                const data = JSON.parse(message.body);
-                usables(data)
-            });
-
-            const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
-                const data = JSON.parse(message.body);
-                move(data)
-            });
-
-            const subscriptionMoney = client.subscribe(`/topic/game/${gameId}/board/money`, (message) => {
-                const data = JSON.parse(message.body);
-                money(data)
-            });
-
-            const subscriptionActivePlayer = client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) => {
-                const data = JSON.parse(message.body);
-                newActivePlayer(data)
-            });
-
-            const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
-                const data = JSON.parse(message.body);
-                //TODO show number of moves of dice
-                setDice(data.results)
-            });
-
-            const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
-                const data = JSON.parse(message.body);
-                gameEnd(data)
-            });
+            const subscriptions = {
+                start: client.subscribe(`/topic/game/${gameId}/board/start`, (message) => {
+                    handleServerResponse(handleStart, JSON.parse(message.body));
+                }),
+                newActivePlayer: client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) =>{
+                    handleServerResponse(newActivePlayer, JSON.parse(message.body));
+                }),
+                goal: client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
+                    handleServerResponse(goal, JSON.parse(message.body));
+                }),
+                error: client.subscribe(`/topic/board/error/${gameId}`, (message) => {
+                    alert(message.body);
+                }),
+                junction: client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
+                    handleServerResponse(junction, JSON.parse(message.body));
+                }),
+                usables: client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
+                    handleServerResponse(usables, JSON.parse(message.body));
+                }),
+                move: client.subscribe(`/topic/board/move/${gameId}`, (message) => {
+                    handleServerResponse(move, JSON.parse(message.body));
+                }),
+                money: client.subscribe(`/topic/board/money/${gameId}`, (message) => {
+                    handleServerResponse(money, JSON.parse(message.body));
+                }),
+                gameEnd: client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
+                    handleServerResponse(gameEnd, JSON.parse(message.body));
+                }),
+            }
+            
             setSocketReady(true);
 
             if(!localStorage.getItem("turnorder")){
@@ -685,16 +699,7 @@ const Board = () => { //NOSONAR
             }
 
             return () => {
-                subscriptionStart.unsubscribe();
-                subscrpitionGoal.unsubscribe();
-                subscriptionError.unsubscribe();
-                subscriptionJunction.unsubscribe();
-                subscriptionUsables.unsubscribe();
-                subscriptionMove.unsubscribe();
-                subscriptionMoney.unsubscribe();
-                subscriptionActivePlayer.unsubscribe();
-                subscriptionDice.unsubscribe();
-                subscriptionGameEnd.unsubscribe();
+                Object.values(subscriptions).forEach(sub => sub.unsubscribe());
             }
         }
 

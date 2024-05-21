@@ -129,6 +129,17 @@ const CreateGame:  React.FC = () =>{
         <BaseContainer>
             <div className="lobby container">
                 <div className="lobby form">
+                    <div className="Game container">
+                        <h2>Game description</h2>
+                        <div className="Game text">
+                            This is a 2 vs 2 board game, where you can use items, cards and a one time only ultimate
+                            attack.
+                            Your goal is to win the game by either fulfilling your wincondition or accumulating the
+                            highest amount of money.
+                        </div>
+                    </div>
+                </div>
+                <div className="lobby form">
                     <h2>Share the game pin with 3 friends!</h2>
                     {contentId}
                     <div className="lobby button-container">
