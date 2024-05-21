@@ -365,7 +365,7 @@ const Board = () => { //NOSONAR
     const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activePlayer, setActivePlayer]=useState("0");
-    const [dice, setDice]=useState(0); //NOSONAR
+    const [dice, setDice]=useState<number[]>(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
@@ -573,7 +573,7 @@ const Board = () => { //NOSONAR
 
     const sendArrowChoice = (choice) => {
         setArrowPositions(null);
-        sendMessage(`/board/junction/${gameId}`, JSON.stringify({"selectedSpace": choice}))
+        sendMessage(`/app/game/${gameId}/board/junction`, JSON.stringify({"selectedSpace": choice}))
     }
 
     const sendDice = () => {
@@ -586,13 +586,13 @@ const Board = () => { //NOSONAR
         let address=""
         switch (allData[usable]["Type"]){
         case "Card":
-            address=`/board/cards/${gameId}`
+            address=`/app/game/${gameId}/board/cards`
             break;
         case "Item":
-            address=`/board/items/${gameId}`
+            address=`/app/game/${gameId}/board/items`
             break;
         case "Ultimate":
-            address=`/board/ultimate/${gameId}`
+            address=`/app/game/${gameId}/board/ultimate`
             break;
         }
         switch (allData[usable]["choice"]){
@@ -656,7 +656,7 @@ const Board = () => { //NOSONAR
 
     const sendMessageWeb = () => {
         console.log("sending msg");
-        sendMessage(`/app/board/test/${gameId}`, {text:"hello world"});
+        //sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
     }
 
     //$ websockets
@@ -691,7 +691,7 @@ const Board = () => { //NOSONAR
                     handleServerResponse(gameEnd, JSON.parse(message.body));
                 }),
             }
-
+            
             setSocketReady(true);
 
             if(!localStorage.getItem("turnorder")){
