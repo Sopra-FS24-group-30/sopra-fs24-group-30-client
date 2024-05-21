@@ -44,7 +44,6 @@ const SelectTeam : React.FC = () => {
     const setTeammate = (teammate) =>{
         console.log("setTeam");
         sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
-        //TODO: when app router is changed, also change the url here
         navigate(`/game/${gameId}/loading`);
     }
 
