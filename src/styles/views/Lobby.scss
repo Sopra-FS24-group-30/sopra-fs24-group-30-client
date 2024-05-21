@@ -94,3 +94,12 @@
 
 }
 
+.Game{
+    &.text{
+        color: $textColor;
+    }
+    &.h2{
+        color: $accent;
+        font-weight: bold;
+    }
+}
