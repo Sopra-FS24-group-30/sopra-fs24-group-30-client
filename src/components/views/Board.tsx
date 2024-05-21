@@ -72,23 +72,23 @@ const ScalableOverlay: React.FC<{
     const image= getPath();
 
     return (<img  //NOSONAR
-        src={image}
-        style={{
-            width: size,
-            height: "auto", //position: absolute defined in Board.scss
-            left: `${x}%`,
-            bottom: `${y}%`,
-            transform: `translate(-50%, 50%) translate(-${centering}px, ${centering}px) rotate(${rotation}deg)`,
-            transformOrigin: "center center",
-            filter: colours[0]
-        }}
-        onClick={clickFunction}
-        className={className}
-        onMouseEnter={e => e.currentTarget.style.filter = colours[1]}
-        onMouseLeave={e => e.currentTarget.style.filter = colours[0]}
-        onKeyPress={""}
-        alt={alt}
-    />
+            src={image}
+            style={{
+                width: size,
+                height: "auto", //position: absolute defined in Board.scss
+                left: `${x}%`,
+                bottom: `${y}%`,
+                transform: `translate(-50%, 50%) translate(-${centering}px, ${centering}px) rotate(${rotation}deg)`,
+                transformOrigin: "center center",
+                filter: colours[0]
+            }}
+            onClick={clickFunction}
+            className={className}
+            onMouseEnter={e => e.currentTarget.style.filter = colours[1]}
+            onMouseLeave={e => e.currentTarget.style.filter = colours[0]}
+            onKeyPress={""}
+            alt={alt}
+        />
     );
 }
 
@@ -123,7 +123,7 @@ const PlayerStatus: React.FC<{
                     alt={`speaker logo ${map100to3(playerVolumes[playerId])}/3`}
                     className="player-status-audio-logo"
                 />
-                <input 
+                <input
                     style={{
                         background: `linear-gradient(to right, #0060df ${playerVolumes[playerId]}%, #e9e9ed ${playerVolumes[playerId]}%)`,
                         borderColor: `linear-gradient(to right, #2374ff ${playerVolumes[playerId]}%, #8f8f9d ${playerVolumes[playerId]}%)`
@@ -234,7 +234,7 @@ const junctionDataExample2 ={
 
 const junctionDataExample3 = {
     "data": {
-        "nextLockedSpaces":[3], 
+        "nextLockedSpaces":[3],
         "nextUnlockedSpaces":[29],
         "playerId":1,
         "currentSpace":62
@@ -248,7 +248,7 @@ const moneyDataExample1 = {
             "newAmountOfMoney": 999, //new amount of money for player 1
             "changeAmountOfMoney": 3 //amount of money
         }
-        
+
     }
 }
 
@@ -339,19 +339,19 @@ const Board = () => { //NOSONAR
     const hoverFilter="invert(54%) sepia(82%) saturate(1944%) hue-rotate(80deg) brightness(114%) contrast(126%)";
     const unlockedFilter="invert(14%) sepia(83%) saturate(7026%) hue-rotate(359deg) brightness(99%) contrast(109%)";
     const lockedFilter="invert(53%) sepia(8%) saturate(15%) hue-rotate(358deg) brightness(92%) contrast(92%)";
-    
+
     //! Audio
     const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
     const [inTeam, setInTeam] = useState(false);
     const [mute,setMute] = useState(false);
-    
+
     const [imageId, setImageId]=useState("0"); //which goal state is used
     const [overlayActive, setOverlayActive]=useState(0);
     const [figurineSize, setFigurineSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
     const [arrowSize, setArrowSize]=useState("20px"); //actual size in pixels; starting value isn't seen under normal circumstances
     const relativeFigurineSize=.025 //figurine width in % of boardwidth
     const relativeArrowSize=.035 //arrow width in % of boardwidth
-    
+
     type UsableState = {[playerId: string]: {[itemName: string]: number}};
     const initialUsables = Object.fromEntries(Array.from(allUsables).map(usable => [usable, 0]));
     const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
@@ -374,7 +374,7 @@ const Board = () => { //NOSONAR
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
     const [previewImage, setPreviewImage]=useState("")
     const [usingRetro, setUsingRetro]=useState(false)
-    
+
     const boardRef=useRef(null);
     const figurineGlobalOffset=[-1.3, -2.05-.1*usingRetro] //offset to center figurines on the spaces
     const arrowGlobalOffset=[1.9, 2.1] //offset to correct arrow positioning
@@ -383,28 +383,10 @@ const Board = () => { //NOSONAR
     const userId = localStorage.getItem("userId");
     const [players, setPlayers] = useState<Player[]>(null);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
-    const [responseQueue, setResponseQueue] = useState([]);
 
     //~ interpretation of websocket messages
 
-    const processQueue = async() => {
-        if(responseQueue.length > 0) {
-            const {func, data} = responseQueue[0];
-            await func(data);
-            setResponseQueue(responseQueue.slice(1));
-        }
-    }
-
-    useEffect(() => {
-        if(responseQueue.length > 0){
-            setTimeout(processQueue, 1000);
-        }
-    }, [responseQueue]);
-
-    const handleServerResponse = (func, data) => {
-        setResponseQueue([...responseQueue, {func, data}]);
-    }
-    //#region 
+    //#region
 
     const move = (data) => {
         let toRead=structuredClone(data)
@@ -418,34 +400,34 @@ const Board = () => { //NOSONAR
         return new Promise(async (resolve, reject) => { //NOSONAR
             try {
                 switch (movingType) {
-                case "walk":
-                case "jump":
-                
-                    for (const [playerID, val] of Object.entries(toRead)) {
-                        for (const space of val["spaces"]) {
+                    case "walk":
+                    case "jump":
+
+                        for (const [playerID, val] of Object.entries(toRead)) {
+                            for (const space of val["spaces"]) {
+                                setPlayerSpace(prevState => ({
+                                    ...prevState,
+                                    [playerID]: space
+                                }));
+                                await sleep(300);
+                            }
+                        }
+                        resolve(null);
+                        break;
+                    case "simultaneous":
+                    case "tp":
+                    case "teleport":
+                        for (const [playerID, val] of Object.entries(toRead)) {
+                            let space = val["spaces"][val["spaces"].length - 1];
                             setPlayerSpace(prevState => ({
                                 ...prevState,
                                 [playerID]: space
                             }));
-                            await sleep(300);
                         }
-                    }
-                    resolve(null); 
-                    break;
-                case "simultaneous":
-                case "tp":
-                case "teleport":
-                    for (const [playerID, val] of Object.entries(toRead)) {
-                        let space = val["spaces"][val["spaces"].length - 1];
-                        setPlayerSpace(prevState => ({
-                            ...prevState,
-                            [playerID]: space
-                        }));
-                    }
-                    resolve(null)
-                    break;
-                default:
-                    throw new Error("notImplemented");
+                        resolve(null)
+                        break;
+                    default:
+                        throw new Error("notImplemented");
                 }
             } catch (error) {
                 reject(error); // Reject the promise on errors
@@ -475,15 +457,15 @@ const Board = () => { //NOSONAR
         players=players.slice(0, players.length-1)
         const playerStrings=players.join(" ")
         switch (why.toLowerCase()) {
-        case "jacksparrow":
-            msg=`${playerStrings} won because ${userNames[who]} had the Win Condition «${allData["JackSparrow"]["DisplayName"]}» and 20 Turns have passed.`
-            break;
-        case "maxmoney":
-        case "maxcash":
-            msg=`${playerStrings} won because ${userNames[who]} had the highest amount of Coins after 20 Turns.`
-            break;
-        default: 
-            msg=`${playerStrings} won because ${userNames[who]} passed the goal while having fulfilled the Win Condition «${allData[why]["DisplayName"]}»${jackText}.`
+            case "jacksparrow":
+                msg=`${playerStrings} won because ${userNames[who]} had the Win Condition «${allData["JackSparrow"]["DisplayName"]}» and 20 Turns have passed.`
+                break;
+            case "maxmoney":
+            case "maxcash":
+                msg=`${playerStrings} won because ${userNames[who]} had the highest amount of Coins after 20 Turns.`
+                break;
+            default:
+                msg=`${playerStrings} won because ${userNames[who]} passed the goal while having fulfilled the Win Condition «${allData[why]["DisplayName"]}»${jackText}.`
         }
         alert(msg)
         //TODO set winstate with pretty popup msg
@@ -513,7 +495,7 @@ const Board = () => { //NOSONAR
 
             return acc;
         }, {});
-      
+
         setPlayerMoney(prevMoney => ({
             ...prevMoney,
             ...updates
@@ -523,8 +505,8 @@ const Board = () => { //NOSONAR
     const goal = (data) => {
         let res=data["result"]
         setImageId(res)
-    }   
-    
+    }
+
     const newActivePlayer = (data) => {
         setTurnNumber(data.currentTurn);
         setActivePlayer(data.activePlayer);
@@ -552,10 +534,10 @@ const Board = () => { //NOSONAR
             //Combining items and cards into usables
             data[player]["usables"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
             for (const item in res[player]) {
-                
+
                 let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
                 let numberOfOld=res[player][item]
-                
+
                 if (numberOfOld !== numberOfNew){
                     let dif = numberOfNew-numberOfOld
                     for (let i=0; i<dif; i++){
@@ -585,18 +567,18 @@ const Board = () => { //NOSONAR
     const sendUsable = (usable) => {
         let address=""
         switch (allData[usable]["Type"]){
-        case "Card":
-            address=`/app/game/${gameId}/board/cards`
-            break;
-        case "Item":
-            address=`/app/game/${gameId}/board/items`
-            break;
-        case "Ultimate":
-            address=`/app/game/${gameId}/board/ultimate`
-            break;
+            case "Card":
+                address=`/app/game/${gameId}/board/cards`
+                break;
+            case "Item":
+                address=`/app/game/${gameId}/board/items`
+                break;
+            case "Ultimate":
+                address=`/app/game/${gameId}/board/ultimate`
+                break;
         }
         switch (allData[usable]["choice"]){
-        //TODO
+            //TODO
         }
         sendMessage(address, JSON.stringify({"used": usable}))
     }
@@ -610,9 +592,9 @@ const Board = () => { //NOSONAR
             money,
             sleep //NOSONAR
         };
-      
+
         const commands = JSON.parse(datata);
-      
+
         for (const commandObject of commands) {
 
             const commandName = Object.keys(commandObject)[0];
@@ -622,35 +604,8 @@ const Board = () => { //NOSONAR
             if (typeof func === "function") {
                 await func(commandData); //NOSONAR
             }
-        
+
         }
-    }
-
-    const handleStart = (data) => {
-        console.log("Start PlayerInfo", data);
-
-        if(data.TurnOrder){
-            setTurnOrder(data.TurnOrder);
-            localStorage.setItem("turnorder", data.TurnOrder);
-        }
-        if(data.players){
-            const startPlayers = {};
-            Object.keys(data.players).forEach(playerId => {
-                const playerData = data.players[playerId];
-                startPlayers[playerId] = new Player(playerData);
-            });
-            setPlayers(startPlayers);
-        }
-        const playerInfos = Object.keys(data.players).reduce((acc, key) => {
-            const playerData = data.players[key];
-            acc[key] = new Player(playerData);
-
-            return acc;
-        }, {});
-
-        setPlayers(playerInfos);
-        console.log(players);
-
     }
     //#endregion
 
@@ -662,36 +617,67 @@ const Board = () => { //NOSONAR
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
-            const subscriptions = {
-                start: client.subscribe(`/topic/game/${gameId}/board/start`, (message) => {
-                    handleServerResponse(handleStart, JSON.parse(message.body));
-                }),
-                newActivePlayer: client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) =>{
-                    handleServerResponse(newActivePlayer, JSON.parse(message.body));
-                }),
-                goal: client.subscribe(`/topic/board/goal/${gameId}`, (message) => {
-                    handleServerResponse(goal, JSON.parse(message.body));
-                }),
-                error: client.subscribe(`/topic/board/error/${gameId}`, (message) => {
-                    alert(message.body);
-                }),
-                junction: client.subscribe(`/topic/board/junction/${gameId}`, (message) => {
-                    handleServerResponse(junction, JSON.parse(message.body));
-                }),
-                usables: client.subscribe(`/topic/board/usables/${gameId}`, (message) => {
-                    handleServerResponse(usables, JSON.parse(message.body));
-                }),
-                move: client.subscribe(`/topic/board/move/${gameId}`, (message) => {
-                    handleServerResponse(move, JSON.parse(message.body));
-                }),
-                money: client.subscribe(`/topic/board/money/${gameId}`, (message) => {
-                    handleServerResponse(money, JSON.parse(message.body));
-                }),
-                gameEnd: client.subscribe(`/topic/board/gameEnd/${gameId}`, (message) => {
-                    handleServerResponse(gameEnd, JSON.parse(message.body));
-                }),
-            }
-            
+            const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
+                const data = JSON.parse(message.body);
+                console.log("Start PlayerInfo", data);
+                setTurnOrder(data.TurnOrder);
+                localStorage.setItem("turnorder", data.TurnOrder);
+
+                const playerInfos = Object.keys(data.players).reduce((acc, key) => {
+                    const playerData = data.players[key];
+                    acc[key] = new Player(playerData);
+
+                    return acc;
+                }, {});
+
+                setPlayers(playerInfos);
+                console.log(players);
+            });
+
+            const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
+                const data = JSON.parse(message.body);
+                goal(data);
+            });
+
+            const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
+                alert(message.body);
+            });
+
+            const subscriptionJunction = client.subscribe(`/topic/game/${gameId}/board/junction`, (message) => {
+                const data = JSON.parse(message.body);
+                junction(data)
+            });
+
+            const subscriptionUsables = client.subscribe(`/topic/game/${gameId}/board/usables`, (message) => {
+                const data = JSON.parse(message.body);
+                usables(data)
+            });
+
+            const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
+                const data = JSON.parse(message.body);
+                move(data)
+            });
+
+            const subscriptionMoney = client.subscribe(`/topic/game/${gameId}/board/money`, (message) => {
+                const data = JSON.parse(message.body);
+                money(data)
+            });
+
+            const subscriptionActivePlayer = client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) => {
+                const data = JSON.parse(message.body);
+                newActivePlayer(data)
+            });
+
+            const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
+                const data = JSON.parse(message.body);
+                //TODO show number of moves of dice
+                setDice(data.results)
+            });
+
+            const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
+                const data = JSON.parse(message.body);
+                gameEnd(data)
+            });
             setSocketReady(true);
 
             if(!localStorage.getItem("turnorder")){
@@ -699,7 +685,16 @@ const Board = () => { //NOSONAR
             }
 
             return () => {
-                Object.values(subscriptions).forEach(sub => sub.unsubscribe());
+                subscriptionStart.unsubscribe();
+                subscrpitionGoal.unsubscribe();
+                subscriptionError.unsubscribe();
+                subscriptionJunction.unsubscribe();
+                subscriptionUsables.unsubscribe();
+                subscriptionMove.unsubscribe();
+                subscriptionMoney.unsubscribe();
+                subscriptionActivePlayer.unsubscribe();
+                subscriptionDice.unsubscribe();
+                subscriptionGameEnd.unsubscribe();
             }
         }
 
@@ -792,20 +787,20 @@ const Board = () => { //NOSONAR
 
         const displacementPriority=playersOnSpace.findIndex(elements => elements === id);
         const displacementCoordinates = multipleFigurinesDisplacement[numberOfPlayersOnSpace][displacementPriority]
-        
+
         switch (coordinate.toLowerCase()){
-        case "0":
-        case "x":
-            var coord=0 //NOSONAR
-            break;
-        case "1":
-        case "y":
-            var coord=1 //NOSONAR
-            break;
-        default:
-            throw new Error("Invalid coordinate");
+            case "0":
+            case "x":
+                var coord=0 //NOSONAR
+                break;
+            case "1":
+            case "y":
+                var coord=1 //NOSONAR
+                break;
+            default:
+                throw new Error("Invalid coordinate");
         }
-        
+
         return (coordinates[playerSpace[id]][coord]*100)+figurineGlobalOffset[coord]+displacementCoordinates[coord];
     }
 
@@ -820,7 +815,7 @@ const Board = () => { //NOSONAR
         const deltaX = (to[0])-( from[0])
         const deltaY = (to[1])-( from[1])
         const rot = (Math.atan2(deltaX, deltaY) * (180 / Math.PI));
-    
+
         return [x+arrowGlobalOffset[0]/100, y+arrowGlobalOffset[1]/100, rot];
     }
     //#endregion
@@ -829,7 +824,7 @@ const Board = () => { //NOSONAR
 
     const KeyboardControls = () => { //NOSONAR
         const { zoomIn, zoomOut, resetTransform } = useControls();
-    
+
         useEffect(() => { //NOSONAR
             const keyDownEvent = (event) => {
                 let r=function(){return floor(Math.random()*(numberOfCoordinates-1)+1)} //NOSONAR
@@ -841,162 +836,162 @@ const Board = () => { //NOSONAR
                 };
                 const getRandomKey = (dict: { [key: string]: any }): string | undefined => {
                     const keys = Object.keys(dict);
-                    
+
                     return keys[floor(Math.random()*keys.length)];
                 }
                 switch (event.key){ //NOSONAR
-                case "r":
-                    resetTransform();
-                    break;
-                case "x":
-                    setDisplayPlayerIds([displayPlayerIds[0], displayPlayerIds[2], displayPlayerIds[1], displayPlayerIds[3]])
-                    break;
-                case "m":
-                    handleMute();
-                    break;
-                case ".":
-                    zoomOut();
-                    break;
-                case ",":
-                    zoomIn();
-                    break;
-                case "Enter":
-                    setOverlayActive(1-overlayActive);
-                    break;
-                case "Escape":
-                    setOverlayActive(0);
-                    break;
-                case "$":
-                    setUsingRetro(1-usingRetro);
-                    break;
-                case "F1":
-                    //TODO insert help //NOSONAR
-                    alert("Insert Help");
-                    break;
+                    case "r":
+                        resetTransform();
+                        break;
+                    case "x":
+                        setDisplayPlayerIds([displayPlayerIds[0], displayPlayerIds[2], displayPlayerIds[1], displayPlayerIds[3]])
+                        break;
+                    case "m":
+                        handleMute();
+                        break;
+                    case ".":
+                        zoomOut();
+                        break;
+                    case ",":
+                        zoomIn();
+                        break;
+                    case "Enter":
+                        setOverlayActive(1-overlayActive);
+                        break;
+                    case "Escape":
+                        setOverlayActive(0);
+                        break;
+                    case "$":
+                        setUsingRetro(1-usingRetro);
+                        break;
+                    case "F1":
+                        //TODO insert help //NOSONAR
+                        alert("Insert Help");
+                        break;
 
-                //~ ↓ debug options, will be removed in the production build
-                case "y":
-                    usables(usablesExampleData1["data"])
-                    break;
-                case "~":
-                    // processCommands(datata1)
-                    break;
-                case "n":
-                    setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
-                    break;
-                case "ö":
-                    setDice(3);
-                    break;
-                case "m":
-                    // forFour()
-                    break;
-                case "p":
-                    winCondition(winConditionDataExample1["data"])
-                    break;
-                case "P":
-                    setWinConditionProgress([min(max(winConditionProgress[0]-1, 0), 2), 3])
-                    break;
-                case "¶":
-                    newActivePlayer(turnDataExample["data"]);
-                    break;
-                case "g":
-                    goal(goalDataExample["data"]);
-                    break;
-                case "M":
-                    money(moneyDataExample2["data"]);
-                    break;
-                case "t":
-                    (junction(junctionDataExample3["data"]));
-                    break;
-                case "T":
-                    (junction(junctionDataExample2["data"]));
-                    break;
-                case "k":
-                    (setArrowPositions(null));
-                    break;
-                case "d":
-                    (move(moveDataExample2["data"]));
-                    break;
-                case "j":
-                    (move(moveDataExample1["data"]));
-                    break;
-                case "h":
-                    gameEnd(endDataExample1["data"]);
-                    gameEnd(endDataExample2["data"]);
-                    gameEnd(endDataExample3["data"]);
-                    gameEnd(endDataExample4["data"]);
-                    gameEnd(endDataExample5["data"]);
-                    break;
-                case "ü":
-                    addUsable("2", getRandomItemFromSet(allCards))
-                    break;
-                case "9":
-                    addUsable("1", getRandomItemFromSet(allCards))
-                    addUsable("3", getRandomItemFromSet(allCards))
-                    addUsable("4", getRandomItemFromSet(allCards))
-                    break;
-                case ")":
-                    addUsable("1", getRandomItemFromSet(allItems))
-                    addUsable("3", getRandomItemFromSet(allItems))
-                    addUsable("4", getRandomItemFromSet(allItems))
-                    break;
-                case "è":
-                    addUsable("2", getRandomItemFromSet(allItems))
-                    break;
-                case "[":
-                    setPlayerUsables({...playerUsables, "2": initialUsables})
-                    break;
-                case "£":
-                    setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
-                    break;
-                case "i":
-                    setCurrWinCondition(getRandomKey(winConditionData))
-                    break;
-                case "I":
-                    setUltimateName(getRandomKey(ultimateData))
-                    break;
-                case "q":
-                    setPlayerSpace({"1":(playerSpace["1"]%numberOfCoordinates)+1, "2":(playerSpace["2"]%numberOfCoordinates)+1, "3":(playerSpace["3"]%numberOfCoordinates)+1, "4":(playerSpace["4"]%numberOfCoordinates)+1})
-                    break;
-                case "w":
-                    setPlayerSpace({...playerSpace, "4":(playerSpace["4"]%numberOfCoordinates)+1})
-                    break;
-                case "W":
-                    setPlayerSpace({...playerSpace, "4":max((playerSpace["4"]%numberOfCoordinates)-1, 1)})
-                    break;
-                case "s":
-                    setPlayerSpace({"1":[54], "2":[53], "3":[53], "4":[54]})
-                    break;
-                case "e":
-                    let rand=r() //NOSONAR
-                    setPlayerSpace({"1":[rand], "2":[rand], "3":[rand], "4":[rand]})
-                    break;
-                case "z":
-                    setPlayerSpace({"1":[r()], "2":[r()], "3":[r()], "4":[r()]})
-                    break;
-                case "c":
-                    setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
-                    break;
-                case "C":
-                    setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
-                    break;
-                case "©":
-                    setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
-                    break;
-                default:
+                    //~ ↓ debug options, will be removed in the production build
+                    case "y":
+                        usables(usablesExampleData1["data"])
+                        break;
+                    case "~":
+                        // processCommands(datata1)
+                        break;
+                    case "n":
+                        setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
+                        break;
+                    case "ö":
+                        setDice(3);
+                        break;
+                    case "m":
+                        // forFour()
+                        break;
+                    case "p":
+                        winCondition(winConditionDataExample1["data"])
+                        break;
+                    case "P":
+                        setWinConditionProgress([min(max(winConditionProgress[0]-1, 0), 2), 3])
+                        break;
+                    case "¶":
+                        newActivePlayer(turnDataExample["data"]);
+                        break;
+                    case "g":
+                        goal(goalDataExample["data"]);
+                        break;
+                    case "M":
+                        money(moneyDataExample2["data"]);
+                        break;
+                    case "t":
+                        (junction(junctionDataExample3["data"]));
+                        break;
+                    case "T":
+                        (junction(junctionDataExample2["data"]));
+                        break;
+                    case "k":
+                        (setArrowPositions(null));
+                        break;
+                    case "d":
+                        (move(moveDataExample2["data"]));
+                        break;
+                    case "j":
+                        (move(moveDataExample1["data"]));
+                        break;
+                    case "h":
+                        gameEnd(endDataExample1["data"]);
+                        gameEnd(endDataExample2["data"]);
+                        gameEnd(endDataExample3["data"]);
+                        gameEnd(endDataExample4["data"]);
+                        gameEnd(endDataExample5["data"]);
+                        break;
+                    case "ü":
+                        addUsable("2", getRandomItemFromSet(allCards))
+                        break;
+                    case "9":
+                        addUsable("1", getRandomItemFromSet(allCards))
+                        addUsable("3", getRandomItemFromSet(allCards))
+                        addUsable("4", getRandomItemFromSet(allCards))
+                        break;
+                    case ")":
+                        addUsable("1", getRandomItemFromSet(allItems))
+                        addUsable("3", getRandomItemFromSet(allItems))
+                        addUsable("4", getRandomItemFromSet(allItems))
+                        break;
+                    case "è":
+                        addUsable("2", getRandomItemFromSet(allItems))
+                        break;
+                    case "[":
+                        setPlayerUsables({...playerUsables, "2": initialUsables})
+                        break;
+                    case "£":
+                        setTurnOrder([turnOrder[1], turnOrder[2], turnOrder[3], turnOrder[0]])
+                        break;
+                    case "i":
+                        setCurrWinCondition(getRandomKey(winConditionData))
+                        break;
+                    case "I":
+                        setUltimateName(getRandomKey(ultimateData))
+                        break;
+                    case "q":
+                        setPlayerSpace({"1":(playerSpace["1"]%numberOfCoordinates)+1, "2":(playerSpace["2"]%numberOfCoordinates)+1, "3":(playerSpace["3"]%numberOfCoordinates)+1, "4":(playerSpace["4"]%numberOfCoordinates)+1})
+                        break;
+                    case "w":
+                        setPlayerSpace({...playerSpace, "4":(playerSpace["4"]%numberOfCoordinates)+1})
+                        break;
+                    case "W":
+                        setPlayerSpace({...playerSpace, "4":max((playerSpace["4"]%numberOfCoordinates)-1, 1)})
+                        break;
+                    case "s":
+                        setPlayerSpace({"1":[54], "2":[53], "3":[53], "4":[54]})
+                        break;
+                    case "e":
+                        let rand=r() //NOSONAR
+                        setPlayerSpace({"1":[rand], "2":[rand], "3":[rand], "4":[rand]})
+                        break;
+                    case "z":
+                        setPlayerSpace({"1":[r()], "2":[r()], "3":[r()], "4":[r()]})
+                        break;
+                    case "c":
+                        setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
+                        break;
+                    case "C":
+                        setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
+                        break;
+                    case "©":
+                        setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
+                        break;
+                    default:
 
-                    if (["1", "2", "3", "4", "5", "6", "7", "8", "0"].includes(event.key))
-                        setImageId(event.key);
+                        if (["1", "2", "3", "4", "5", "6", "7", "8", "0"].includes(event.key))
+                            setImageId(event.key);
                 }
             };
-    
+
             window.addEventListener("keydown", keyDownEvent);
-    
+
             return () => {
                 window.removeEventListener("keydown", keyDownEvent);
             };
         }, []);
-    
+
         return null;
     };
 
@@ -1013,7 +1008,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
         //setTimeout(() => {joinVoice("main")},7000);
-        
+
         const handleBeforeUnload = (event) => {
             event.preventDefault();
             event.returnValue = "";
@@ -1024,7 +1019,7 @@ const Board = () => { //NOSONAR
             leaveVoice("main")
             window.removeEventListener("load", adjustFigurineSize);
             window.removeEventListener("resize", adjustFigurineSize);
-            
+
             window.removeEventListener("beforeunload", handleBeforeUnload);
             document.body.classList.remove("scrollbar-removal");
         }
@@ -1074,7 +1069,7 @@ const Board = () => { //NOSONAR
                     {index<turnOrder.length-1 ? <div className="turn-order-arrow"/> : ""}
                 </React.Fragment>
             ))
-            // insert active player circle if needed (moving coin already indicates active player)
+                // insert active player circle if needed (moving coin already indicates active player)
             }
         </div>
     )
@@ -1098,9 +1093,9 @@ const Board = () => { //NOSONAR
 
     const pixelItems=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom", "Tp"])
 
-    const singleUsable = (name: string, active: boolean) => { 
+    const singleUsable = (name: string, active: boolean) => {
         if (name===""){
-            return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/> 
+            return  <img src={require("../../assets/usables/placeholder.png")} alt={""}/>
         }
 
         return(
@@ -1118,14 +1113,14 @@ const Board = () => { //NOSONAR
     }
 
     const enumerateUsables = (usables: Array<string>, active) => {
-        
+
         if (Math.random()===-1){ //NOSONAR sonar hates fun
             //formats usables in a prettier grid
             let len=usables.length
             let magicNumber=max(ceil(len/2), 2)
             usables=[...usables.slice(0, magicNumber), ...Array(max(5-magicNumber, 0)).fill(""), ...usables.slice(magicNumber)]
         }
-        
+
         return(
             <div className="item-container">
                 {usables.map(usable => singleUsable(usable, active))}
@@ -1139,7 +1134,7 @@ const Board = () => { //NOSONAR
                 <div>{allData[previewImage]["Type"]}</div>
                 <b><div>{allData[previewImage]["DisplayName"]}</div></b>
             </div>
-            
+
             <div className="preview-picture-text-box">
                 <img
                     className="preview-picture"
@@ -1151,7 +1146,7 @@ const Board = () => { //NOSONAR
             </div>
         </div>
         : "")
-    
+
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
@@ -1200,23 +1195,23 @@ const Board = () => { //NOSONAR
                     </div>
                     <div className="ultimate-win-box">
                         <div className="win-condition-box" //NOSONAR
-                            onMouseEnter={() => setPreviewImage(currWinCondition)}
-                            onMouseLeave={() => setPreviewImage("")}>
+                             onMouseEnter={() => setPreviewImage(currWinCondition)}
+                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="win-condition-chart" style={{backgroundImage: `conic-gradient(#0fdf0f ${winConditionProgress[0]/winConditionProgress[1]*100}%, #004f00 ${winConditionProgress[0]/winConditionProgress[1]*100}%)`}}/>
                             <div className="win-condition-name">
                                 {winConditionData[currWinCondition]["DisplayName"]}
                             </div>
-                            
+
                         </div>
                         <div className="ultimate-box" //NOSONAR
-                            onMouseEnter={() => setPreviewImage(ultimateName)} 
-                            onMouseLeave={() => setPreviewImage("")}>
+                             onMouseEnter={() => setPreviewImage(ultimateName)}
+                             onMouseLeave={() => setPreviewImage("")}>
                             <div className="ultimate-name"
-                                style={{
-                                    backgroundColor: ultimateState ? "#b1001d":"#5e0000",
-                                    cursor: ultimateState ? "cursor" : "default"
-                                }}
-                                >
+                                 style={{
+                                     backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                     cursor: ultimateState ? "cursor" : "default"
+                                 }}
+                            >
                                 {ultimateData[ultimateName]["DisplayName"]}
                             </div>
                         </div>
