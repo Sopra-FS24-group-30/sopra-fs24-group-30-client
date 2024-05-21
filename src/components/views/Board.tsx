@@ -555,7 +555,7 @@ const Board = () => { //NOSONAR
 
     const sendArrowChoice = (choice) => {
         setArrowPositions(null);
-        sendMessage(`/app/game/${gameId}/board/junction`, JSON.stringify({"selectedSpace": choice}))
+        sendMessage(`/app/game/${gameId}/board/junction`, {choice})
     }
 
     const sendDice = () => {
@@ -643,7 +643,7 @@ const Board = () => { //NOSONAR
                 alert(message.body);
             });
 
-            const subscriptionJunction = client.subscribe(`/topic/game/${gameId}/board/junction`, (message) => {
+            const subscriptionJunction = client.subscribe(`/user/queue/game/${gameId}/board/junction`, (message) => {
                 const data = JSON.parse(message.body);
                 junction(data)
             });
@@ -674,6 +674,11 @@ const Board = () => { //NOSONAR
                 setDice(data.results)
             });
 
+            const subscriptionWinCondition = client.subscribe(`/user/queue/game/${gameId}/board/winCondition`, (message) => {
+                const data = JSON.parse(message.body);
+                winCondition(data.results)
+            });
+
             const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
@@ -694,6 +699,7 @@ const Board = () => { //NOSONAR
                 subscriptionMoney.unsubscribe();
                 subscriptionActivePlayer.unsubscribe();
                 subscriptionDice.unsubscribe();
+                subscriptionWinCondition.unsubscribe();
                 subscriptionGameEnd.unsubscribe();
             }
         }
