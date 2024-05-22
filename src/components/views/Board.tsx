@@ -609,7 +609,7 @@ const Board = () => { //NOSONAR
                 goal(data);
             });
 
-            const subscriptionError = client.subscribe(`/user/queue/game/${gameId}/board/junction`, (message) => {
+            const subscriptionError = client.subscribe(`/user/queue/game/${gameId}/board/error`, (message) => {
                 alert(message.body);
             });
 
