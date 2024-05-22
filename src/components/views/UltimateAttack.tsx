@@ -101,7 +101,7 @@ const UltimateAttack: React.FC = () => {
     return (
         <div className="Selection container">
             <div className="Selection text">Select an ultimate attack, by clicking on a card</div>
-            {ultimate ? <UltimateAttackCards condition={ultimate}/> : <Spinner />}
+            {ultimate ? <UltimateAttackCards attack={ultimate}/> : <Spinner />}
         </div>
     )
 }
