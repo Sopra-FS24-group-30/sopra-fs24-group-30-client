@@ -345,6 +345,7 @@ const Board = () => { //NOSONAR
     const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
     const [inTeam, setInTeam] = useState(false);
     const [mute,setMute] = useState(false);
+    const [inVoice,setInVoice] = useState(false);
 
     const [imageId, setImageId]=useState("0"); //which goal state is used
     const [overlayActive, setOverlayActive]=useState(0);
@@ -581,7 +582,8 @@ const Board = () => { //NOSONAR
 
     const sendMessageWeb = () => {
         console.log("sending msg");
-        //sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
+        console.log("the state of mute is: " + mute);
+        sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
     }
 
     //$ websockets
@@ -721,8 +723,20 @@ const Board = () => { //NOSONAR
     }
 
     const handleMute = () => {
-        setMute(!mute);
         setMuted(mute);
+        setMute(!mute);
+    }
+
+    const handleJoin = () => {
+        joinVoice("main");
+        setInVoice(true);
+        setMute(false);
+    }
+
+    const handleLeave = () => {
+        leaveVoice();
+        setInVoice(false);
+        setInTeam(false);
     }
 
     const getTeam = () => {
@@ -1213,17 +1227,17 @@ const Board = () => { //NOSONAR
                             Roll Dice
                         </button><br/>
                         {/* <button onClick={ () => alert("a")}>Use Item</button> */}
-                        <button onClick={() => {joinVoice("main")}}>
+                        <button onClick={() => {handleJoin()}}>
                             joinVoice
                         </button>
-                        <button onClick={() => {leaveVoice()}}>
+                        <button onClick={() => {handleLeave()}} disabled={!inVoice}>
                             leaveVoice
                         </button>
-                        <button onClick={(event) => {toggleVoice(event,getTeam())}}>
+                        <button onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}>
                             {inTeam ? "teamVoice" : "globalVoice"}
                         </button>
-                        <button onClick={() => {handleMute()}}>
-                            {mute ? "mute" : "unmute"}
+                        <button onClick={() => {handleMute()}} disabled={!inVoice}>
+                            {mute ? "unmute" : "mute"}
                         </button>
                         <button onClick={() => {sendMessageWeb()}}>
                             sendMessage
