@@ -8,6 +8,8 @@ body.scrollbar-removal{ //overwrites global css style
 .board-background{
     max-width: 100%;
     max-height: 100vh;
+    min-height: max-content;
+    width: 100%;
     object-fit: contain; 
 }
 
@@ -237,6 +239,51 @@ $item-container-width: 23vh;
         border-radius:7%;
         border-width: status-font-size(.5);
         // image-rendering: pixelated; //used for pixelitems
+    }
+    
+    &-text{
+        // color: #fff;
+        padding-left: calc($box-margin*1.2);
+        font-size: status-font-size(5);
+    }
+
+}
+
+.message{ //when hovering over items/cards
+
+    &-box{
+        position:absolute;
+        display: flex;
+        // align-items: center;
+        text-align: center;
+        flex-direction: column;
+        background-color: #ffffffbe;
+        z-index: 3;
+        width: min(63vw, 100vh);
+        border-radius: status-font-size(4.5);
+        padding: calc($box-margin*1.2);
+        padding-left: calc($box-margin*1.35);
+        padding-right: calc($box-margin*1.35);
+    }
+
+    &-name-class-box{
+        font-size: status-font-size(4);
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        text-align: center;
+        justify-content: space-between;
+        padding-bottom:$box-margin;
+        margin-top:status-font-size(-.5);
+        // padding-top: 0px;
+    }
+
+    &-text-box{
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        text-align: center;
+        justify-content: space-around;
     }
     
     &-text{

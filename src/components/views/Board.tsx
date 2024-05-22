@@ -31,9 +31,12 @@ const map100to3 = (number) => {
 
 const allData={...usablesData, ...winConditionData, ...ultimateData};
 
-const {ceil, floor, min, max, round} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
+const {ceil, floor, min, max, round, abs} = Math; //NOSONAR this is way more convenient than having to remove min now and re-add it once it is actualy needed
 const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
+
+const lost="<font color=#de1313>lost</font>"
+const gained="<font color=#18c92a>gained</font>"
 
 function itemsDictToList(obj: { [key: string]: number }): string[] {
     const result: string[] = [];
@@ -151,7 +154,7 @@ const PlayerStatus: React.FC<{
 //are to be loaded from burger.json/be sent from the backend
 const coordinates = {"1": [0.17012893982808, 0.440532417346501], "2": [0.641833810888252, 0.670244740231859], "3": [0.327722063037249, 0.504508372692143], "4": [0.600286532951289, 0.477458136539287], "5": [0.900787965616046, 0.613997423787033], "6": [0.322349570200573, 0.844568484328038], "7": [0.403295128939828, 0.293258909403177], "8": [0.333810888252149, 0.127093173035638], "9": [0.827722063037249, 0.772434521253757], "10": [0.876074498567335, 0.702018033490768], "11": [0.469914040114613, 0.850579647917561], "12": [0.893624641833811, 0.522971232288536], "13": [0.846704871060172, 0.440103048518678], "14": [0.790472779369627, 0.375268355517389], "15": [0.723853868194842, 0.321597252039502], "16": [0.660458452722063, 0.180334907685702], "17": [0.599212034383954, 0.133533705452984], "18": [0.413323782234957, 0.126234435379991], "19":[0.53474212034384, 0.851438385573207], "20":[0.285100286532951, 0.187634177758695], "21":[0.212392550143266, 0.20781451266638], "22":[0.169054441260745, 0.279089738085015], "23":[0.170845272206304, 0.36152855302705], "24":[0.192335243553009, 0.797337913267497], "25":[0.170487106017192, 0.522971232288536], "26":[0.169770773638968, 0.605839416058394], "27":[0.242836676217765, 0.693430656934307], "28":[0.26432664756447, 0.62043795620438], "29":[0.398638968481375, 0.585659081150708], "30":[0.459169054441261, 0.612709317303564], "31":[0.434813753581662, 0.67582653499356], "32":[0.421919770773639, 0.782739373121511], "33":[0.709885386819484, 0.741949334478317], "34":[0.253939828080229, 0.848003434950623], "35":[0.573424068767908, 0.670244740231859], "36":[0.507879656160459, 0.677114641477029], "37":[0.744985673352435, 0.581365392872477], "38":[0.727793696275072, 0.500644053241735], "39":[0.726361031518625, 0.407471017604122], "40":[0.613538681948424, 0.285959639330185], "41":[0.549426934097421, 0.321167883211679], "42":[0.492836676217765, 0.367969085444397], "43":[0.456661891117478, 0.433233147273508], "44":[0.543696275071633, 0.507943323314727], "45":[0.38932664756447, 0.8475740661228], "46":[0.660458452722063, 0.431515671962216], "47":[0.76432664756447, 0.826534993559468], "48":[0.338825214899713, 0.418205238299699], "49":[0.352793696275072, 0.337054529841133], "50":[0.314469914040115, 0.259768140832975], "51":[0.484598853868195, 0.210390725633319], "52":[0.612464183381089, 0.84070416487763], "53":[0.0744985673352436, 0.512666380420782], "54":[0.819842406876791, 0.612279948475741], "55":[0.427292263610315, 0.728209531987978], "56":[0.443409742120344, 0.251610133104337], "57":[0.175143266475645, 0.709317303563761], "58":[0.686962750716332, 0.837269214255045], "59":[0.726570200573066, 0.673380420781451], "60":[0.691618911174785, 0.249033920137398], "61":[0.51432664756447, 0.137398024903392], "62":[0.325573065902579, 0.588235294117647], "63":[0.453080229226361, 0.519106912838128]}
 const allUsables=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie", "B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
-const overSpaces=new Set<string>(["Junction", "Gate", "SpecialItem", "Goal"])
+const overSpaces=new Set<string>(["junction", "gate", "specialitem", "goal"])
 
 //! only used for development purposes, to be removed in production build
 //#region 
@@ -159,10 +162,22 @@ const numberOfCoordinates=Object.keys(coordinates).length;
 const allItems=new Set<string>(["MagicMushroom", "TwoMushrooms", "TheBrotherAndCo", "PeaceImOut", "IceCreamChest", "WhatsThis", "SuperMagicMushroom", "Stick", "ImOut", "TreasureChest", "MeowYou", "XboxController", "BadWifi", "UltraMagicMushroom", "BestTradeDeal", "ItemsAreBelongToMe", "Confusion", "GoldenSnitch", "OnlyFansSub", "ChickyNuggie"])
 const allCards=new Set<string>(["B14", "B26", "B35", "B135", "B246", "B123", "B456", "B07", "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "G13", "G26", "G45", "G04", "G37", "G1256"])
 
+const diceExampleData1 = {
+    "data": {
+        "results":[5] //an array (incase multiple dice are thrown)
+    }
+}
+
+const diceExampleData2 = {
+    "data": {
+        "results":[5, 4, 2] //an array (incase multiple dice are thrown)
+    }
+}
+
 const usablesExampleData1 = {
     "data" :{
         "1": {
-            "items": ["MagicMushroom"],
+            "items": ["MagicMushroom", "MagicMushroom"],
             "cards":[]
         },
         "2": {
@@ -186,7 +201,7 @@ const moveDataExample2 = {
             {
                 "spaces": [30, 31, 55], //spaces, to which the player will move
                 "moves": 5, //spaces left to move
-                "endsWithOver": true //if the last space in "spaces": [] is an over space or not
+                "spaceColour": "SpecialItem"
             },
         "movementType": "walk" //type of movement effect ["simultaneous", "move", "teleport", etc…]
     }
@@ -199,13 +214,13 @@ const moveDataExample1 = {
             {
                 "spaces": [55], //spaces, to which the player will move
                 "moves": 0, //spaces left to move
-                "endsWithOver": false //if the last space in "spaces": [] is an over space or not
+                "spaceColour": null
             },
         "2": //playerId
             {
                 "spaces": [30], //spaces, to which the player will move
                 "moves": 0, //spaces left to move
-                "endsWithOver": false //if the last space in "spaces": [] is an over space or not
+                "spaceColour": null
             },
         "movementType": "teleport" //type of movement effect ["simultaneous", "move", "teleport", etc…]
     }
@@ -357,7 +372,7 @@ const Board = () => { //NOSONAR
     const initialUsables = Object.fromEntries(Array.from(allUsables).map(usable => [usable, 0]));
     const [playerUsables, setPlayerUsables]=useState<UsableState>({"1": initialUsables, "2": initialUsables, "3": initialUsables, "4": initialUsables})
     const [playerSpace, setPlayerSpace]=useState({"1": 53, "2": 54, "3": 53, "4": 54});
-    const [playerMoney, setPlayerMoney]=useState({"1": 10, "2": 10, "3": 10, "4": 10});
+    const [playerMoney, setPlayerMoney]=useState({"1": 15, "2": 15, "3": 15, "4": 15});
     const [turnOrder, setTurnOrder]=useState(["1", "3", "2", "4"])
     const [winConditionProgress, setWinConditionProgress]=useState([3, 4]) // represents a fraction
     const [currWinCondition, setCurrWinCondition]=useState("JackSparrow")
@@ -366,10 +381,11 @@ const Board = () => { //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
-    const [dice, setDice]=useState<number[]>(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
+    const [landedUponSpace, setLandedUponSpace]=useState("")
+
     const [socketReady, setSocketReady] = useState(false);
 
     const [arrowPositions, setArrowPositions]=useState(null) //null if there are no arrows, otherwise [[from, to, locked?]]
@@ -384,6 +400,13 @@ const Board = () => { //NOSONAR
     const userId = localStorage.getItem("userId");
     const [players, setPlayers] = useState<Player[]>(null);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
+
+    const timerMsg = async (type, content, timeout=3000) => {
+        if (content!=="")
+            {setActiveMessage([type, content])
+            await sleep(timeout)
+            setActiveMessage(["", ""])}
+    }
 
     //~ interpretation of websocket messages
 
@@ -400,29 +423,44 @@ const Board = () => { //NOSONAR
 
         return new Promise(async (resolve, reject) => { //NOSONAR
             try {
-                switch (movingType) {
+                switch (movingType.toLowerCase()) {
                     case "walk":
                     case "jump":
-
-                        for (const [playerID, val] of Object.entries(toRead)) {
+                        for (const [playerId, val] of Object.entries(toRead)) {
+                            setLandedUponSpace(val[""])
                             for (const space of val["spaces"]) {
                                 setPlayerSpace(prevState => ({
                                     ...prevState,
-                                    [playerID]: space
+                                    [playerId]: space
                                 }));
                                 await sleep(300);
                             }
+                            try{if (!(overSpaces.has(val["spaceColour"].toLowerCase()))) await timerMsg("Landed on Space", `${userNames[playerId]} landed on a ${val["spaceColour"]} Space.`, 1250)}
+                            catch{}
                         }
                         resolve(null);
                         break;
                     case "simultaneous":
                     case "tp":
                     case "teleport":
-                        for (const [playerID, val] of Object.entries(toRead)) {
+                        let message=""
+                        for (const [playerId, val] of Object.entries(toRead)) {
+                            message+=`${userNames[playerId]} teleported.\n`
                             let space = val["spaces"][val["spaces"].length - 1];
                             setPlayerSpace(prevState => ({
                                 ...prevState,
-                                [playerID]: space
+                                [playerId]: space
+                            }));
+                        }
+                        timerMsg("Teleportation", message, 3000)
+                        resolve(null)
+                        break;
+                    case "start":
+                        for (const [playerId, val] of Object.entries(toRead)) {
+                            let space = val["spaces"][val["spaces"].length - 1];
+                            setPlayerSpace(prevState => ({
+                                ...prevState,
+                                [playerId]: space
                             }));
                         }
                         resolve(null)
@@ -460,8 +498,11 @@ const Board = () => { //NOSONAR
     }
 
     const money = (data) => {
+        let deltas={"1": 0, "2":0, "3":0, "4":0}
+
         const updates = Object.entries(data).reduce((acc, [playerId, details]) => {
             acc[playerId] = details["newAmountOfMoney"];
+            deltas[playerId]=details["changeAmountOfMoney"]
 
             return acc;
         }, {});
@@ -470,6 +511,14 @@ const Board = () => { //NOSONAR
             ...prevMoney,
             ...updates
         }));
+
+        let message=""
+        for (let playerId in deltas) {
+            let delta = deltas[playerId];
+            if(delta===0)continue;
+            message+=`${userNames[playerId]} <b>${delta>0 ? gained : lost} ${abs(delta)}</b> Coins.\n`
+        }
+        if(message!=="") {timerMsg("Change in Money", message)};
     }
 
     const goal = (data) => {
@@ -498,27 +547,51 @@ const Board = () => { //NOSONAR
         setUltimateState(data["active"])
     }
 
-    const usables = (data) => {
+    const usables = (dataa) => {
+        console.log(dataa)
+        let data=structuredClone(dataa)
         let res = playerUsables;
+        let deltas = {"1": [[], []], "2": [[], []], "3": [[], []], "4": [[], []]}
         for (const player in data) {
             //Combining items and cards into usables
-            data[player]["usables"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
+            data[player]["wfjnknjfkjwfkjwefkjnfwe"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
             for (const item in res[player]) {
 
-                let numberOfNew=data[player]["usables"].filter((i: string) => i === item).length
+                let numberOfNew=data[player]["wfjnknjfkjwfkjwefkjnfwe"].filter((i: string) => i === item).length
                 let numberOfOld=res[player][item]
 
                 if (numberOfOld !== numberOfNew){
                     let dif = numberOfNew-numberOfOld
                     for (let i=0; i<dif; i++){
                         addUsable(player, item)
-                        
+                        deltas[player][0].push(allData[item].DisplayName)
                     }
                     for (let i=0; i>dif; i--){
+                        deltas[player][1].push(allData[item].DisplayName)
                         removeUsable(player, item)
                     }
                 }
             }
+        }
+        let message=""
+        for (const player in deltas){
+            message+=deltas[player][0].length===0 ? "" : `<b>${userNames[player]} ${gained}:</b> ${deltas[player][0].join(", ")}.\n`
+            message+=deltas[player][1].length===0 ? "" : `<b>${userNames[player]} ${lost}:</b> ${deltas[player][1].join(", ")}.\n`
+        }
+        timerMsg("Change in Items and Cards",message, 3000)
+    }
+
+    const dice = (data) => {
+        let numberOfDice=data.results.length
+        if (numberOfDice===1){
+            timerMsg("Dice Roll", `Rolled a <b>${data.results.toString()}</b>.`, 2000)
+        }
+        else{
+            var total = 0; //NOSONAR
+            for (let num of data.results) {
+                total += num;
+            }
+            timerMsg("Dice Roll", `Rolled ${numberOfDice} dice (${data.results.join(", ")}) for a total of <b>${total}</b>.`, 3000)
         }
     }
 
@@ -551,7 +624,7 @@ const Board = () => { //NOSONAR
         switch (allData[usable]["choice"]){
             //TODO
         }
-        sendMessage(address, JSON.stringify({"used": usable, "choice": {}}))
+        sendMessage(address, {"used": usable, "choice": {}})
     }
 
     async function processCommands(datata) {
@@ -642,8 +715,7 @@ const Board = () => { //NOSONAR
 
             const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
                 const data = JSON.parse(message.body);
-                //TODO show number of moves of dice
-                setDice(data.results)
+                dice(data)
             });
 
             const subscriptionWinCondition = client.subscribe(`/user/queue/game/${gameId}/board/winCondition`, (message) => {
@@ -737,7 +809,6 @@ const Board = () => { //NOSONAR
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
     const addUsable = (playerId: string, name: string) => {
-        setActiveMessage(["a", `${userNames[playerId]} lost ${allData[name]["printName"]}`])
         setPlayerUsables(prevUsables => ({
             ...prevUsables,
             [playerId]: {
@@ -849,6 +920,8 @@ const Board = () => { //NOSONAR
                         break;
                     case "$":
                         setUsingRetro(1-usingRetro);
+                        setTimeout(() => adjustFigurineSize(), 0)
+                        setTimeout(() => adjustFigurineSize(), 1000)
                         break;
                     case "F1":
                         //TODO insert help //NOSONAR
@@ -864,9 +937,6 @@ const Board = () => { //NOSONAR
                         break;
                     case "n":
                         setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
-                        break;
-                    case "ö":
-                        setDice(3);
                         break;
                     case "m":
                         // forFour()
@@ -897,6 +967,12 @@ const Board = () => { //NOSONAR
                         break;
                     case "d":
                         (move(moveDataExample2["data"]));
+                        break;
+                    case "ö":
+                        (dice(diceExampleData1["data"]));
+                        break;
+                    case "ä":
+                        (dice(diceExampleData2["data"]));
                         break;
                     case "j":
                         (move(moveDataExample1["data"]));
@@ -994,7 +1070,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
         setTimeout(() => {adjustFigurineSize()},1000);
-        setTimeout(() => {joinVoice("main")},7000);
+        // setTimeout(() => {joinVoice("main")},7000);
 
         const handleBeforeUnload = (event) => {
             event.preventDefault();
@@ -1115,6 +1191,19 @@ const Board = () => { //NOSONAR
         )
     }
 
+    let messageHTML = (activeMessage[0]==="" ? "" :
+        <div className="message-box">
+            <div className="message-name-class-box">
+                Message
+                <b>{activeMessage[0]}</b>
+            </div>
+
+            <div className="message-text-box">
+                <div className="message-text" dangerouslySetInnerHTML={{ __html:activeMessage[1].replace(/\n/g, "<br />") }} />
+            </div>
+        </div>
+        )
+
     let previewImageHTML = (previewImage!=="" ?
         <div className="preview-box" style={{color: cardColours[allData[previewImage]["Category"]][1], backgroundColor: cardColours[allData[previewImage]["Category"]][0]}}>
             <div className="preview-name-class-box">
@@ -1134,36 +1223,17 @@ const Board = () => { //NOSONAR
         </div>
         : "")
 
-        let messageHTML = (activeMessage[0]!=="" ? activeMessage[1]
-        // <div className="preview-box" style={{color: cardColours[allData[previewImage]["Category"]][1], backgroundColor: cardColours[allData[previewImage]["Category"]][0]}}>
-        //     <div className="preview-name-class-box">
-        //         <div>{allData[previewImage]["Type"]}</div>
-        //         <b><div>{allData[previewImage]["DisplayName"]}</div></b>
-        //     </div>
-
-        //     <div className="preview-picture-text-box">
-        //         <img
-        //             className="preview-picture"
-        //             src={require((`../../assets/usables/${previewImage}.png`))}
-        //             style={{imageRendering: pixelItems.has(previewImage) ? "pixelated" : "inherit"}}
-        //             alt={`${allData[previewImage]["DisplayName"]}`}
-        //         />
-        //         <div className="preview-text" dangerouslySetInnerHTML={{ __html: allData[previewImage]["Description"].replace(/\n/g, "<br />") }} />
-        //     </div>
-        // </div>
-        : "")
-
+        
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
-            {/* <TurnOverlay
+            <TurnOverlay
                 activePlayerName={userNames[activePlayer]}  // Ensure `activePlayer` and `userNames` are defined and updated elsewhere in your component
                 isVisible={showOverlay}
                 closeOverlay={() => setShowOverlay(false)}
-            /> */}
+            />
             <div className="board-container">
-                {previewImageHTML}
-                {messageHTML}
+                {activeMessage[0]==="" ? previewImageHTML : messageHTML}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
