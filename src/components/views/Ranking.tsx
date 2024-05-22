@@ -22,6 +22,8 @@ const Ranking = () => {
                 setReason(data.reason);
             })
 
+            sendMessage(`/app/game/${gameId}/ranking`, {})
+
             return () => {
                 subscriptionRanking.unsubscribe();
             }
