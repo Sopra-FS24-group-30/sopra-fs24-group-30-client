@@ -30,7 +30,7 @@ const CreateGame:  React.FC = () =>{
     const playerId = localStorage.getItem("userId");
     const [gameId, setGameId] = useState(localStorage.getItem("gameId") || null);
     const [players, setPlayers] = useState<User[]>([]);
-    const [gameReady, setGameReady] = useState<boolean>(false);
+    const [gameReady, setGameReady] = useState<Boolean>(false);
 
     localStorage.setItem("host", "true");
     console.log("playerId create: ", playerId);
@@ -56,7 +56,9 @@ const CreateGame:  React.FC = () =>{
 
             const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
                 const data = JSON.parse(message.body);
-                setGameReady("players: ", data.gameReady);
+                setGameReady(data.gameReady);
+                console.log("data", data);
+                console.log("gameReady", gameReady);
             })
 
             console.log("GameId: ", gameId);
@@ -160,7 +162,7 @@ const CreateGame:  React.FC = () =>{
                             disabled={!gameReady}
                             onClick={() => startGame()}
                         >
-                            Game ready
+                            Start Game
                         </Button>
                     </div>
                 </div>

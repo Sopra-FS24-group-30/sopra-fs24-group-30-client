@@ -21,6 +21,7 @@ const FormField = (props) => {
     return (
         <div className="login field">
             <input
+                type={props.type}
                 className="login input"
                 placeholder={props.placeholder}
                 value={props.value}
@@ -34,12 +35,13 @@ FormField.propTypes = {
     placeholder: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    type: PropTypes.string,
 };
 
 const Login = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState<string>(null);
-    const [password, setPassword] = useState<string>(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
 
     const doLogin = async () => {
         try {
@@ -58,6 +60,8 @@ const Login = () => {
             alert(
                 `Something went wrong during the login: \n${handleError(error)}`
             );
+            setUsername('');
+            setPassword('');
         }
     };
 
@@ -72,11 +76,13 @@ const Login = () => {
                 <div className="login form">
                     <h3>Login</h3>
                     <FormField
+                        type="text"
                         placeholder="Username"
                         value={username}
                         onChange={(un: string) => setUsername(un)}
                     />
                     <FormField
+                        type="password"
                         placeholder="Password"
                         value={password}
                         onChange={(un: string) => setPassword(un)}
