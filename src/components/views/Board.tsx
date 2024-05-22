@@ -10,6 +10,7 @@ import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
 import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
 import {useNavigate} from "react-router-dom";
+import UltimateAttack from "./UltimateAttack";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -609,7 +610,7 @@ const Board = () => { //NOSONAR
                 goal(data);
             });
 
-            const subscriptionError = client.subscribe(`/topic/board/error/${gameId}`, (message) => {
+            const subscriptionError = client.subscribe(`/user/queue/game/${gameId}/board/junction`, (message) => {
                 alert(message.body);
             });
 
@@ -1181,7 +1182,9 @@ const Board = () => { //NOSONAR
                         </div>
                         <div className="ultimate-box" //NOSONAR
                              onMouseEnter={() => setPreviewImage(ultimateName)}
-                             onMouseLeave={() => setPreviewImage("")}>
+                             onMouseLeave={() => setPreviewImage("")}
+                             onClick={() => sendUsable(ultimateName)}
+                             >
                             <div className="ultimate-name"
                                  style={{
                                      backgroundColor: ultimateState ? "#b1001d":"#5e0000",
