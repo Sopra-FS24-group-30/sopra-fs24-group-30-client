@@ -363,8 +363,8 @@ const Board = () => { //NOSONAR
     const [currWinCondition, setCurrWinCondition]=useState("JackSparrow")
     const [ultimateName, setUltimateName]=useState("Nothing")
     const [ultimateState, setUltimateState]=useState(true) //NOSONAR
-    const [usedUltimate, setUsedUltimate]=useState(false) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
+    const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
     const [dice, setDice]=useState<number[]>(0); //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
@@ -512,6 +512,7 @@ const Board = () => { //NOSONAR
                     let dif = numberOfNew-numberOfOld
                     for (let i=0; i<dif; i++){
                         addUsable(player, item)
+                        
                     }
                     for (let i=0; i>dif; i--){
                         removeUsable(player, item)
@@ -736,6 +737,7 @@ const Board = () => { //NOSONAR
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
     const addUsable = (playerId: string, name: string) => {
+        setActiveMessage(["a", `${userNames[playerId]} lost ${allData[name]["printName"]}`])
         setPlayerUsables(prevUsables => ({
             ...prevUsables,
             [playerId]: {
@@ -1132,16 +1134,36 @@ const Board = () => { //NOSONAR
         </div>
         : "")
 
+        let messageHTML = (activeMessage[0]!=="" ? activeMessage[1]
+        // <div className="preview-box" style={{color: cardColours[allData[previewImage]["Category"]][1], backgroundColor: cardColours[allData[previewImage]["Category"]][0]}}>
+        //     <div className="preview-name-class-box">
+        //         <div>{allData[previewImage]["Type"]}</div>
+        //         <b><div>{allData[previewImage]["DisplayName"]}</div></b>
+        //     </div>
+
+        //     <div className="preview-picture-text-box">
+        //         <img
+        //             className="preview-picture"
+        //             src={require((`../../assets/usables/${previewImage}.png`))}
+        //             style={{imageRendering: pixelItems.has(previewImage) ? "pixelated" : "inherit"}}
+        //             alt={`${allData[previewImage]["DisplayName"]}`}
+        //         />
+        //         <div className="preview-text" dangerouslySetInnerHTML={{ __html: allData[previewImage]["Description"].replace(/\n/g, "<br />") }} />
+        //     </div>
+        // </div>
+        : "")
+
     return (
         <div>
             {/* Top UI doesn't work correctly, as it shrinks the main screen */}
-            <TurnOverlay
+            {/* <TurnOverlay
                 activePlayerName={userNames[activePlayer]}  // Ensure `activePlayer` and `userNames` are defined and updated elsewhere in your component
                 isVisible={showOverlay}
                 closeOverlay={() => setShowOverlay(false)}
-            />
+            /> */}
             <div className="board-container">
                 {previewImageHTML}
+                {messageHTML}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
