@@ -550,7 +550,7 @@ const Board = () => { //NOSONAR
         switch (allData[usable]["choice"]){
             //TODO
         }
-        sendMessage(address, JSON.stringify({"used": usable}))
+        sendMessage(address, JSON.stringify({"used": usable, "choices": {}}))
     }
 
     async function processCommands(datata) {
@@ -651,6 +651,7 @@ const Board = () => { //NOSONAR
             });
 
             const subscriptionUltimate = client.subscribe(`/user/queue/game/${gameId}/board/ultimative`, (message) => {
+                alert(JSON.parse(message.body))
                 const data = JSON.parse(message.body);
                 ultimate(data.results)
             });
