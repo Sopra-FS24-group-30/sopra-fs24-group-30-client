@@ -9,6 +9,7 @@ import usablesData from "../../assets/data/usables.json"; //NOSONAR
 import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
 import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
+import {useNavigate} from "react-router-dom";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -339,7 +340,7 @@ const Board = () => { //NOSONAR
     const hoverFilter="invert(54%) sepia(82%) saturate(1944%) hue-rotate(80deg) brightness(114%) contrast(126%)";
     const unlockedFilter="invert(14%) sepia(83%) saturate(7026%) hue-rotate(359deg) brightness(99%) contrast(109%)";
     const lockedFilter="invert(53%) sepia(8%) saturate(15%) hue-rotate(358deg) brightness(92%) contrast(92%)";
-
+    const navigate = useNavigate();
     //! Audio
     const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
     const [inTeam, setInTeam] = useState(false);
@@ -436,40 +437,9 @@ const Board = () => { //NOSONAR
     };
 
     const gameEnd = (data) => {
-        const reason=data["reason"]
-        const winners=data["winners"]
-        let foreignJack=""
-        if (winners.length === 3) {
-            if (winners.includes(1) && winners.includes(3)) {
-                foreignJack = winners.filter(winner => winner !== 1 && winner !== 3).toString();
-            } else {
-                foreignJack = winners.filter(winner => winner !== 2 && winner !== 4).toString();
-            }
+        if (data.status === "NOT_PLAYING"){
+            navigate(`/game/${gameId}/ranking`);
         }
-        let jackText=`${ foreignJack!== "" ? ` and ${userNames[foreignJack]} had «${allData["JackSparrow"]["DisplayName"]}»` : ""}` //NOSONAR
-        const who=reason[0].toString() //who is responsable
-        const why=reason[1].toString() //which wincondition/reason lead to winning
-        let msg=""
-        let players=[]
-        for (const player of winners){
-            players.push(userNames[player], "and")
-        }
-        players=players.slice(0, players.length-1)
-        const playerStrings=players.join(" ")
-        switch (why.toLowerCase()) {
-            case "jacksparrow":
-                msg=`${playerStrings} won because ${userNames[who]} had the Win Condition «${allData["JackSparrow"]["DisplayName"]}» and 20 Turns have passed.`
-                break;
-            case "maxmoney":
-            case "maxcash":
-                msg=`${playerStrings} won because ${userNames[who]} had the highest amount of Coins after 20 Turns.`
-                break;
-            default:
-                msg=`${playerStrings} won because ${userNames[who]} passed the goal while having fulfilled the Win Condition «${allData[why]["DisplayName"]}»${jackText}.`
-        }
-        alert(msg)
-        //TODO set winstate with pretty popup msg
-
     };
 
     const junction = (data) => {

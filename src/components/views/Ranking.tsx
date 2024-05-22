@@ -47,6 +47,7 @@ const Ranking = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("username", username);
             localStorage.setItem("userId", userId);
+            navigate("/home");
         }
     }
 
