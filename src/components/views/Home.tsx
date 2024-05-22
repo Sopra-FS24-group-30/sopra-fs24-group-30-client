@@ -3,6 +3,7 @@ import {Button} from "components/ui/Button";
 import {useNavigate, useParams} from "react-router-dom"; //NOSONAR
 import BaseContainer from "components/ui/BaseContainer";
 import "styles/views/Home.scss";
+import {api, handleError} from "helpers/api";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -18,14 +19,26 @@ const Home = () => {
         navigate("/join");
     }
 
-    const doLogout = (): void =>{
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("gameId");
-        localStorage.removeItem("host");
-        navigate("/login");
-    }
+    const doLogout = async () => {
+        try {
+            const userId = localStorage.getItem("userId");
+
+            if (!userId) {
+                alert("User not properly loaded.");
+                return;
+            }
+            await api.put(`/logout/${userId}`);
+
+            ["token", "username", "userId", "gameId", "host"].forEach(key =>
+            localStorage.removeItem(key)
+            );
+
+            navigate("/login");
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Failed to log out. Please try again.");
+        }
+    };
 
     return (
         <BaseContainer>
