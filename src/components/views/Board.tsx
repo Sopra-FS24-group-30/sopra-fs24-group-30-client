@@ -550,7 +550,7 @@ const Board = () => { //NOSONAR
         switch (allData[usable]["choice"]){
             //TODO
         }
-        sendMessage(address, JSON.stringify({"used": usable, "choices": {}}))
+        sendMessage(address, JSON.stringify({"used": usable, "choice": {}}))
     }
 
     async function processCommands(datata) {
