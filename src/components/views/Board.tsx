@@ -992,7 +992,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
         setTimeout(() => {adjustFigurineSize()},1000);
-        setTimeout(() => {joinVoice("main")},7000);
+        //setTimeout(() => {joinVoice("main")},7000);
 
         const handleBeforeUnload = (event) => {
             event.preventDefault();
