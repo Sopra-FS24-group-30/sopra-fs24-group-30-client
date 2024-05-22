@@ -66,6 +66,7 @@ const Lobby: React.FC = () =>{
             checkStatus();
 
             const intervalId = setInterval(checkStatus, 5000);
+            
             return () => clearInterval(intervalId);
         }
     }, [client, isConnected, gameStatus, gameId, navigate]);
