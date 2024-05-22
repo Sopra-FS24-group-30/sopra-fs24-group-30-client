@@ -97,7 +97,7 @@ const WinCondition: React.FC = () => {
     return (
         <div className="Selection container">
             <div className="Selection text">Select a wincondition, by clicking on a card</div>
-            <WinConditionCards condition={wincondition}/>
+            {wincondition ? <WinConditionCards condition={wincondition}/> : <Spinner />}
         </div>
     )
 }
