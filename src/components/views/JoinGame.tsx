@@ -40,6 +40,10 @@ const JoinGame: React.FC = () => {
             const subscription = client.subscribe("/topic/gameJoined", (message) => {
                 const data= JSON.parse(message.body);
                 setJoined(data.joined);
+                if (data.joined){
+                    localStorage.setItem("gameId", gameId);
+                    navigate(`/game/${gameId}/lobby`);
+                }
                 console.log(joined);
             });
 
@@ -51,15 +55,12 @@ const JoinGame: React.FC = () => {
         }
     }, [client, isConnected, gameId]);
 
-    const joinGame = async () => {
+    const joinGame = () => {
         if (client && isConnected && gameId){
             try{
                 console.log("Attempting to join game with ID:", gameId);
                 const msg = {gameId, playerId}
-                if (joined){
-                    localStorage.setItem("gameId", gameId);
-                    navigate(`/game/${gameId}/lobby`);
-                }else if(!joined){
+                if(!joined){
                     console.log("Here");
                     sendMessage("/app/game/join", JSON.stringify(msg));
                 }
