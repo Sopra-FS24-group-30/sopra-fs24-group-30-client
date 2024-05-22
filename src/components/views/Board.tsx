@@ -625,6 +625,7 @@ const Board = () => { //NOSONAR
 
             const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
                 const data = JSON.parse(message.body);
+                console.log(data)
                 move(data)
             });
 
@@ -649,6 +650,11 @@ const Board = () => { //NOSONAR
                 winCondition(data.results)
             });
 
+            const subscriptionUltimate = client.subscribe(`/user/queue/game/${gameId}/board/ultimative`, (message) => {
+                const data = JSON.parse(message.body);
+                ultimate(data.results)
+            });
+
             const subscriptionGameEnd = client.subscribe(`/topic/game/${gameId}/board/gameEnd`, (message) => {
                 const data = JSON.parse(message.body);
                 gameEnd(data)
@@ -670,6 +676,7 @@ const Board = () => { //NOSONAR
                 subscriptionActivePlayer.unsubscribe();
                 subscriptionDice.unsubscribe();
                 subscriptionWinCondition.unsubscribe();
+                subscriptionUltimate.unsubscribe();
                 subscriptionGameEnd.unsubscribe();
             }
         }
