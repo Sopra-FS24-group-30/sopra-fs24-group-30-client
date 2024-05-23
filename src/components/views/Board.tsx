@@ -392,6 +392,7 @@ const Board = () => { //NOSONAR
     const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
     const [choiceMessage, setChoiceMessage]=useState(["", "", "", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
+    const [haveMessages, setHaveMessages]=useState(true);
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState<string>(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
@@ -737,10 +738,17 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
-
-        const genPlayer = (id: number) => {
-            return gen(userNames[displayPlayerIds[id]])
-        };
+        
+        const genPlayer = (stuff) => {
+            const id=userNames[displayPlayerIds[stuff]]
+            return [
+                stuff,
+                () => {
+                    sendMessage(address, {"used": usable, "choice": {"playerId": id}});
+                    setChoiceMessage(["", "", "", ""])
+                }
+            ]
+        }
         const gen = (stuff) => {
             return [
                 stuff,
@@ -1085,7 +1093,15 @@ const Board = () => { //NOSONAR
                         //TODO insert help //NOSONAR
                         timerMsg("Help", "Good Luck!", 2000); //NOSONAR
                         break;
-
+                    case "x":
+                        setHaveMessages(1-haveMessages)
+                        break;
+                    case "c":
+                        setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
+                        break;
+                    case "C":
+                        setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
+                        break;
                     //~ ↓ debug options, will be removed in the production build
                     case "y":
                         usables(usablesExampleData1["data"])
@@ -1188,12 +1204,6 @@ const Board = () => { //NOSONAR
                         break;
                     case "c":
                         setPlayerColour({"1": playerColour["2"], "2": playerColour["3"], "3": playerColour["4"], "4": playerColour["1"]})
-                        break;
-                    case "C":
-                        setPlayerColour({"1":"orange", "2":"purple", "3":"pink", "4":"white"})
-                        break;
-                    case "©":
-                        setPlayerColour({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
                         break;
                     default:
 
@@ -1414,7 +1424,7 @@ const Board = () => { //NOSONAR
             />
             <div className="board-container">
                 {choiceHTML}
-                {activeMessage[0]==="" ? previewImageHTML : messageHTML}
+                {activeMessage[0]==="" ? previewImageHTML : haveMessages ? messageHTML : ""}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
@@ -1479,28 +1489,30 @@ const Board = () => { //NOSONAR
                     </div>
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
-                        <button
-                            disabled={rollDiceIsDisabled}
-                            onClick={ () => sendDice()}
-                        >
-                            Roll Dice
-                        </button><br/>
-                        {/* <button onClick={ () => alert("a")}>Use Item</button> */}
-                        <button onClick={() => {handleJoin()}}>
-                            Join Voicechat
-                        </button>
-                        <button onClick={() => {handleLeave()}} disabled={!inVoice}>
-                            Leave Voicechat
-                        </button>
-                        <button onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}>
-                            {inTeam ? "Team chat" : "Global Chat"}
-                        </button>
-                        <button onClick={() => {handleMute()}} disabled={!inVoice}>
-                            {mute ? "Unmute" : "Mute"}
-                        </button>
-                        {/* <button onClick={() => {sendMessageWeb()}}>
-                            sendMessage
-                        </button> */}
+                        <div className="player-status-controls-box">
+                            <button
+                                disabled={rollDiceIsDisabled}
+                                onClick={ () => sendDice()}
+                            >
+                                Roll Dice
+                            </button><br/>
+                            {/* <button onClick={ () => alert("a")}>Use Item</button> */}
+                            <button onClick={() => {handleJoin()}}>
+                                Join Voicechat
+                            </button><br/>
+                            <button onClick={() => {handleLeave()}} disabled={!inVoice}>
+                                Leave Voicechat
+                            </button><br/>
+                            <button onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}>
+                                {inTeam ? "Team chat" : "Global Chat"}
+                            </button><br/>
+                            <button onClick={() => {handleMute()}} disabled={!inVoice}>
+                                {mute ? "Unmute" : "Mute"}
+                            </button><br/>
+                            {/* <button onClick={() => {sendMessageWeb()}}>
+                                sendMessage
+                            </button> */}
+                        </div>
                     </div>
                 </div>
             </div>
