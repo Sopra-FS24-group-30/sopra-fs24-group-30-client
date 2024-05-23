@@ -446,8 +446,6 @@ const Board = () => { //NOSONAR
                                 }));
                                 await sleep(300);
                             }
-                            // alert(val["SpaceColour"])
-                            // console.log(val)
                             try{if (!(overSpaces.has(val["spaceColor"].toLowerCase()))) await timerMsg("Landed on Space", `${userNames[playerId]} landed on ${landOnMsg[val["spaceColor"].toLowerCase()]}.`, 1250)}
                             catch{}
                         }
@@ -593,25 +591,20 @@ const Board = () => { //NOSONAR
 
                 let numberOfNew=data[player]["combined"].filter((i: string) => i === item).length
                 let numberOfOld=res[player][item]
+                let change=abs(numberOfNew-numberOfOld)
 
-                if (numberOfOld !== numberOfNew){
-                    let dif = numberOfNew-numberOfOld
-                    if (dif>0){
-                        for (let i=0; i<dif; i++){
-                            console.log(`${player} received a ${allData[item].DisplayName}`)
-                            addUsable(player, item)
-                            deltas[player][0].push(allData[item].DisplayName)
-                        }
+                setPlayerUsables(prevUsables => ({
+                    ...prevUsables,
+                    [player]: {
+                        ...prevUsables[player],
+                        [item]: numberOfNew
                     }
-                    else{
-
-                        for (let i=0; i>dif; i--){
-                            console.log(`${player} lost a ${allData[item].DisplayName}`)
-                            deltas[player][1].push(allData[item].DisplayName)
-                            removeUsable(player, item)
-                        }
-                    }
+                }));
+                
+                for (let i=0; i<change; i++){
+                        deltas[player][numberOfOld>numberOfNew ? 1 : 0].push(allData[item].DisplayName)
                 }
+
             }
         }
         let message=""
@@ -724,6 +717,7 @@ const Board = () => { //NOSONAR
     }
 
     const sendUsable = (usable) => {
+        setPreviewImage("")
         setUsablesIsDisabled(true);
         let address=""
         switch (allData[usable]["Type"]){
@@ -980,26 +974,6 @@ const Board = () => { //NOSONAR
 
     const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-    const addUsable = (playerId: string, name: string) => {
-        setPlayerUsables(prevUsables => ({
-            ...prevUsables,
-            [playerId]: {
-                ...prevUsables[playerId],
-                [name]: prevUsables[playerId][name] + 1
-            }
-        }));
-    };
-
-    const removeUsable = (playerId: string, name: string) => {
-        setPlayerUsables(prevUsable => ({
-            ...prevUsable,
-            [playerId]: {
-                ...prevUsable[playerId],
-                [name]: max(prevUsable[playerId][name] -1, 0)
-            }
-        }));
-    };
-
     const getCoord = (id:number, coordinate:string):number => {
 
         const thisSpace=playerSpace[id]
@@ -1068,6 +1042,15 @@ const Board = () => { //NOSONAR
 
                     return keys[floor(Math.random()*keys.length)];
                 }
+                const addUsable = (playerId: string, name: string) => {
+                    setPlayerUsables(prevUsables => ({
+                        ...prevUsables,
+                        [playerId]: {
+                            ...prevUsables[playerId],
+                            [name]: prevUsables[playerId][name] + 1
+                        }
+                    }));
+                };
                 switch (event.key){ //NOSONAR
                     case "r":
                         resetTransform();
