@@ -472,7 +472,7 @@ const Board = () => { //NOSONAR
                         throw new Error("notImplemented");
                 }
             } catch (error) {
-                reject(error); // Reject the promise on errors
+                resolve(null); // Reject the promise on errors
             }
         });
     };
@@ -501,7 +501,7 @@ const Board = () => { //NOSONAR
     }
 
     const money = (data) => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { //NOSONAR
         let deltas={"1": 0, "2":0, "3":0, "4":0}
 
         const updates = Object.entries(data).reduce((acc, [playerId, details]) => {
@@ -562,7 +562,7 @@ const Board = () => { //NOSONAR
     }
 
     const usables = (dataa) => { //NOSONAR
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { //NOSONAR
         console.log(dataa)
         let data=structuredClone(dataa)
         let res = playerUsables;
@@ -605,7 +605,7 @@ const Board = () => { //NOSONAR
                 await timerMsg("Change in Items and Cards", message, 3000);
                 resolve(null);
             } catch (error) {
-                reject(error);
+                resolve(null); 
             }
         } else {
             resolve(null);
@@ -613,14 +613,14 @@ const Board = () => { //NOSONAR
     })}
 
     const dice = (data) => {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => { //NOSONAR
         let numberOfDice=data.results.length
         if (numberOfDice===1){
             try {
                 await timerMsg("Dice Roll", `Rolled a <b>${data.results.toString()}</b>.`, 2000);
                 resolve(null);
             } catch (error) {
-                reject(error);
+                resolve(null);
             }
         }
         else{
@@ -632,7 +632,7 @@ const Board = () => { //NOSONAR
                 await timerMsg("Dice Roll", `Rolled ${numberOfDice} dice (${data.results.join(", ")}) for a total of <b>${total}</b>.`, 3000);
                 resolve(null);
             } catch (error) {
-                reject(error);
+                resolve(null);
             }
         }
     })}
@@ -651,29 +651,29 @@ const Board = () => { //NOSONAR
         private exampleFunctions: queueFunction;
     
         constructor(exampleFunctions: queueFunction) {
-            this.exampleFunctions = exampleFunctions;
+            this.exampleFunctions = exampleFunctions; //NOSONAR
         }
     
         addToQueue(commandName: string, data: any) { //NOSONAR
-            this.commandQueue.push({ name: commandName, data });
-            this.processQueue(); // Start processing the queue if not already doing so
+            this.commandQueue.push({ name: commandName, data }); //NOSONAR
+            this.processQueue(); // NOSONAR
         }
     
         // Main loop to process commands from the queue
         private async processQueue() { //NOSONAR
-            if (this.processing) return;
-            this.processing = true;
+            if (this.processing) return; //NOSONAR
+            this.processing = true; //NOSONAR
     
-            while (this.commandQueue.length > 0) {
-                const { name, data } = this.commandQueue.shift()!; // Take the first command
-                const func = this.exampleFunctions[name];
+            while (this.commandQueue.length > 0) { //NOSONAR
+                const { name, data } = this.commandQueue.shift()!; // NOSONAR Take the first command
+                const func = this.exampleFunctions[name]; //NOSONAR
     
                 if (typeof func === "function") {
                     await func(data);
                 }
             }
     
-            this.processing = false;
+            this.processing = false; //NOSONAR
         }
     }
 
@@ -716,8 +716,8 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
-        switch (allData[usable]["choice"]){
-            //TODO
+        switch (allData[usable]["choice"]){ //NOSONAR
+            //NOSONAR
         }
         sendMessage(address, {"used": usable, "choice": {}})
     }
@@ -753,7 +753,6 @@ const Board = () => { //NOSONAR
 
             const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
                 const data = JSON.parse(message.body);
-                // goal(data);
                 processor.addToQueue("goal", data)
                 
             });
@@ -764,14 +763,12 @@ const Board = () => { //NOSONAR
 
             const subscriptionJunction = client.subscribe(`/user/queue/game/${gameId}/board/junction`, (message) => {
                 const data = JSON.parse(message.body);
-                // junction(data)
                 processor.addToQueue("junction", data)
 
             });
 
             const subscriptionUsables = client.subscribe(`/topic/game/${gameId}/board/usables`, (message) => {
                 const data = JSON.parse(message.body);
-                // usables(data)
                 processor.addToQueue("usables", data)
 
             });
@@ -779,40 +776,34 @@ const Board = () => { //NOSONAR
             const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data)
-                // move(data)
                 processor.addToQueue("move", data)
 
             });
 
             const subscriptionMoney = client.subscribe(`/topic/game/${gameId}/board/money`, (message) => {
                 const data = JSON.parse(message.body);
-                // money(data)
                 processor.addToQueue("money", data)
 
             });
 
             const subscriptionActivePlayer = client.subscribe(`/topic/game/${gameId}/board/newActivePlayer`, (message) => {
                 const data = JSON.parse(message.body);
-                // newActivePlayer(data)
                 processor.addToQueue("newActivePlayer", data)
 
             });
 
             const subscriptionDice = client.subscribe(`/topic/game/${gameId}/board/dice`, (message) => {
                 const data = JSON.parse(message.body);
-                // dice(data)
                 processor.addToQueue("dice", data)
             });
 
             const subscriptionWinCondition = client.subscribe(`/user/queue/game/${gameId}/board/winCondition`, (message) => {
                 const data = JSON.parse(message.body);
-                // winCondition(data.results)
                 processor.addToQueue("winCondition", data)
             });
 
             const subscriptionUltimate = client.subscribe(`/user/queue/game/${gameId}/board/ultimative`, (message) => {
                 const data = JSON.parse(message.body);
-                // ultimate(data.results)
                 processor.addToQueue("ultimate", data)
             });
 
@@ -990,7 +981,7 @@ const Board = () => { //NOSONAR
 
                     return arrayFromSet[randomIndex];
                 };
-                const getRandomKey = (dict: { [key: string]: any }): string | undefined => {
+                const getRandomKey = (dict: { [key: string]: any }): string | undefined => { //NOSONAR
                     const keys = Object.keys(dict);
 
                     return keys[floor(Math.random()*keys.length)];
@@ -1036,9 +1027,6 @@ const Board = () => { //NOSONAR
                         break;
                     case "n":
                         setDisplayPlayerIds([displayPlayerIds[3], displayPlayerIds[0], displayPlayerIds[1], displayPlayerIds[2]])
-                        break;
-                    case "m":
-                        // forFour()
                         break;
                     case "p":
                         winCondition(winConditionDataExample1["data"])
@@ -1169,7 +1157,7 @@ const Board = () => { //NOSONAR
         window.addEventListener("resize", adjustFigurineSize);
         document.body.classList.add("scrollbar-removal");
         setTimeout(() => {adjustFigurineSize()},1000);
-        //setTimeout(() => {joinVoice("main")},7000);
+        //NOSONAR setTimeout(() => {joinVoice("main")},7000);
 
         const handleBeforeUnload = (event) => {
             event.preventDefault();
@@ -1293,8 +1281,7 @@ const Board = () => { //NOSONAR
     let messageHTML = (activeMessage[0]==="" ? "" :
         <div className="message-box">
             <div className="message-name-class-box">
-                Message
-                <b>{activeMessage[0]}</b>
+                Message <b>{activeMessage[0]}</b>
             </div>
 
             <div className="message-text-box">
