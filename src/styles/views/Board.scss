@@ -200,7 +200,6 @@ $item-container-width: 23vh;
     &-box{
         position:absolute;
         display: flex;
-        // align-items: center;
         text-align: center;
         flex-direction: column;
         background-color: #e8fbff;
@@ -221,7 +220,6 @@ $item-container-width: 23vh;
         justify-content: space-between;
         padding-bottom:$box-margin;
         margin-top:status-font-size(-.5);
-        // padding-top: 0px;
     }
 
     &-picture-text-box{
@@ -238,7 +236,6 @@ $item-container-width: 23vh;
         width: 50%;
         border-radius:7%;
         border-width: status-font-size(.5);
-        // image-rendering: pixelated; //used for pixelitems
     }
     
     &-text{
@@ -254,7 +251,6 @@ $item-container-width: 23vh;
     &-box{
         position:absolute;
         display: flex;
-        // align-items: center;
         text-align: center;
         flex-direction: column;
         background-color: #ffffffbe;
@@ -287,7 +283,6 @@ $item-container-width: 23vh;
     }
     
     &-text{
-        // color: #fff;
         padding-left: calc($box-margin*1.2);
         font-size: status-font-size(5);
     }

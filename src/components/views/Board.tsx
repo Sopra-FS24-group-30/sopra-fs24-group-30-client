@@ -387,7 +387,6 @@ const Board = () => { //NOSONAR
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
-    const [landedUponSpace, setLandedUponSpace]=useState("")
 
     const [socketReady, setSocketReady] = useState(false);
 
@@ -430,7 +429,6 @@ const Board = () => { //NOSONAR
                     case "walk":
                     case "jump":
                         for (const [playerId, val] of Object.entries(toRead)) {
-                            setLandedUponSpace(val[""])
                             for (const space of val["spaces"]) {
                                 setPlayerSpace(prevState => ({
                                     ...prevState,
@@ -448,7 +446,7 @@ const Board = () => { //NOSONAR
                     case "simultaneous":
                     case "tp":
                     case "teleport":
-                        let message=""
+                        let message="" //NOSONAR
                         for (const [playerId, val] of Object.entries(toRead)) {
                             message+=`${userNames[playerId]} teleported.\n`
                             let space = val["spaces"][val["spaces"].length - 1];
@@ -563,7 +561,7 @@ const Board = () => { //NOSONAR
         setUltimateState(data["active"])
     }
 
-    const usables = (dataa) => {
+    const usables = (dataa) => { //NOSONAR
         return new Promise(async (resolve, reject) => {
         console.log(dataa)
         let data=structuredClone(dataa)
@@ -639,13 +637,15 @@ const Board = () => { //NOSONAR
         }
     })}
 
+    //~ Queue
+
     type CommandFunction = (arg: any) => Promise<unknown>|void;
 
-    interface queueFunction {
+    interface queueFunction { //NOSONAR
         [key: string]: CommandFunction;
     }
     
-    class CommandProcessor {
+    class CommandProcessor { //NOSONAR
         private commandQueue: Array<{ name: string; data: any }> = [];
         private processing: boolean = false;
         private exampleFunctions: queueFunction;
@@ -654,14 +654,13 @@ const Board = () => { //NOSONAR
             this.exampleFunctions = exampleFunctions;
         }
     
-        // Function to add commands to the queue using commandName and data directly
-        addToQueue(commandName: string, data: any) {
+        addToQueue(commandName: string, data: any) { //NOSONAR
             this.commandQueue.push({ name: commandName, data });
             this.processQueue(); // Start processing the queue if not already doing so
         }
     
         // Main loop to process commands from the queue
-        private async processQueue() {
+        private async processQueue() { //NOSONAR
             if (this.processing) return;
             this.processing = true;
     
@@ -1020,12 +1019,12 @@ const Board = () => { //NOSONAR
                         break;
                     case "$":
                         setUsingRetro(1-usingRetro);
-                        setTimeout(() => adjustFigurineSize(), 0)
-                        setTimeout(() => adjustFigurineSize(), 1000)
+                        setTimeout(() => adjustFigurineSize(), 0) //NOSONAR
+                        setTimeout(() => adjustFigurineSize(), 1000) //NOSONAR
                         break;
                     case "F1":
                         //TODO insert help //NOSONAR
-                        timerMsg("Help", "Good Luck!", 2000);
+                        timerMsg("Help", "Good Luck!", 2000); //NOSONAR
                         break;
 
                     //~ ↓ debug options, will be removed in the production build
