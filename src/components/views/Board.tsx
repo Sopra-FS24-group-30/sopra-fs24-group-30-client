@@ -10,6 +10,7 @@ import winConditionData from "../../assets/data/winconditions.json"; //NOSONAR
 import ultimateData from "../../assets/data/ultimates.json"; //NOSONAR
 import {joinVoice, leaveVoice, toggleChannel, setMuted, adjustVolume} from "../../helpers/agoraUtils.js";
 import {useNavigate} from "react-router-dom";
+import { mapDataToPlayers } from "../../helpers/MapDataToPlayers";
 
 Object.keys(winConditionData).forEach(key => {
     winConditionData[key]["Category"] = "WinCondition";
@@ -108,10 +109,16 @@ const PlayerStatus: React.FC<{
     userName: string;
     active: boolean;
     audio: boolean;
-}> = ({playerId, playerVolumes, handleVolumeChange, playerMoney, playerColour, displayables , userName, active, audio}) => {
+    isTeammate: boolean;
+    isCurrentplayer:boolean;
+}> = ({playerId, playerVolumes, handleVolumeChange, playerMoney, playerColour, displayables , userName, active, audio, isTeammate, isCurrentplayer}) => {
+
+    const getBackgroundColor = () => {
+        if(isCurrentplayer || isTeammate) return "rgba(200, 250, 150, 0.3333)";
+    }
 
     return (
-        <div className="player-status-box" style={{height: audio ? "" : "27.5vh"}}>
+        <div className="player-status-box" style={{height: audio ? "" : "27.5vh", backgroundColor: getBackgroundColor()}}>
             <div className="player-status-username-money-box">
                 <div className="player-status-username">
                     <font color={colours[playerColour]}>{userName}</font>
@@ -386,7 +393,7 @@ const Board = () => { //NOSONAR
     const [choiceMessage, setChoiceMessage]=useState(["", "", "", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
-    const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
+    const [displayPlayerIds, setDisplayPlayerIds]=useState<string>(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
     const [userNames, setUserNames]=useState({"1": "Player 1", "2": "Player 2", "3": "Player 3", "4": "Player 4"}) //NOSONAR
 
     const [socketReady, setSocketReady] = useState(false);
@@ -401,7 +408,7 @@ const Board = () => { //NOSONAR
     const multipleFigurinesDisplacement = {"1":[[0, 0]], "2":[[-1.3, 0], [1.3, 0]], "3": [[-1.8, .3], [1.8, .3], [0, -.55]], "4": [[0, 1.8], [1.8, 0], [-1.8, 0], [0, -1.8]]} //displacement in board width percentage when multiple players are on one space
     const gameId = localStorage.getItem("gameId");
     const userId = localStorage.getItem("userId");
-    const [players, setPlayers] = useState<Player[]>(null);
+    const [allPlayers, setAllPlayers] = useState<[]>(null);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
 
     const timerMsg = async (type, content, timeout=3000) => {
@@ -768,25 +775,47 @@ const Board = () => { //NOSONAR
         sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
     }
 
+    useEffect(() => {
+        if(allPlayers){
+            console.log("allPlayers to display", allPlayers);
+            const currentPlayer = allPlayers.find(player => player.username === localStorage.getItem("username"));
+            const teammate = allPlayers.find(player => player.playerId === currentPlayer.teammateId);
+            const remaining = allPlayers.filter(player => player.username !== currentPlayer.username && player.username !== teammate.username);
+
+            const newDisplayPlayer = {};
+
+            // Add current player
+            newDisplayPlayer[currentPlayer.playerId] = currentPlayer.username;
+
+            // Add teammate
+            newDisplayPlayer[teammate.playerId] = teammate.username;
+
+            // Add remaining players
+            remaining.forEach(player => {
+                newDisplayPlayer[player.playerId] = player.username;
+            });
+
+            const newDisplayId = [
+                currentPlayer.playerId,
+                teammate.playerId,
+                ...remaining.map(player => player.playerId)
+            ]
+
+            console.log(newDisplayPlayer);
+            setUserNames(newDisplayPlayer);
+            setDisplayPlayerIds(newDisplayId);
+        }
+    }, [allPlayers]);
+
     //$ websockets
     useEffect(() => {
         if (client && isConnected){
             const processor = new CommandProcessor(functionsForQueue);
             const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
-                console.log("Start PlayerInfo", data);
-                setTurnOrder(data.TurnOrder);
-                localStorage.setItem("turnorder", data.TurnOrder);
-
-                const playerInfos = Object.keys(data.players).reduce((acc, key) => {
-                    const playerData = data.players[key];
-                    acc[key] = new Player(playerData);
-
-                    return acc;
-                }, {});
-
-                setPlayers(playerInfos);
-                console.log(players);
+                console.log("Received start data:", data);
+                const mappedPlayers = mapDataToPlayers({players: data.players});
+                setAllPlayers(mappedPlayers);
             });
 
             const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
@@ -1028,9 +1057,6 @@ const Board = () => { //NOSONAR
                     case "r":
                         resetTransform();
                         break;
-                    case "x":
-                        setDisplayPlayerIds([displayPlayerIds[0], displayPlayerIds[2], displayPlayerIds[1], displayPlayerIds[3]])
-                        break;
                     case "m":
                         handleMute();
                         break;
@@ -1263,7 +1289,8 @@ const Board = () => { //NOSONAR
     )
 
     const playerElement = (playerId) => {
-        const active = playerId===displayPlayerIds[0]
+        const active = playerId===displayPlayerIds[0];
+        const isTeammate = playerId === displayPlayerIds[1];
 
         return (
             <PlayerStatus
@@ -1276,6 +1303,8 @@ const Board = () => { //NOSONAR
                 audio={!active}
                 playerVolumes={playerVolumes}
                 playerId={playerId}
+                isTeammate={isTeammate}
+                isCurrentplayer={active}
             />)
     }
 

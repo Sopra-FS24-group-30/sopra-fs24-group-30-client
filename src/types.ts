@@ -9,12 +9,10 @@ export type User = {
 };
 
 export type Player = {
-    playerId: number;
+    playerId: string;
     userId: number;
     username: string;
     teammateId: number;
     cash: number;
-    wincondition: string;
-    ultimateattack: string;
     usables: string[];
 };
