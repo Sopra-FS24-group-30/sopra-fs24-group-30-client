@@ -15,13 +15,13 @@
         "Choice": []
     },
     "Stop": {
-        "DisplayName": "🛑",
+        "DisplayName": "Stop?",
         "Description": "The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends)",
         "Choice": []
     },
     "Tp": {
         "DisplayName": "/tp",
-        "Description": "Move to any Space on the board.",
+        "Description": "Move to a random Space on the board (fun).",
         "Choice": []
     },
     "Chameleon": {
