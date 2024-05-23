@@ -554,10 +554,10 @@ const Board = () => { //NOSONAR
         let deltas = {"1": [[], []], "2": [[], []], "3": [[], []], "4": [[], []]}
         for (const player in data) {
             //Combining items and cards into usables
-            data[player]["wfjnknjfkjwfkjwefkjnfwe"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
+            data[player]["combined"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
             for (const item in res[player]) {
 
-                let numberOfNew=data[player]["wfjnknjfkjwfkjwefkjnfwe"].filter((i: string) => i === item).length
+                let numberOfNew=data[player]["combined"].filter((i: string) => i === item).length
                 let numberOfOld=res[player][item]
 
                 if (numberOfOld !== numberOfNew){
@@ -684,7 +684,7 @@ const Board = () => { //NOSONAR
             });
 
             const subscriptionError = client.subscribe(`/user/queue/game/${gameId}/board/error`, (message) => {
-                alert(message.body);
+                timerMsg("ERROR", JSON.parse(message.body), 3000);
             });
 
             const subscriptionJunction = client.subscribe(`/user/queue/game/${gameId}/board/junction`, (message) => {
