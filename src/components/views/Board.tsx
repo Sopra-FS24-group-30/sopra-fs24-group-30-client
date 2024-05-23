@@ -191,7 +191,7 @@ const usablesExampleData1 = {
         },
         "2": {
             "cards": ["B14", "TwoMushrooms"],
-            "items": ["G1256"]
+            "items": ["G37"]
         },
         "3": {
             "items": []
@@ -725,43 +725,45 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
-        const gen = (id: number) => {
-            return genStuff(userNames[displayPlayerIds[id]])
+        const genPlayer = (id: number) => {
+            return gen(userNames[displayPlayerIds[id]])
         };
-        const genStuff = (stuff) => {
+        const gen = (stuff) => {
             return [
                 stuff,
                 () => {
                     sendMessage(address, {"used": usable, "choice": stuff});
-                    setChoiceMessage("")
+                    setChoiceMessage(["", "", "", ""])
                 }
             ]
         }
         switch (allData[usable]["Choice"]){ //NOSONAR
             case "otherPlayerId":
-                setChoiceMessage([gen(1), gen(2), gen(3), ""])
+                setChoiceMessage([genPlayer(1), genPlayer(2), genPlayer(3), ""])
                 break;
             case "playerId":
-                setChoiceMessage([gen(1), gen(2), gen(3), gen(0)])
+                setChoiceMessage([genPlayer(1), genPlayer(2), genPlayer(3), genPlayer(0)])
                 break;
             default:
-                if (allData[usable]["Choice"].length>=1) {
-                    switch (allData[usable]["Choice"].length){
-                        case 1:
-                            setChoiceMessage(gen(allData[usable]["Choice"][0]), "", "", "")
-                            break;
-                        case 2:
-                            setChoiceMessage(gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), "", "")
-                            break;
-                        case 3:
-                            setChoiceMessage(gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), "")
-                            break;
-                        case 4:
-                            setChoiceMessage(gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3]))
-                            break;
-                    }
+                // if (allData[usable]["Choice"].length>=1) {
+                switch (allData[usable]["Choice"].length){
+                    case 1:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), "", "", ""])
+                        break;
+                    case 2:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), "", ""])
+                        break;
+                    case 3:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), ""])
+                        break;
+                    case 4:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3])])
+                        break;
+                    default:
+                        sendMessage(address, {"used": usable, "choice": {}})
+
                 }
-                else sendMessage(address, {"used": usable, "choice": {}})
+                
                 // if (allData[usable]["Choice"].len!==0) setChoiceMessage(allData[usable]["Choice"])
                 //     else sendMessage(address, {"used": usable, "choice": {}})
         }
