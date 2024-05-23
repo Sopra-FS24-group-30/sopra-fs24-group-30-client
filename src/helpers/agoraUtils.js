@@ -84,12 +84,12 @@ const adjustVolume = async (userId, newVolume) => {
     }
 }
 
-const setMuted = (muted) => {
+const setMuted = (alreadyMuted) => {
     if(channelParameters.localAudioTrack){
-        if(muted){
-            channelParameters.localAudioTrack.setEnabled(false);
-        }else{
+        if(alreadyMuted){
             channelParameters.localAudioTrack.setEnabled(true);
+        }else{
+            channelParameters.localAudioTrack.setEnabled(false);
         }
 
     }
