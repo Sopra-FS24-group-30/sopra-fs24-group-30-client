@@ -453,7 +453,7 @@ const Board = () => { //NOSONAR
                                 [playerId]: space
                             }));
                         }
-                        timerMsg("Teleportation", message, 3000)
+                        await timerMsg("Teleportation", message, 3000)
                         resolve(null)
                         break;
                     case "start":
@@ -499,6 +499,7 @@ const Board = () => { //NOSONAR
     }
 
     const money = (data) => {
+        return new Promise(async (resolve, reject) => {
         let deltas={"1": 0, "2":0, "3":0, "4":0}
 
         const updates = Object.entries(data).reduce((acc, [playerId, details]) => {
@@ -519,12 +520,22 @@ const Board = () => { //NOSONAR
             if(delta===0)continue;
             message+=`${userNames[playerId]} <b>${delta>0 ? gained : lost} ${abs(delta)}</b> Coins.\n`
         }
-        if(message!=="") {timerMsg("Change in Money", message)};
+        if (message !== "") {
+            try {
+                await timerMsg("Change in Money", message);
+                resolve(null);
+            } catch (error) {
+                reject(error);
+            }
+        } else {
+            resolve(null);
+        }})
     }
 
     const goal = (data) => {
         let res=data["result"]
         setImageId(res)
+        timerMsg("Goal", "The Goal moved to a different Position.", 2000)
     }
 
     const newActivePlayer = (data) => {
@@ -549,6 +560,7 @@ const Board = () => { //NOSONAR
     }
 
     const usables = (dataa) => {
+        return new Promise(async (resolve, reject) => {
         console.log(dataa)
         let data=structuredClone(dataa)
         let res = playerUsables;
@@ -563,13 +575,20 @@ const Board = () => { //NOSONAR
 
                 if (numberOfOld !== numberOfNew){
                     let dif = numberOfNew-numberOfOld
-                    for (let i=0; i<dif; i++){
-                        addUsable(player, item)
-                        deltas[player][0].push(allData[item].DisplayName)
+                    if (dif>0){
+                        for (let i=0; i<dif; i++){
+                            console.log(`${player} received a ${allData[item].DisplayName}`)
+                            addUsable(player, item)
+                            deltas[player][0].push(allData[item].DisplayName)
+                        }
                     }
-                    for (let i=0; i>dif; i--){
-                        deltas[player][1].push(allData[item].DisplayName)
-                        removeUsable(player, item)
+                    else{
+
+                        for (let i=0; i>dif; i--){
+                            console.log(`${player} lost a ${allData[item].DisplayName}`)
+                            deltas[player][1].push(allData[item].DisplayName)
+                            removeUsable(player, item)
+                        }
                     }
                 }
             }
@@ -579,22 +598,42 @@ const Board = () => { //NOSONAR
             message+=deltas[player][0].length===0 ? "" : `<b>${userNames[player]} ${gained}:</b> ${deltas[player][0].join(", ")}.\n`
             message+=deltas[player][1].length===0 ? "" : `<b>${userNames[player]} ${lost}:</b> ${deltas[player][1].join(", ")}.\n`
         }
-        timerMsg("Change in Items and Cards",message, 3000)
-    }
+        if (message!=="") {
+            try {
+                await timerMsg("Change in Items and Cards", message, 3000);
+                resolve(null);
+            } catch (error) {
+                reject(error);
+            }
+        } else {
+            resolve(null);
+        }
+    })}
 
     const dice = (data) => {
+        return new Promise(async (resolve, reject) => {
         let numberOfDice=data.results.length
         if (numberOfDice===1){
-            timerMsg("Dice Roll", `Rolled a <b>${data.results.toString()}</b>.`, 2000)
+            try {
+                await timerMsg("Dice Roll", `Rolled a <b>${data.results.toString()}</b>.`, 2000);
+                resolve(null);
+            } catch (error) {
+                reject(error);
+            }
         }
         else{
             var total = 0; //NOSONAR
             for (let num of data.results) {
                 total += num;
             }
-            timerMsg("Dice Roll", `Rolled ${numberOfDice} dice (${data.results.join(", ")}) for a total of <b>${total}</b>.`, 3000)
+            try {
+                await timerMsg("Dice Roll", `Rolled ${numberOfDice} dice (${data.results.join(", ")}) for a total of <b>${total}</b>.`, 3000);
+                resolve(null);
+            } catch (error) {
+                reject(error);
+            }
         }
-    }
+    })}
 
     //^ response to Websockets
 
@@ -726,7 +765,6 @@ const Board = () => { //NOSONAR
             });
 
             const subscriptionUltimate = client.subscribe(`/user/queue/game/${gameId}/board/ultimative`, (message) => {
-                alert(JSON.parse(message.body))
                 const data = JSON.parse(message.body);
                 ultimate(data.results)
             });
@@ -939,7 +977,7 @@ const Board = () => { //NOSONAR
                         break;
                     case "F1":
                         //TODO insert help //NOSONAR
-                        alert("Insert Help");
+                        timerMsg("Help", "Good Luck!", 2000);
                         break;
 
                     //~ ↓ debug options, will be removed in the production build
