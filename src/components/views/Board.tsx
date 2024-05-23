@@ -409,6 +409,8 @@ const Board = () => { //NOSONAR
     const userId = localStorage.getItem("userId");
     const [allPlayers, setAllPlayers] = useState<[]>(null);
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
+    const [rollDiceIsDisabled, setRollDiceIsDisabled] = useState(true);
+    const [usablesIsDisabled, setUsablesIsDisabled] = useState(true);
 
     const timerMsg = async (type, content, timeout=3000) => {
         if (content!=="")
@@ -548,14 +550,22 @@ const Board = () => { //NOSONAR
     }
 
     const newActivePlayer = (data) => {
-        setTurnNumber(data.currentTurn);
-        setActivePlayer(data.activePlayer);
-
-        setShowOverlay(true);
-
-        setTimeout(() => {
-            setShowOverlay(false);
-        }, 3000);
+        if(data.activePlayer){
+            setTurnNumber(data.currentTurn);
+            setActivePlayer(data.activePlayer);
+            console.log("active player", activePlayer);
+            setShowOverlay(true);
+            if(data.activePlayer.toString() === localStorage.getItem("playerId")){
+                setRollDiceIsDisabled(false);
+                setUsablesIsDisabled(false);
+            } else if(data.activePlayer.toString() !== localStorage.getItem("playerId")){
+                setRollDiceIsDisabled(true);
+                setUsablesIsDisabled(true);
+            }
+            setTimeout(() => {
+                setShowOverlay(false);
+            }, 3000);
+        }
     }
 
     const winCondition = (data) => {
@@ -705,15 +715,18 @@ const Board = () => { //NOSONAR
     }
 
     const sendDice = () => {
+        setRollDiceIsDisabled(true);
         console.log("Requesting dice");
         console.log(gameId);
         sendMessage(`/app/game/${gameId}/board/dice`, {})
     }
 
     const sendUsable = (usable) => {
+        setUsablesIsDisabled(true);
         let address=""
         switch (allData[usable]["Type"]){
             case "Card":
+                setRollDiceIsDisabled(true);
                 address=`/app/game/${gameId}/board/cards`
                 break;
             case "Item":
@@ -1285,7 +1298,7 @@ const Board = () => { //NOSONAR
                     className="item-picture"
                     onMouseEnter={() => setPreviewImage(name)}
                     onMouseLeave={() => setPreviewImage("")}
-                    onClick={active ? () => sendUsable(name) : () => console.log(`${name} doesn't belong to the active player`)}
+                    onClick={active && !usablesIsDisabled? () => sendUsable(name) : () => console.log(`${name} doesn't belong to the active player`)}
                 />
             </span>
         )
@@ -1398,6 +1411,7 @@ const Board = () => { //NOSONAR
                         <div className="ultimate-box" //NOSONAR
                              onMouseEnter={() => setPreviewImage(ultimateName)}
                              onMouseLeave={() => setPreviewImage("")}
+                             disabled = {usablesIsDisabled}
                              onClick={() => sendUsable(ultimateName)}
                              >
                             <div className="ultimate-name"
@@ -1413,9 +1427,8 @@ const Board = () => { //NOSONAR
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
                         <button
+                            disabled={rollDiceIsDisabled}
                             onClick={ () => sendDice()}
-                            //TODO deactivate button after clicking once
-                            disabled={parseInt(activePlayer, 10) !== parseInt(localStorage.getItem("playerId"), 10)}
                         >
                             Roll Dice
                         </button><br/>

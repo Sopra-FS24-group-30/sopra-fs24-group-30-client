@@ -11,8 +11,8 @@ const Ranking = () => {
     const navigate = useNavigate();
     const gameId = localStorage.getItem("gameId");
     const {client , sendMessage, isConnected, disconnect} = useWebsocket();
-    const [winners, setWinners] = useState<String>("");
-    const [reason, setReason] = useState<String>("");
+    const [winners, setWinners] = useState<String>("Nobody");
+    const [reason, setReason] = useState<String>("Just because");
 
     useEffect(() => {
         if(client && isConnected){
