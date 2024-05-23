@@ -383,6 +383,7 @@ const Board = () => { //NOSONAR
     const [ultimateState, setUltimateState]=useState(true) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
+    const [choiceMessage, setChoiceMessage]=useState(["", "", "", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
@@ -716,10 +717,20 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
-        switch (allData[usable]["choice"]){ //NOSONAR
-            //NOSONAR
+        const gen = (id) =>{
+            return [userNames[displayPlayerIds[id]], () => sendMessage(address, {"used": usable, "choice": displayPlayerIds[id]})]
         }
-        sendMessage(address, {"used": usable, "choice": {}})
+        switch (allData[usable]["Choice"]){ //NOSONAR
+            case "otherPlayerId":
+                setChoiceMessage([gen(1), gen(2), gen(3), ""])
+                break;
+            case "playerId":
+                setChoiceMessage([gen(1), gen(2), gen(3), gen(0)])
+                break;
+            default:
+                if (allData[usable]["Choice"].len!==0) setChoiceMessage(allData[usable]["Choice"])
+                else sendMessage(address, {"used": usable, "choice": {}})
+        }
     }
 
     //#endregion
@@ -1309,6 +1320,21 @@ const Board = () => { //NOSONAR
         </div>
         : "")
 
+    let choiceHTML = (choiceMessage[0]==="" ? "" :
+    <div className="message-box">
+        <div className="message-name-class-box">
+            <b>Choose one:</b>
+        </div>
+
+        <div className="message-text-box">
+            <button>{choiceMessage[0]}</button>
+            {choiceMessage[1]==="" ? "" : <button>{choiceMessage[1]}</button>}
+            {choiceMessage[2]==="" ? "" : <button>{choiceMessage[2]}</button>}
+            {choiceMessage[3]==="" ? "" : <button>{choiceMessage[3]}</button>}
+        </div>
+    </div>
+    )
+
         
     return (
         <div>
@@ -1319,7 +1345,7 @@ const Board = () => { //NOSONAR
                 closeOverlay={() => setShowOverlay(false)}
             />
             <div className="board-container">
-                {activeMessage[0]==="" ? previewImageHTML : messageHTML}
+                {choiceMessage ? choiceHTML : activeMessage[0]==="" ? previewImageHTML : messageHTML}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
                     {playerElement(displayPlayerIds[3])}
