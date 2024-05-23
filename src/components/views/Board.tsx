@@ -716,6 +716,8 @@ const Board = () => { //NOSONAR
         sendMessage(`/app/game/${gameId}/board/dice`, {})
     }
 
+    const mushrooms=new Set<string>(["MagicMushroom", "UltraMagicMushroom", "SuperMagicMushroom"])
+
     const sendUsable = (usable) => {
         setPreviewImage("")
         setUsablesIsDisabled(true);
@@ -726,12 +728,16 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/cards`
                 break;
             case "Item":
+                if(mushrooms.has(usable)){
+                    setRollDiceIsDisabled(true);
+                }
                 address=`/app/game/${gameId}/board/items`
                 break;
             case "Ultimate":
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
+
         const genPlayer = (id: number) => {
             return gen(userNames[displayPlayerIds[id]])
         };
