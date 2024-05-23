@@ -1421,20 +1421,20 @@ const Board = () => { //NOSONAR
                         </button><br/>
                         {/* <button onClick={ () => alert("a")}>Use Item</button> */}
                         <button onClick={() => {handleJoin()}}>
-                            joinVoice
+                            Join Voicechat
                         </button>
                         <button onClick={() => {handleLeave()}} disabled={!inVoice}>
-                            leaveVoice
+                            Leave Voicechat
                         </button>
                         <button onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}>
-                            {inTeam ? "teamVoice" : "globalVoice"}
+                            {inTeam ? "Team chat" : "Global Chat"}
                         </button>
                         <button onClick={() => {handleMute()}} disabled={!inVoice}>
-                            {mute ? "unmute" : "mute"}
+                            {mute ? "Unmute" : "Mute"}
                         </button>
-                        <button onClick={() => {sendMessageWeb()}}>
+                        {/* <button onClick={() => {sendMessageWeb()}}>
                             sendMessage
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
