@@ -191,7 +191,7 @@ const usablesExampleData1 = {
         },
         "2": {
             "cards": ["B14", "TwoMushrooms"],
-            "items": ["G1256"]
+            "items": ["G37"]
         },
         "3": {
             "items": []
@@ -363,7 +363,7 @@ const Board = () => { //NOSONAR
     const {client , sendMessage, isConnected, disconnect} = useWebsocket();
     const hoverFilter="invert(54%) sepia(82%) saturate(1944%) hue-rotate(80deg) brightness(114%) contrast(126%)";
     const unlockedFilter="invert(14%) sepia(83%) saturate(7026%) hue-rotate(359deg) brightness(99%) contrast(109%)";
-    const lockedFilter="invert(53%) sepia(8%) saturate(15%) hue-rotate(358deg) brightness(92%) contrast(92%)";
+    const lockedFilter="invert(54%) sepia(52%) saturate(2629%) hue-rotate(268deg) brightness(94%) contrast(98%)";
     const navigate = useNavigate();
     //! Audio
     const [playerVolumes,setPlayerVolumes] = useState({"1":100,"2":100,"3":100,"4":100});
@@ -390,6 +390,7 @@ const Board = () => { //NOSONAR
     const [ultimateState, setUltimateState]=useState(true) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
     const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
+    const [choiceMessage, setChoiceMessage]=useState(["", "", "", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
     const [playerColour, setPlayerColour]=useState({"1":"yellow", "2":"green", "3":"blue", "4":"red"})
     const [displayPlayerIds, setDisplayPlayerIds]=useState<string>(["1", "3", "2", "4"]) //This Player, Teammate, Enemy, Enemy
@@ -587,6 +588,7 @@ const Board = () => { //NOSONAR
         for (const player in data) {
             //Combining items and cards into usables
             data[player]["combined"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
+            console.log(`il combined: ${data[player]["combined"]}`)
             for (const item in res[player]) {
 
                 let numberOfNew=data[player]["combined"].filter((i: string) => i === item).length
@@ -736,10 +738,48 @@ const Board = () => { //NOSONAR
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
-        switch (allData[usable]["choice"]){ //NOSONAR
-            //NOSONAR
+        const genPlayer = (id: number) => {
+            return gen(userNames[displayPlayerIds[id]])
+        };
+        const gen = (stuff) => {
+            return [
+                stuff,
+                () => {
+                    sendMessage(address, {"used": usable, "choice": stuff});
+                    setChoiceMessage(["", "", "", ""])
+                }
+            ]
         }
-        sendMessage(address, {"used": usable, "choice": {}})
+        switch (allData[usable]["Choice"]){ //NOSONAR
+            case "otherPlayerId":
+                setChoiceMessage([genPlayer(1), genPlayer(2), genPlayer(3), ""])
+                break;
+            case "playerId":
+                setChoiceMessage([genPlayer(1), genPlayer(2), genPlayer(3), genPlayer(0)])
+                break;
+            default:
+                // if (allData[usable]["Choice"].length>=1) {
+                switch (allData[usable]["Choice"].length){
+                    case 1:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), "", "", ""])
+                        break;
+                    case 2:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), "", ""])
+                        break;
+                    case 3:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), ""])
+                        break;
+                    case 4:
+                        setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3])])
+                        break;
+                    default:
+                        sendMessage(address, {"used": usable, "choice": {}})
+
+                }
+                
+                // if (allData[usable]["Choice"].len!==0) setChoiceMessage(allData[usable]["Choice"])
+                //     else sendMessage(address, {"used": usable, "choice": {}})
+        }
     }
 
     //#endregion
@@ -1351,6 +1391,29 @@ const Board = () => { //NOSONAR
         </div>
         : "")
 
+    let choiceHTML = (choiceMessage[0]==="" ? "" :
+    <div className="message-box">
+        <div className="message-name-class-box">
+            <b>Choose one of the following:</b>
+        </div>
+
+        <div className="message-text-box">
+            {choiceMessage[0] && choiceMessage[0][0] !== "" && (
+                <button onClick={choiceMessage[0][1]}>{choiceMessage[0][0]}</button>
+            )}
+            {choiceMessage[1] && choiceMessage[1][0] !== "" && (
+                <button onClick={choiceMessage[1][1]}>{choiceMessage[1][0]}</button>
+            )}
+            {choiceMessage[2] && choiceMessage[2][0] !== "" && (
+                <button onClick={choiceMessage[2][1]}>{choiceMessage[2][0]}</button>
+            )}
+            {choiceMessage[3] && choiceMessage[3][0] !== "" && (
+                <button onClick={choiceMessage[3][1]}>{choiceMessage[3][0]}</button>
+            )}
+        </div>
+    </div>
+    )
+
         
     return (
         <div>
@@ -1361,6 +1424,7 @@ const Board = () => { //NOSONAR
                 closeOverlay={() => setShowOverlay(false)}
             />
             <div className="board-container">
+                {choiceHTML}
                 {activeMessage[0]==="" ? previewImageHTML : messageHTML}
                 <div className="player-status">
                     {playerElement(displayPlayerIds[2])} {/** not elegant, crashes otherwise */}
