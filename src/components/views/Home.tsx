@@ -25,6 +25,7 @@ const Home = () => {
 
             if (!userId) {
                 alert("User not properly loaded.");
+                
                 return;
             }
             await api.put(`/logout/${userId}`);

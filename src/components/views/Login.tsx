@@ -60,8 +60,8 @@ const Login = () => {
             alert(
                 `Something went wrong during the login: \n${handleError(error)}`
             );
-            setUsername('');
-            setPassword('');
+            setUsername("");
+            setPassword("");
         }
     };
 
