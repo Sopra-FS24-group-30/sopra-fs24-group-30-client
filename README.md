@@ -104,7 +104,7 @@ he has clicked on one player, everyone is being redirected to the board site, wh
 <img height="280" src="Pictures_README/Loading.png"/>
 <img height="280" src="Pictures_README/TeamSelection.png"/>
 
-This game is a typical board game, except that everything can and will happen.
+This game is a board game based on the principles of the popular Nintendo game: Mario Party, except that everything can and will happen.
 Each player can play once in a turn and use different objects to win the game.
 A player is able to either use an item, a card or the ultimate attack, which can be used exactly once in the whole game. In each turn the player can roll the dice to move its figure on the board. 
 If a player used a card however he may not use the dice as the card replaces it. 
