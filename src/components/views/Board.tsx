@@ -413,6 +413,7 @@ const Board = () => { //NOSONAR
     const [showOverlay, setShowOverlay] = useState<boolean>(false);
     const [rollDiceIsDisabled, setRollDiceIsDisabled] = useState(true);
     const [usablesIsDisabled, setUsablesIsDisabled] = useState(true);
+    const [subscriptions, setSubscriptions] = useState([]);
 
     const timerMsg = async (type, content, timeout=3000) => {
         if (content!=="")
@@ -488,6 +489,8 @@ const Board = () => { //NOSONAR
 
     const gameEnd = (data) => {
         if (data.status === "NOT_PLAYING"){
+            subscriptions.forEach(sub => sub.unsubscribe());
+            console.log("Game ended navigating to ranking page: ");
             navigate(`/game/${gameId}/ranking`);
         }
     };
@@ -760,11 +763,6 @@ const Board = () => { //NOSONAR
             return [
                 stuff,
                 () => {
-                    console.log("used: " + usable)
-                    if(!stuff){
-                        stuff = {}
-                    }
-                    console.log("choice: " + stuff)
                     sendMessage(address, {"used": usable, "choice": stuff });
                     setChoiceMessage(["", "", "", ""])
                 }
@@ -795,9 +793,6 @@ const Board = () => { //NOSONAR
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3])])
                         break;
                     default:
-                        console.log("we're defaulting baby");
-                        console.log("the address is: " + address);
-                        console.log("sending: " + usable);
                         sendMessage(address, {"used": usable, "choice": {}})
 
 
@@ -859,7 +854,7 @@ const Board = () => { //NOSONAR
                 setAllPlayers(mappedPlayers);
             });
 
-            const subscrpitionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
+            const subscriptionGoal = client.subscribe(`/topic/game/${gameId}/board/goal`, (message) => {
                 const data = JSON.parse(message.body);
                 processor.addToQueue("goal", data)
                 
@@ -921,13 +916,28 @@ const Board = () => { //NOSONAR
             });
             setSocketReady(true);
 
+            setSubscriptions([
+                subscriptionStart,
+                subscriptionGoal,
+                subscriptionError,
+                subscriptionJunction,
+                subscriptionUsables,
+                subscriptionMove,
+                subscriptionMoney,
+                subscriptionActivePlayer,
+                subscriptionDice,
+                subscriptionWinCondition,
+                subscriptionUltimate,
+                subscriptionGameEnd
+            ]);
+
             if(!localStorage.getItem("turnorder")){
                 sendMessage(`/app/game/${gameId}/board/start`, {userId});
             }
 
             return () => {
                 subscriptionStart.unsubscribe();
-                subscrpitionGoal.unsubscribe();
+                subscriptionGoal.unsubscribe();
                 subscriptionError.unsubscribe();
                 subscriptionJunction.unsubscribe();
                 subscriptionUsables.unsubscribe();
