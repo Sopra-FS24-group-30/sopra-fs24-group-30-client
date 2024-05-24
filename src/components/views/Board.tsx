@@ -1380,17 +1380,18 @@ const Board = () => { //NOSONAR
         )
     }
 
-    let messageHTML = (activeMessage[0]==="" ? "" :
+    let messageHTML = (activeMessage[0] === "" ? "" :
         <div className="message-box">
             <div className="message-name-class-box">
                 Message <b>{activeMessage[0]}</b>
             </div>
-
             <div className="message-text-box">
-                {activeMessage.length<2 ? "" : <div className="message-text" dangerouslySetInnerHTML={{ __html:activeMessage[1].replace(/\n/g, "<br />") }} />}
+                {activeMessage.length < 2 || typeof activeMessage[1] !== "string" ? "" :
+                    <div className="message-text" dangerouslySetInnerHTML={{ __html: activeMessage[1].replace(/\n/g, "<br />") }} />
+                }
             </div>
         </div>
-        )
+    );
 
     let previewImageHTML = (previewImage!=="" ?
         <div className="preview-box" style={{color: cardColours[allData[previewImage]["Category"]][1], backgroundColor: cardColours[allData[previewImage]["Category"]][0]}}>
