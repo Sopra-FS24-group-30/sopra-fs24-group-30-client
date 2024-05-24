@@ -389,7 +389,7 @@ const Board = () => { //NOSONAR
     const [ultimateName, setUltimateName]=useState("Nothing")
     const [ultimateState, setUltimateState]=useState(true) //NOSONAR
     const [turnNumber, setTurnNumber]=useState(0);
-    const [activeMessage, setActiveMessage]=useState(["", ""]); //NOSONAR
+    const [activeMessage, setActiveMessage]=useState<[string, string]>(["", ""]); //NOSONAR
     const [choiceMessage, setChoiceMessage]=useState(["", "", "", ""]); //NOSONAR
     const [activePlayer, setActivePlayer]=useState("0");
     const [haveMessages, setHaveMessages]=useState(true);
@@ -417,9 +417,14 @@ const Board = () => { //NOSONAR
 
     const timerMsg = async (type, content, timeout=3000) => {
         if (content!=="")
-            {setActiveMessage([type, content])
-            await sleep(timeout)
-            setActiveMessage(["", ""])}
+            {
+                try{
+                    setActiveMessage([type, content])
+                    await sleep(timeout)
+                    setActiveMessage(["", ""])}
+                catch {
+                }
+            }
     }
 
     //~ interpretation of websocket messages
