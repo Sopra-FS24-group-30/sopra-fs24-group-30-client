@@ -107,17 +107,16 @@ $box-bg-colour: #fff5;
         font-size: status-font-size(4);
         vertical-align: center;
         box-sizing: border-box;
-        padding: calc($box-margin/1.5);
-        margin-left: calc($box-margin/2);
-        margin-right: calc($box-margin/2);
-        width: calc(100% - $box-margin);
+        margin-left: calc($box-margin);
+        min-width:20vw;
         border-radius: status-font-size(3);
-        margin-top: calc($box-margin/2);
+        margin-top: calc($box-margin);
         &-box{
             display: flex;
             flex-direction: column;
-            justify-content: center;
-
+            justify-content:center;
+            align-items: flex-end;
+            margin-right: 0;
         }
         
     }   
@@ -418,6 +417,10 @@ $item-container-width: 23vh;
         align-items: center;
         cursor: pointer;
         white-space: nowrap;
+        &:disabled{
+            opacity: 0;
+            cursor:not-allowed;
+        }
     }
     
     &-name {

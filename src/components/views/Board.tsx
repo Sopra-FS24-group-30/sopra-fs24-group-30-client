@@ -1475,16 +1475,17 @@ const Board = () => { //NOSONAR
 
                         </div>
                         <div className="ultimate-box" //NOSONAR
-                             onMouseEnter={() => setPreviewImage(ultimateName)}
-                             onMouseLeave={() => setPreviewImage("")}
-                             disabled = {usablesIsDisabled}
-                             onClick={() => sendUsable(ultimateName)}
-                             >
+                            onMouseEnter={() => setPreviewImage(ultimateName)}
+                            onMouseLeave={() => setPreviewImage("")}
+                            disabled = {true || usablesIsDisabled || ultimateState}
+                            onClick={() => (ultimateState ? sendUsable(ultimateName) : console.log("Ultimate already used."))}
+                            style={{cursor: ultimateState ? "cursor" : "default"}}
+                            >
                             <div className="ultimate-name"
-                                 style={{
-                                     backgroundColor: ultimateState ? "#b1001d":"#5e0000",
-                                     cursor: ultimateState ? "cursor" : "default"
-                                 }}
+                                style={{
+                                    backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                    // cursor: ultimateState ? "cursor" : "default"
+                                }}
                             >
                                 {ultimateData[ultimateName]["DisplayName"]}
                             </div>
