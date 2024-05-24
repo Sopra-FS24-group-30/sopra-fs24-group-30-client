@@ -36,7 +36,7 @@ const {ceil, floor, min, max, round, abs} = Math; //NOSONAR this is way more con
 const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
-const landOnMsg={"blue": " a blue Space.", "yellow": " a yellow Space.", "item": " an Item Space.", "card": " a Card Space.", "black": " a big oops Space.", "red": " a small oops Space.", "gambling": " a gambling Space.", "catnami": " a Catnami Space."}
+const landOnMsg={"blue": " a blue Space", "yellow": " a yellow Space", "item": " an Item Space", "card": " a Card Space", "black": " a big oops Space", "red": " a small oops Space", "gambling": " a gambling Space", "catnami": " a Catnami Space"}
 
 const lost="<font color=#de1313>lost</font>"
 const gained="<font color=#18c92a>gained</font>"
@@ -723,6 +723,12 @@ const Board = () => { //NOSONAR
         setPreviewImage("")
         setUsablesIsDisabled(true);
         let address=""
+
+        if (allData[usable]["Type"]==="Ultimate Attack"){
+            sendMessage(`/app/game/${gameId}/board/ultimate`, {"used": usable, "choice": {}})
+            return;
+        }
+
         switch (allData[usable]["Type"]){
             case "Card":
                 setRollDiceIsDisabled(true);
@@ -734,11 +740,8 @@ const Board = () => { //NOSONAR
                 }
                 address=`/app/game/${gameId}/board/items`
                 break;
-            case "Ultimate Attack":
-                address=`/app/game/${gameId}/board/ultimate`
-                break;
         }
-        
+
         const genPlayer = (stuff) => {
             const id=userNames[displayPlayerIds[stuff]]
 
@@ -1479,12 +1482,13 @@ const Board = () => { //NOSONAR
                             onMouseEnter={() => setPreviewImage(ultimateName)}
                             onMouseLeave={() => setPreviewImage("")}
                             disabled = {true || usablesIsDisabled || ultimateState}
-                            onClick={() => (ultimateState ? sendUsable(ultimateName) : console.log("Ultimate already used."))}
-                            style={{cursor: ultimateState ? "cursor" : "default"}}
+                            //TODO cheu eisi da merar damaun
+                            onClick={() => (ultimateState===true && activePlayer===localStorage.getItem("playerId") ? sendUsable(ultimateName) : console.log("Ultimate already used."))}
+                            style={{cursor: ultimateState===true && activePlayer===localStorage.getItem("playerId")  ? "cursor" : "default"}}
                             >
                             <div className="ultimate-name"
                                 style={{
-                                    backgroundColor: ultimateState ? "#b1001d":"#5e0000",
+                                    backgroundColor: ultimateState===true && activePlayer===localStorage.getItem("playerId") ? "#b1001d":"#5e0000",
                                     // cursor: ultimateState ? "cursor" : "default"
                                 }}
                             >
