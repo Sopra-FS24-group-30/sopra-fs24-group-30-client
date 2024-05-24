@@ -126,8 +126,8 @@ const Lobby: React.FC = () =>{
                         <div className="Game text">
                             This is a 2 vs 2 board game, where you can use items, cards and a one time only ultimate
                             attack.
-                            Your goal is to win the game by either fulfilling your wincondition or accumulating the
-                            highest amount of money.
+                            Your goal is to win the game by either fulfilling your wincondition and passing the goal, or accumulating the
+                            highest amount of money, by the end of the game.
                         </div>
                     </div>
                 </div>
