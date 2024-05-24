@@ -746,7 +746,7 @@ const Board = () => { //NOSONAR
             const id=userNames[displayPlayerIds[stuff]]
 
             return [
-                stuff,
+                id,
                 () => {
                     sendMessage(address, {"used": usable, "choice": {"playerId": id}});
                     setChoiceMessage(["", "", "", ""])
@@ -780,7 +780,7 @@ const Board = () => { //NOSONAR
                     case 0:
                         setChoiceMessage(["", "", "", ""])
                     case 1:
-                        setChoiceMessage([gen(allData[usable]["Choice"][0]), "", "", ""])
+                        setChoiceMessage(["", "", "", ""])
                         break;
                     case 2:
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), "", ""])
