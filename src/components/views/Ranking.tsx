@@ -6,13 +6,17 @@ import "styles/views/Ranking.scss";
 import {useWebsocket} from "./Websockets";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import {Spinner} from "../ui/Spinner";
 
 const Ranking = () => {
     const navigate = useNavigate();
     const gameId = localStorage.getItem("gameId");
     const {client , sendMessage, isConnected, disconnect} = useWebsocket();
-    const [winners, setWinners] = useState<String>("Nobody");
-    const [reason, setReason] = useState<String>("Just because");
+    const [winnersDefault, setWinnersDefault] = useState<String>("Nobody");
+    const [reasonDefault, setReasonDefault] = useState<String>("Just because");
+    const [winners, setWinners] = useState<String>(null);
+    const [reason, setReason] = useState<String>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if(client && isConnected){
@@ -20,6 +24,7 @@ const Ranking = () => {
                 const data = JSON.parse(message.body);
                                 setWinners(data.winners);
                 setReason(data.reason);
+                setLoading(false);
             })
 
                         sendMessage(`/app/game/${gameId}/ranking`, {})
@@ -29,6 +34,29 @@ const Ranking = () => {
             }
         }
     }, [client, isConnected, disconnect, winners, reason]);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            if(!winners){
+                setWinners("Nobody");
+                setReason("Just because");
+                setLoading(false);
+            }
+        }, 3000);
+        
+        return () => clearTimeout(timeoutId);
+    }, []);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (client && isConnected) {
+                console.log("Sending periodic message");
+                sendMessage(`/app/game/${gameId}/ranking`, {});
+            }
+        }, 5000); // Send a message every 5 seconds
+
+        return () => clearInterval(intervalId);
+    }, [client, isConnected]);
 
     const goBack = (): void => {
         try{
@@ -53,7 +81,9 @@ const Ranking = () => {
         }
     }
 
-    return(
+    let content = loading ? (
+        <Spinner/>
+    ): (
         <div className="ranking container">
             <div className="ranking winner-container">
                 <div className="ranking winner-title">
@@ -74,6 +104,9 @@ const Ranking = () => {
             </div>
         </div>
     )
+
+
+    return <>{content}</>
 }
 
 export default Ranking;
