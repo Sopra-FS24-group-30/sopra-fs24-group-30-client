@@ -464,7 +464,7 @@ const Board = () => { //NOSONAR
                                 [playerId]: space
                             }));
                         }
-                        await timerMsg("Teleportation", message, 3000)
+                        if(message==="") await timerMsg("Teleportation", message, 3000)
                         resolve(null)
                         break;
                     case "start":
