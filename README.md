@@ -1,5 +1,36 @@
 # Mario After Party
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Technologies](#technologies)
+  - [Voice Chat API](#voice-chat-api)
+  - [Websockets](#websockets)
+- [High-level components](#high-level-components)
+- [Launch and Deployment](#launch-and-deployment)
+- [Setup this Template with your IDE of choice](#setup-this-template-with-your-ide-of-choice)
+  - [IntelliJ](#intellij)
+  - [VS Code](#vs-code)
+- [Building with Gradle](#building-with-gradle)
+  - [Build](#build)
+  - [Run](#run)
+  - [Test](#test)
+  - [Development Mode](#development-mode)
+- [Illustrations](#illustrations)
+  - [User oversight](#user-oversight)
+  - [Gameplay](#gameplay)
+- [Roadmap](#roadmap)
+- [Game Wiki](#game-wiki)
+  - [Win Conditions](#win-conditions)
+  - [Usables](#usables)
+    - [Ultimate Attack (Phase 1)](#ultimate-attack-phase-1)
+    - [Items (Phase 1)](#items-phase-1)
+    - [Cards (Phase 2)](#cards-phase-2)
+  - [Spaces (Phase 3)](#spaces-phase-3)
+  - [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Authors and Acknowledgement](#authors-and-acknowledgement)
+- [License](#license)
+
 ## Introduction
 
 *Four people, four friends, two vs. two – who will win?*<br>
@@ -28,7 +59,7 @@ and the lobbyId. This ensures that all players which are in a different game hav
 ### Websockets
 
 We integrated websockets in our web game, to ensure real-time communication between the client and the server.
-The, by SPRING boot provided, websockets create a state or a connection between the client and backend. 
+The, by SPRING boot provided, websockets create a state or a connection between the client and backend.
 Compared to REST APIs which needs to send a request to get a response from the backend, by using websockets it is possible to
 send responses from the backend without necessarilly being called upon. Furthermore, the user can receive userscpecific information
 which is not only important to send different winconditions to different clients, but also because strengthens our system.
@@ -38,7 +69,7 @@ connected with the websockets, and his session as well as user ID is being safed
 ## High-level components
 
 - ### User Views
-- 
+
     As a User, the [Login](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Login.tsx),
     [UserOverview](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/UserOverview.tsx) and
     [Edit](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Edit.tsx) are crucial.
@@ -56,13 +87,86 @@ connected with the websockets, and his session as well as user ID is being safed
     The [Board](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Board.tsx) is the main component for our game. Everything game related, like moving or handling usables happens in there.
     When the game terminates, the players get redirected to a [ranking](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Ranking.tsx) page, where they can see the winners and the reason why they won.
 
-- ### Websockets
+- ### Websocket Connections
 
     The [Websockets](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Websockets.tsx) file handles the communication between client and server.
 
 ## Launch and Deployment
 
-(Carlos)
+Important Information about Spring Boot
+
+    Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
+    Guides: http://spring.io/guides
+        Building a RESTful Web Service: http://spring.io/guides/gs/rest-service/
+        Building REST services with Spring: https://spring.io/guides/tutorials/rest/
+
+## Setup this Template with your IDE of choice
+
+Download your IDE of choice (e.g., [IntelliJ](https://www.jetbrains.com/idea/download/), [Visual Studio Code](https://code.visualstudio.com/), or [Eclipse](http://www.eclipse.org/downloads/)). Make sure Java 17 is installed on your system (for Windows, please make sure your `JAVA_HOME` environment variable is set to the correct version of Java).
+
+### IntelliJ
+
+If you consider to use IntelliJ as your IDE of choice, you can make use of your free educational license, if you are a student of course [here](https://www.jetbrains.com/community/education/#students).
+
+1. File -> Open... -> SoPra server template
+2. Accept to import the project as a `gradle project`
+3. To build right click the `build.gradle` file and choose `Run Build`
+
+### VS Code
+
+The following extensions can help you get started more easily:
+
+- `vmware.vscode-spring-boot`
+- `vscjava.vscode-spring-initializr`
+- `vscjava.vscode-spring-boot-dashboard`
+- `vscjava.vscode-java-pack`
+
+**Note:** You'll need to build the project first with Gradle, just click on the `build` command in the *Gradle Tasks* extension. Then check the *Spring Boot Dashboard* extension if it already shows `soprafs24` and hit the play button to start the server. If it doesn't show up, restart VS Code and check again.
+
+## Building with Gradle
+
+You can use the local Gradle Wrapper to build the application (You can click on it, instead of typing the commands manually).
+
+- macOS: `./gradlew`
+- Linux: `./gradlew`
+- Windows: `./gradlew.bat`
+
+More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
+
+### Build
+
+```bash
+./gradlew build
+```
+
+### Run
+
+```bash
+./gradlew bootRun
+```
+
+By visiting `localhost:8080` in your browser, you can verify that the server is running.
+
+### Test
+
+```bash
+./gradlew test
+```
+
+### Development Mode
+
+You can start the backend in development mode, this will automatically trigger a new build and reload the application
+once the content of a file has been changed.
+
+Start two terminal windows and run:
+
+`./gradlew build --continuous`
+
+`./gradlew bootRun`
+
+If you want to avoid running all tests with every change, use the following command instead:
+
+`./gradlew build --continuous -xtest`
 
 ## Illustrations
 
@@ -94,7 +198,7 @@ Additionally, when the user clicks on his own profile, he is able to edit his pr
 
 <img src="Pictures_README/Edit.png" width="250"/>
 
-### Game
+### Gameplay
 
 To play Mario After Party there are 4 users needed. One user has to create the game and then share the provided game pin with 3 other friends.
 Which have to click on the join game button in home. To join the game they have to enter the game pin and click on join.
@@ -140,6 +244,7 @@ The screen will also darken and the name of the new active player will be displa
 <img height="300" src="Pictures_README/Turn.png"/>
 
 Finally, when the game ends, all the players are being redirected to the ranking page.
+
 <img height="300" src="Pictures_README/Ranking.png"/>
 
 ## Roadmap
@@ -203,8 +308,6 @@ If any Player has Jack Sparrow, CAPTAIN Jack Sparrow
 | East Indian Trading Company | As long as you have at least 60 Coins, the Win Condition is fulfilled. If you have less than 60 Coins at any point in time, your Wincondition is no longer fulfilled. |
 | The Marooned | As long as you have exactly 0 Coins, 0 [Items](#items-phase-1) and 0 [Cards](#cards-phase-2) the Win Condition is fulfilled. If you gain any Coins, [Items](#items-phase-1) or [Cards](#cards-phase-2) at any point in time, your Win Condition is no longer fulfilled. |
 | Jack Sparrow, CAPTAIN Jack Sparrow | You win if the other Team wins, and you lose if your Partner wins. If the game ends after 20 Turns, everyone except for your Partner loses. |
-<!-- | Third time's the charm | Pass the goal twice | -->
-<!-- | Ohh shiny | Use one Bronze, Silver and Gold [Item](#items-phase-1), and one Bronze, Silver and Gold [Card](#cards-phase-2). | -->
 
 ### Usables
 
@@ -226,8 +329,6 @@ The starting Player may not use their [Ultimate Attack](#ultimate-attack-phase-1
 | Fresh start :) | All other Players get teleported back to their starting [Space](#spaces-phase-3). |
 | /tp | Move to a random [Space](#spaces-phase-3) on the board (fun). |
 | Nothing (Maybe you should've taken another Card?) | Nothing happens (still prevents using an [Item](#items-phase-1)). |
-<!-- | Chameleon | Use the effect of any [Item](#items-phase-1) in the game. | -->
-<!-- | Stop? | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends) | -->
 
 #### Items (Phase 1)
 
@@ -251,12 +352,6 @@ Some [Items](#items-phase-1) cause the Player to automatically skip the second P
 | (Almost) all your Items are belong to mine | Steal 4 random [Items](#items-phase-1) from a player of your choice. | |
 | Only-Fans Subscription | Steal 7 Coins from every other player (even your Teammate) | |
 | Dino Chicky Nuggie | −20 Coins, your ultimate becomes usable again. | |
-<!-- | Two (Regular) Mushrooms | This turn you move twice as many [Spaces](#spaces-phase-3). | -->
-<!-- | Stick | If you pass a player this turn, steal 15 Coins from them. | -->
-<!-- | Meow it I'm out | Switch places with a random other player. | -->
-<!-- | Bad Wifi | Chose a player, they get muted for 1 turn (2 if it was your teammate) | -->
-<!-- | I am confusion | This turn you move backwards instead of forwards. | -->
-<!-- | Golden Snitch | A Player of your choice has to roll the Big Oops Roulette. +10 Coins if it was your teammate. | -->
 
 #### Cards (Phase 2)
 
@@ -288,7 +383,7 @@ There are 8 different [Spaces](#spaces-phase-3), which trigger fun effects when 
 | <span style="color:#529c31; background-color:#ffa5a4"> ◉ </span> Card | You receive a random [Card](#cards-phase-2). |
 | <span style="color:#529c31; background-color:#eea805"> ◉ </span> Gambling | Randomly double or lose all of your Coins, [Items](#items-phase-1) or [Cards](#cards-phase-2). |
 | <span style="color:#529c31; background-color:#0d12c1"> ◉ </span> Catnami | Gain 69 Coins or swap your Win Condition with that of another Player. |
-| <span style="color:#fddc11; background-color:#59270e"> ◉ </span> Yellow | A fun effect happens, depending on which exact Yellow [Space](#spaces-phase-3) was landed upon. A detailed table is visible in [`infos.md`](Infos.md). |
+| <span style="color:#fddc11; background-color:#59270e"> ◉ </span> Yellow | A fun effect happens, depending on which exact Yellow [Space](#spaces-phase-3) was landed upon. A detailed table is visible in [`infos.md`](Infos.md) (Certain data may be not be up to date). |
 
 There are 4 different walkover [Spaces](#spaces-phase-3), which trigger fun effects when walked over.
 
@@ -317,9 +412,9 @@ The following shortcuts are available on the Board.
 | Return | Toggles an Overlay, showing which way Players move. |
 | Esc | Disables said Overlay. |
 
-## Authors and Acknoledgement
+## Authors and Acknowledgement
 
-- **[Céline Mai Anh Ziegler](https://github.com/CelineZi)**
+- [Céline Mai Anh Ziegler](https://github.com/CelineZi)
 - [Ambros Eberhard](https://github.com/ambros02)
 - [Carlos Hernandez](https://github.com/KarlGrossGROSS)
 - [Thi Tam Gian Nguyen](https://github.com/tamtam-27)
@@ -329,5 +424,4 @@ We want to thank our teaching assistant [Marco Leder](https://github.com/marcole
 
 ## License
 
-The Code is licensed under the Apache 2.0 License.<br>
-<!-- Insert Images © Client -->
+The Code is licensed under the [Apache 2.0 License](./LICENSE).

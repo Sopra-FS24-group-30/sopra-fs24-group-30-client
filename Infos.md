@@ -101,12 +101,6 @@
 | G37          | 3/7         | <span style="color:#ffe600">Gold</span>   |
 | G1256        | 1/2/5/6     | <span style="color:#ffe600">Gold</span>   |
 
-
-# General Stuff
-
-Maximum Combined Total of Items and Cards per Player: **`15`**  
-Lorem Ipsum
-
 # OnSpace Effects
 
 | OnSpace Number | OnSpace Name          | Effect                                                                                                                          | SpaceColor  |
