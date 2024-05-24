@@ -778,9 +778,9 @@ const Board = () => { //NOSONAR
                 // if (allData[usable]["Choice"].length>=1) {
                 switch (allData[usable]["Choice"].length){
                     case 0:
-                        setChoiceMessage(["", "", "", ""])
                     case 1:
                         setChoiceMessage(["", "", "", ""])
+                        sendMessage(address, {"used": usable, "choice": {}})
                         break;
                     case 2:
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), "", ""])
