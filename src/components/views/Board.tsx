@@ -1416,16 +1416,36 @@ const Board = () => { //NOSONAR
 
         <div className="message-text-box">
             {choiceMessage[0] && choiceMessage[0][0] !== "" && (
-                <button onClick={choiceMessage[0][1]}>{choiceMessage[0][0]}</button>
+            <button 
+                onClick={choiceMessage[0][1]}
+                className={"pretty-button"}
+            >
+            {choiceMessage[0][0]}
+            </button>
             )}
             {choiceMessage[1] && choiceMessage[1][0] !== "" && (
-                <button onClick={choiceMessage[1][1]}>{choiceMessage[1][0]}</button>
+            <button 
+                onClick={choiceMessage[1][1]}
+                className={"pretty-button"}
+            >
+            {choiceMessage[1][0]}
+            </button>
             )}
             {choiceMessage[2] && choiceMessage[2][0] !== "" && (
-                <button onClick={choiceMessage[2][1]}>{choiceMessage[2][0]}</button>
+            <button 
+                onClick={choiceMessage[2][1]}
+                className={"pretty-button"}
+            >
+            {choiceMessage[2][0]}
+            </button>
             )}
             {choiceMessage[3] && choiceMessage[3][0] !== "" && (
-                <button onClick={choiceMessage[3][1]}>{choiceMessage[3][0]}</button>
+            <button 
+                onClick={choiceMessage[3][1]}
+                className={"pretty-button"}
+            >
+            {choiceMessage[3][0]}
+            </button>
             )}
         </div>
     </div>
