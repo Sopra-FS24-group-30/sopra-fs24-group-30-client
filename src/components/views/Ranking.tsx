@@ -43,6 +43,7 @@ const Ranking = () => {
                 setLoading(false);
             }
         }, 3000);
+        
         return () => clearTimeout(timeoutId);
     }, []);
 
