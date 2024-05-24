@@ -533,7 +533,7 @@ const Board = () => { //NOSONAR
         }
         if (message !== "") {
             try {
-                await timerMsg("Change in Money", message);
+                await timerMsg("Change in Money", message, 3000);
                 resolve(null);
             } catch (error) {
                 resolve(null);
@@ -741,7 +741,7 @@ const Board = () => { //NOSONAR
         
         const genPlayer = (stuff) => {
             const id=userNames[displayPlayerIds[stuff]]
-            
+
             return [
                 stuff,
                 () => {
@@ -769,6 +769,8 @@ const Board = () => { //NOSONAR
             default:
                 // if (allData[usable]["Choice"].length>=1) {
                 switch (allData[usable]["Choice"].length){
+                    case 0:
+                        setChoiceMessage(["", "", "", ""])
                     case 1:
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), "", "", ""])
                         break;
@@ -1491,25 +1493,38 @@ const Board = () => { //NOSONAR
                     {playerElement(displayPlayerIds[0])}
                     <div className="player-status-controls">
                         <div className="player-status-controls-box">
-                            <button
+                            <div><button
                                 disabled={rollDiceIsDisabled}
                                 onClick={ () => sendDice()}
+                                className="pretty-button"
                             >
                                 Roll Dice
-                            </button><br/>
+                            </button></div>
                             {/* <button onClick={ () => alert("a")}>Use Item</button> */}
-                            <button onClick={() => {handleJoin()}}>
+                            <div><button
+                                onClick={() => {handleJoin()}}
+                                className="pretty-button"
+                            >
                                 Join Voicechat
-                            </button><br/>
-                            <button onClick={() => {handleLeave()}} disabled={!inVoice}>
+                            </button><br/></div>
+                            <div><button
+                                onClick={() => {handleLeave()}} disabled={!inVoice}
+                                className="pretty-button"
+                            >
                                 Leave Voicechat
-                            </button><br/>
-                            <button onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}>
+                            </button><br/></div>
+                            <div><button
+                                onClick={(event) => {toggleVoice(event,getTeam())}} disabled={!inVoice}
+                                className="pretty-button"
+                            >
                                 {inTeam ? "Team chat" : "Global Chat"}
-                            </button><br/>
-                            <button onClick={() => {handleMute()}} disabled={!inVoice}>
+                            </button><br/></div>
+                            <div><button
+                                onClick={() => {handleMute()}} disabled={!inVoice}
+                                className="pretty-button"
+                            >
                                 {mute ? "Unmute" : "Mute"}
-                            </button><br/>
+                            </button><br/></div>
                             {/* <button onClick={() => {sendMessageWeb()}}>
                                 sendMessage
                             </button> */}

@@ -3,41 +3,47 @@ body.scrollbar-removal{ //overwrites global css style
     margin: 0;
     padding: 0;
     overflow: hidden;
+}
 
-    button { 
-        display: inline-block!important;
-        background-color: #4CAF50!important;
-        color: white!important;
-        border: none!important;
-        cursor: pointer!important; 
-        outline: none!important;
-        display: inline-block!important;
-        text-align: center!important;
-        vertical-align: middle!important;
-        padding-left: status-font-size(1)!important;
-        padding-right: status-font-size(1)!important;
-        width: auto!important;
-        height: status-font-size(5)!important;
-        font-size: status-font-size(3.2)!important;
-        font-family: "Arial", sans-serif!important;
-        border-radius: .3em!important;
-        margin: status-font-size(.5) !important; 
-        display: inline-block!important;
-    }
-    button:hover {
+
+$box-margin: 2vh;
+$box-bg-colour: #fff5;
+
+@function status-font-size($input) {
+    // capping the value: @return max(#{$input*1pt}, min(#{$input*25pt}, min(#{$input}vh, #{$input}vw/2.2)));
+    @return min(#{$input}vh, #{$input}vw/2.2);
+}
+
+.pretty-button { 
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer; 
+    outline: none;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: status-font-size(1);
+    padding-right: status-font-size(1);
+    width: auto;
+    height: status-font-size(6);
+    font-size: status-font-size(4);
+    font-family: "Arial", sans-serif;
+    border-radius: .3em;
+    margin-top: status-font-size(.7) !important; 
+
+    &:hover {
         background-color: #3e8e41; 
     }
-    button:active {
+    &:active {
         background-color: #3e8e41; 
     }
-    button:disabled {
+    &:disabled {
         background-color: #cccccc; 
         color: #666666; 
         cursor: not-allowed; 
-        opacity: 0.7; 
     }
 }
-
 
 .board-background{
     max-width: 100%;
@@ -73,13 +79,6 @@ body.scrollbar-removal{ //overwrites global css style
     z-index: 1;
 }
 
-$box-margin: 2vh;
-$box-bg-colour: #fff5;
-
-@function status-font-size($input) {
-    // capping the value: @return max(#{$input*1pt}, min(#{$input*25pt}, min(#{$input}vh, #{$input}vw/2.2)));
-    @return min(#{$input}vh, #{$input}vw/2.2);
-}
 
 .player-status{
     width: 18vw;
@@ -102,30 +101,23 @@ $box-bg-colour: #fff5;
         margin-top: calc($box-margin/2);
     }
     &-controls{
-        // font-size: status-font-size(4);
-        // width: 100%;
-        // box-sizing: border-box;
-        // padding-top: 2em;
-        // padding-bottom: 2em;
-        // padding-left: 1em;
-        // padding-right: 1em;
-        // flex-direction: column;
-        // margin-top: 5vh;
-        // height: calc(60vh/3*2);
-        // flex-direction: row;
-        flex-direction: row;
+        display: flex;
+        align-items:normal;
         height: calc(calc(100vh - #{$box-margin*3})/3);
         font-size: status-font-size(4);
         vertical-align: center;
         box-sizing: border-box;
         padding: calc($box-margin/1.5);
-        background-color: $box-bg-colour;
         margin-left: calc($box-margin/2);
         margin-right: calc($box-margin/2);
         width: calc(100% - $box-margin);
         border-radius: status-font-size(3);
         margin-top: calc($box-margin/2);
         &-box{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
         }
         
     }   
