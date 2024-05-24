@@ -1489,8 +1489,7 @@ const Board = () => { //NOSONAR
                         <div className="ultimate-box" //NOSONAR
                             onMouseEnter={() => setPreviewImage(ultimateName)}
                             onMouseLeave={() => setPreviewImage("")}
-                            disabled = {true || usablesIsDisabled || ultimateState}
-                            //TODO cheu eisi da merar damaun
+                            disabled = {usablesIsDisabled || !ultimateState}
                             onClick={() => (ultimateState===true && activePlayer===localStorage.getItem("playerId") ? sendUsable(ultimateName) : console.log("Ultimate already used."))}
                             style={{cursor: ultimateState===true && activePlayer===localStorage.getItem("playerId")  ? "cursor" : "default"}}
                             >
