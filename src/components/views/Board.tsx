@@ -535,6 +535,7 @@ const Board = () => { //NOSONAR
 
         if (allData[usable]["Type"]==="Ultimate Attack"){
             sendMessage(`/app/game/${gameId}/board/ultimate`, {"used": usable, "choice": {}})
+            
             return;
         }
 
