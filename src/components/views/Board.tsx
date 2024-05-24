@@ -1384,7 +1384,7 @@ const Board = () => { //NOSONAR
             </div>
 
             <div className="message-text-box">
-                <div className="message-text" dangerouslySetInnerHTML={{ __html:activeMessage[1].replace(/\n/g, "<br />") }} />
+                {activeMessage.length<2 ? "" : <div className="message-text" dangerouslySetInnerHTML={{ __html:activeMessage[1].replace(/\n/g, "<br />") }} />}
             </div>
         </div>
         )
