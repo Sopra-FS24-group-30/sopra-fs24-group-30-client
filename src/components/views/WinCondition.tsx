@@ -81,8 +81,7 @@ const WinCondition: React.FC = () => {
         if (client && isConnected) {
             const subscriptionSelection = client.subscribe(`/user/queue/game/${gameId}/wincondition`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
-                localStorage.setItem("wincondition", data.Wincondition);
+                                localStorage.setItem("wincondition", data.Wincondition);
                 setWincondition(data.Wincondition);
             });
 

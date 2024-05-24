@@ -18,13 +18,11 @@ const Ranking = () => {
         if(client && isConnected){
             const subscriptionRanking = client.subscribe(`/topic/game/${gameId}/ranking`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log("received message", data);
-                setWinners(data.winners);
+                                setWinners(data.winners);
                 setReason(data.reason);
             })
 
-            console.log("sending message");
-            sendMessage(`/app/game/${gameId}/ranking`, {})
+                        sendMessage(`/app/game/${gameId}/ranking`, {})
 
             return () => {
                 subscriptionRanking.unsubscribe();

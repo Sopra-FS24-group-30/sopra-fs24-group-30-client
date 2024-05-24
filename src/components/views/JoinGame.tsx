@@ -33,8 +33,7 @@ const JoinGame: React.FC = () => {
     const userId = localStorage.getItem("userId");
     const [joined, setJoined] = useState(false);
 
-    console.log("playerId join: ", userId);
-
+    
     useEffect(() =>{
         if (client && isConnected){
             const subscription = client.subscribe("/user/queue/gameJoined", (message) => {
@@ -44,8 +43,7 @@ const JoinGame: React.FC = () => {
                     localStorage.setItem("gameId", gameId);
                     navigate(`/game/${gameId}/lobby`);
                 }
-                console.log(joined);
-            });
+                            });
 
             return () => {
                 if(subscription){
@@ -58,10 +56,8 @@ const JoinGame: React.FC = () => {
     const joinGame = () => {
         if (client && isConnected && gameId){
             try{
-                console.log("Attempting to join game with ID:", gameId);
-                if(!joined){
-                    console.log("Here");
-                    sendMessage("/app/game/join", {gameId, userId});
+                                if(!joined){
+                                        sendMessage("/app/game/join", {gameId, userId});
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);

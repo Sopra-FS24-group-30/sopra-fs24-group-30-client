@@ -18,18 +18,15 @@ const Loading = () => {
         if(client && isConnected){
             const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
-                setStatus(data.status);
+                                setStatus(data.status);
             });
 
             const subscriptionPlayerId = client.subscribe("/user/queue/game/PlayerId", (message) => {
                 const data = JSON.parse(message.body);
-                console.log("Received playerId:",data);
-                localStorage.setItem("playerId", data.playerId);
+                                localStorage.setItem("playerId", data.playerId);
             })
 
-            console.log("send message");
-            sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
+                        sendMessage(`/app/game/${gameId}/playerAtLP`, {username});
 
             return ()=> {
                 subscriptionStatus.unsubscribe();
@@ -42,8 +39,7 @@ const Loading = () => {
     useEffect(() => {
         if(client && isConnected && gameId){
             const checkGameStatus = () => {
-                console.log("Requesting game status...");
-                sendMessage(`/app/game/${gameId}/status`, {});
+                                sendMessage(`/app/game/${gameId}/status`, {});
             };
             checkGameStatus();
 
@@ -55,8 +51,7 @@ const Loading = () => {
 
     useEffect(() => {
         if (status === "READY" && localStorage.getItem("playerId")){
-            console.log("Navigating to board");
-            navigate(`/game/${gameId}/board`);
+                        navigate(`/game/${gameId}/board`);
         }
     })
 

@@ -18,8 +18,7 @@ const LoadingHost = () => {
         if(client && isConnected){
             const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
-                setStatus(data.status);
+                                setStatus(data.status);
             });
 
             return ()=> {
@@ -32,8 +31,7 @@ const LoadingHost = () => {
     useEffect(() => {
         if(client && isConnected && gameId){
             const checkGameStatus = () => {
-                console.log("Requesting game status...");
-                sendMessage(`/app/game/${gameId}/status`, {});
+                                sendMessage(`/app/game/${gameId}/status`, {});
             };
             checkGameStatus();
 
@@ -45,8 +43,7 @@ const LoadingHost = () => {
 
     useEffect(() => {
         if (status === "ALMOST_READY"){
-            console.log("Navigating to team selection");
-            navigate(`/game/${gameId}/selectTeam`);
+                        navigate(`/game/${gameId}/selectTeam`);
         }
     })
 

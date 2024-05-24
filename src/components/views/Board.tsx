@@ -490,7 +490,6 @@ const Board = () => { //NOSONAR
     const gameEnd = (data) => {
         if (data.status === "NOT_PLAYING"){
             subscriptions.forEach(sub => sub.unsubscribe());
-            console.log("Game ended navigating to ranking page: ");
             navigate(`/game/${gameId}/ranking`);
         }
     };
@@ -556,7 +555,6 @@ const Board = () => { //NOSONAR
         if(data.activePlayer){
             setTurnNumber(data.currentTurn);
             setActivePlayer(data.activePlayer);
-            console.log("active player", activePlayer);
             setShowOverlay(true);
             if(data.activePlayer.toString() === localStorage.getItem("playerId")){
                 setRollDiceIsDisabled(false);
@@ -583,21 +581,17 @@ const Board = () => { //NOSONAR
 
     const usables = (dataa) => { //NOSONAR
         return new Promise(async (resolve, reject) => { //NOSONAR
-        console.log(dataa)
         let data=structuredClone(dataa)
         let res = playerUsables;
         let deltas = {"1": [[], []], "2": [[], []], "3": [[], []], "4": [[], []]}
         for (const player in data) {
             //Combining items and cards into usables
             data[player]["combined"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
-            console.log(`il combined: ${data[player]["combined"]}`)
             for (const usable in res[player]) {
 
                 let numberOfNew=data[player]["combined"].filter((i: string) => i === usable).length
                 let numberOfOld=playerUsables[player][usable]
                 let change=abs(numberOfNew-numberOfOld)
-
-                if (change!==0) console.log(userNames[player]+": "+usable+" → "+ (numberOfNew-numberOfOld))
 
                 setPlayerUsables(prevUsables => ({
                     ...prevUsables,
@@ -718,8 +712,6 @@ const Board = () => { //NOSONAR
 
     const sendDice = () => {
         setRollDiceIsDisabled(true);
-        console.log("Requesting dice");
-        console.log(gameId);
         sendMessage(`/app/game/${gameId}/board/dice`, {})
     }
 
@@ -732,6 +724,7 @@ const Board = () => { //NOSONAR
 
         if (allData[usable]["Type"]==="Ultimate Attack"){
             sendMessage(`/app/game/${gameId}/board/ultimate`, {"used": usable, "choice": {}})
+            
             return;
         }
 
@@ -806,14 +799,11 @@ const Board = () => { //NOSONAR
     //#endregion
 
     const sendMessageWeb = () => {
-        console.log("sending to");
-        console.log("the state of mute is: " + mute);
         sendMessage(`/app/game/${gameId}/board/test`, {"player":localStorage.getItem("playerId"),"item":"TreasureChest"});
     }
 
     useEffect(() => {
         if(allPlayers){
-            console.log("allPlayers to display", allPlayers);
             const currentPlayer = allPlayers.find(player => player.username === localStorage.getItem("username"));
             const teammate = allPlayers.find(player => player.playerId === currentPlayer.teammateId);
             const remaining = allPlayers.filter(player => player.username !== currentPlayer.username && player.username !== teammate.username);
@@ -837,7 +827,6 @@ const Board = () => { //NOSONAR
                 ...remaining.map(player => player.playerId)
             ]
 
-            console.log(newDisplayPlayer);
             setUserNames(newDisplayPlayer);
             setDisplayPlayerIds(newDisplayId);
         }
@@ -849,7 +838,6 @@ const Board = () => { //NOSONAR
             const processor = new CommandProcessor(functionsForQueue);
             const subscriptionStart = client.subscribe(`/topic/game/${gameId}/board/start`, (message)=>{
                 const data = JSON.parse(message.body);
-                console.log("Received start data:", data);
                 const mappedPlayers = mapDataToPlayers({players: data.players});
                 setAllPlayers(mappedPlayers);
             });
@@ -878,7 +866,6 @@ const Board = () => { //NOSONAR
 
             const subscriptionMove = client.subscribe(`/topic/game/${gameId}/board/move`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data)
                 processor.addToQueue("move", data)
 
             });
@@ -973,10 +960,6 @@ const Board = () => { //NOSONAR
         //TODO: add ids here
         let userUid = Number(localStorage.getItem("gameId") + name)
         adjustVolume(userUid,value);
-        console.log("adjusted volume to: " + value);
-        console.log("gameId" + localStorage.getItem("gameId"));
-        console.log("name" + name);
-        console.log("adjusted for " + userUid);
     }
 
     const toggleVoice = (event, teamColor) => {

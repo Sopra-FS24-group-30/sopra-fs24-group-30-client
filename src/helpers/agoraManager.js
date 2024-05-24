@@ -22,8 +22,7 @@ const agoraRTCManager = async (eventsCallback) => {
         }catch(error){
             //add logging for errors here
         }
-        console.log("subscribe success");
-        eventsCallback("user-published", user, mediaType)
+                eventsCallback("user-published", user, mediaType)
     });
 
     // Listen for the "user-unpublished" event.
@@ -34,13 +33,11 @@ const agoraRTCManager = async (eventsCallback) => {
             //add error logging here
         }
 
-        console.log(user.uid + "has left the channel");
-        eventsCallback("user-unpublished", user, mediaType)
+                eventsCallback("user-unpublished", user, mediaType)
     });
 
     agoraEngine.on("user-left", async (user) => {
-        console.log(user.uid + "has left the channel");
-        eventsCallback("user-left", user)
+                eventsCallback("user-left", user)
     })
 
     const join = async (channelName, channelParameters) => {
@@ -74,8 +71,7 @@ const agoraRTCManager = async (eventsCallback) => {
             delete channelParameters.localAudioTrack;
             // Remove the containers you created for the local video and remote video.
         }else{
-            console.log("already out of channel")
-        }
+                    }
         try{
             await agoraEngine.leave();
         }catch (error){

@@ -48,8 +48,7 @@ const joinVoice = async (channelName) => {
     } catch (e){
 
     }
-    console.log("publish success!");
-};
+    };
 
 const toggleChannel = async (inTeam, team) => {
     await leaveVoice();
@@ -109,7 +108,6 @@ const leaveVoice = async () =>  {
         setTimeout(() => leaveVoice(),5000);
     }
 
-    console.log("You left the channel");
-};
+    };
 
 export {joinVoice, leaveVoice, adjustVolume, toggleChannel, setMuted};

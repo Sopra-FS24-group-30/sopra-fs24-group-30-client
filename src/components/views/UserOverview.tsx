@@ -9,8 +9,7 @@ import "styles/views/UserOverview.scss";
 import {User} from "types";
 
 const Player = ({user}: { user: User }) => {
-    console.log(user)
-
+    
     return (
         <div className="player container">
             <div className="player username">{user.username}</div>
@@ -60,8 +59,7 @@ const UserOverview = () => {
             try {
                 const username = localStorage.getItem("username"); //NOSONAR
                 const response = await api.get("/users");
-                console.log(response);
-                // delays continuous execution of an async operation for 1 second.
+                                // delays continuous execution of an async operation for 1 second.
                 // This is just a fake async call, so that the spinner can be displayed
                 // feel free to remove it :)
                 await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -70,8 +68,7 @@ const UserOverview = () => {
                 setUsers(response.data);
 
                 // See here to get more data.
-                console.log(response);
-            } catch (error) {
+                            } catch (error) {
                 console.error(
                     `Something went wrong while fetching the users: \n${handleError(
                         error

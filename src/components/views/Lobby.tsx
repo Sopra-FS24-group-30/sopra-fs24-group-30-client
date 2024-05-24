@@ -10,8 +10,7 @@ import {useWebsocket} from "./Websockets";
 import {Spinner} from "components/ui/Spinner";
 
 const Player = ({player}: { player: User }) => {
-    console.log(player)
-
+    
     return (
         <div className="player container">
             <div className="player username">{player.username}</div>
@@ -36,19 +35,16 @@ const Lobby: React.FC = () =>{
         if(client && isConnected){
             const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
-                setPlayers(data);
+                                setPlayers(data);
             });
             const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data.status);
-                setGameStatus(data.status);
+                                setGameStatus(data.status);
             })
 
             sendMessage(`/app/game/${gameId}/lobby`, {});
 
-            console.log(gameStatus);
-
+            
             return () =>{
                 subscriptionPlayers.unsubscribe();
                 subscriptionStatus.unsubscribe();
@@ -60,8 +56,7 @@ const Lobby: React.FC = () =>{
     useEffect(() => {
         if(client && isConnected && gameId){
             const checkStatus = () => {
-                console.log("Getting gameStatus...");
-                sendMessage(`/app/game/${gameId}/status`, {});
+                                sendMessage(`/app/game/${gameId}/status`, {});
             };
             checkStatus();
 
@@ -73,8 +68,7 @@ const Lobby: React.FC = () =>{
 
     useEffect(() => {
         if(gameStatus==="SETUP"){
-            console.log("Navigating to wincondition");
-            navigate(`/game/${gameId}/wincondition`);
+                        navigate(`/game/${gameId}/wincondition`);
         }
     })
 

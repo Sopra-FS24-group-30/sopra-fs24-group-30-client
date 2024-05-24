@@ -10,8 +10,7 @@ import {useWebsocket} from "./Websockets";
 import {Spinner} from "../ui/Spinner";
 
 const Player = ({player}: { player: User }) => {
-    console.log(player)
-
+    
     return (
         <div className="player container">
             <div className="player username">{player.username}</div>
@@ -33,8 +32,7 @@ const CreateGame:  React.FC = () =>{
     const [gameReady, setGameReady] = useState<Boolean>(false);
 
     localStorage.setItem("host", "true");
-    console.log("playerId create: ", playerId);
-
+    
     useEffect(() => {
         if (client && isConnected){
             if(!localStorage.getItem("gameId")){
@@ -42,8 +40,7 @@ const CreateGame:  React.FC = () =>{
             }
             const subscription = client.subscribe("/user/queue/gameCreated", (message) => {
                 const data = JSON.parse(message.body);
-                console.log("Received data: ", data);
-                localStorage.setItem("gameId", data.gameId);
+                                localStorage.setItem("gameId", data.gameId);
                 setGameId(data.gameId);
                 navigate(`/game/${gameId}`, {replace: true});
             });
@@ -51,18 +48,14 @@ const CreateGame:  React.FC = () =>{
             const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 setPlayers(data);
-                console.log(players);
-            });
+                            });
 
             const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
-                console.log("data", data);
-                console.log("gameReady", gameReady);
-            })
+                                            })
 
-            console.log("GameId: ", gameId);
-            sendMessage(`/app/game/${gameId}/lobby`, {});
+                        sendMessage(`/app/game/${gameId}/lobby`, {});
             sendMessage(`/app/game/${gameId}/gameReady`, {});
 
             return () => {
