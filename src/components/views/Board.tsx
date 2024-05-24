@@ -575,7 +575,7 @@ const Board = () => { //NOSONAR
         return new Promise(async (resolve, reject) => { //NOSONAR
             setCurrWinCondition(data["name"])
             setWinConditionProgress([data["progress"], data["total"]])
-            if (data["name"]!=currWinCondition){
+            if (data["name"]!==currWinCondition){
                 await timerMsg("New Win Condition", `Your Win Condition changed to ${allData[data["name"]]["DisplayName"]}.`, 3000)
             }
             resolve(null)
