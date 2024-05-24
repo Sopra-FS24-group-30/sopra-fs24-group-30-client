@@ -10,7 +10,7 @@ let socket: Socket | null = null;
 const getWebSocket = (): Socket => {
     if (!socket) {
         // Establish the WebSocket connection only if it has not been created yet.
-        socket = io('https://sopra-fs24-group-30-server.oa.r.appspot.com/ws'); // Specify your WebSocket server URL.
+        socket = io('wss://localhost:3000'); // Specify your WebSocket server URL.
     }
     return socket;
 };
