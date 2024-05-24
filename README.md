@@ -19,6 +19,7 @@ Click [here](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-server) 
 ## Technologies
 
 ### Voice Chat API
+
 The voice chat lets people communicate in realtime. It features a global and a team chat. In the global chat everyone can hear each
 other while the team chat is exclusive for the team. The voice chat was implemented with an external api called [agora](https://www.agora.io/en/).
 It uses websockets for the connection. To ensure no conflicts the userId is used for the userId and the channels are made up of a combination of words
@@ -37,6 +38,7 @@ connected with the websockets, and his session as well as user ID is being safed
 ## High-level components
 
 - ### User Views
+- 
     As a User, the [Login](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Login.tsx),
     [UserOverview](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/UserOverview.tsx) and
     [Edit](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/src/components/views/Edit.tsx) are crucial.
@@ -125,6 +127,7 @@ Each player can see how far they are away from achieving their win condition, by
 <img height="500" src="Pictures_README/Board.png"/>
 
 <img height="180" src="Pictures_README/PopUp_Ultimate.png"/>
+
 <img height="180" src="Pictures_README/Popup_Wincondition.png"/>
 
 To see the information about an item, wincondition or ultimate attack the player can hover over the according box.
@@ -141,7 +144,39 @@ Finally, when the game ends, all the players are being redirected to the ranking
 
 ## Roadmap
 
-(Ambros)
+If you love coding and want to make this awesome game more awesome this list of possible features offers some inspiration.
+
+- ### Round Timer
+
+    In a round based multiplayer game there is always the problem of long wait times. A Round timer can solve this problem, guaranteeing that
+    each player stays engaged. Keep in mind to make it so the user can adapt the timer, so everyone can enjoy the game in their own way.
+
+- ### Gamcode sharing and Friends
+
+  As of now to play together the players need to connect over some external source to share the game code. It is desirable, that the game can be played independently
+  of external connections. This can be achieved by letting the host of the game choose players by name to add to the game. Like this people can share their usernames
+  when they are together, split up and still play the game together.
+
+  Adding a friendslist removes the downside of having to remember the username of your friends while improving user experience. Concretely the functionalities to
+  join a friend which is hosting a game or adding a friend to a game with a single click would have a great impact on the usability of the game.
+
+- ### Items & Ultimates
+
+    The game is yet limited to usage of [Items](#items-phase-1), which have a single choice. Giving the option of selecting multiple players e.g. could lead to
+  new and possibly entertaining [Items](#items-phase-1).
+
+    For insipration you can have a look [here](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-client/blob/main/Infos.md).
+  
+    To understand how [Items](#items-phase-1) are implemented have a look at
+  - [GameWebSocketController](src/main/java/ch/uzh/ifi/hase/soprafs24/controller/GameWebSocketController.java)
+    - here the [Items](#items-phase-1) arrive from the frontend, the message is processed and then an effect is triggered with the handleEffects method.
+    - look for the handleUltimate and handleItems methods
+  - [GameFlow](src/main/java/ch/uzh/ifi/hase/soprafs24/logic/Game/GameFlow.java)
+    - here the effects are evaluated and the status of the game gets updated
+    - the methods are called by the handleEffects method of the GameWebSocketController. If you add a completely new effect make sure to add it there.
+  - [Items](src/main/java/ch/uzh/ifi/hase/soprafs24/logic/Game/Effects/items.json) & [Ultimates](src/main/java/ch/uzh/ifi/hase/soprafs24/logic/Game/Effects/ultimates.json)
+    - here are all the defined [Items](#items-phase-1) and ultimates
+    - In the Client, an Item needs a Picture, which is called `<ItemName>.png` and is stored in `src\assets\usables`.<br>Additional data, inlcuding choices, are to be defined in [`usables.json`](src/assets/data/usables.json), located in `src\assets\data`.<br> In the `choices` key, acceptable values are: `otherPlayerId`, `playerId`, or an Array with 2 or 4 Values.<br> Cards, Ultimates and Win Conditions work much the same way, except that the data is saved in [`wincondition.json`](src/assets/data/wincondition.json) and [`ultimates.json`](src/assets/data/ultimates.json) respectively.
 
 ## Game Wiki
 
