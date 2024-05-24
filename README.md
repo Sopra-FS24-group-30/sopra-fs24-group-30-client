@@ -60,7 +60,14 @@ connected with the websockets, and his session as well as user ID is being safed
 ## Items, Cards, Spaces, Effects, etc.
 (Marius)
 ## Authors and acknoledgement
-(Marius)
+- [Ambros Eberhard](https://github.com/ambros02)
+- [Carlos Hernandez](https://github.com/KarlGrossGROSS)
+- [Céline Mai Anh Ziegler](https://github.com/CelineZi)
+- [Thi Tam Gian Nguyen](https://github.com/tamtam-27)
+- [Marius Decurtins](https://github.com/MetaKnightEX)
+
+We want to thank our teaching assistant [Marco Leder](https://github.com/marcoleder) for the support during the semester.
+
 ## Keybinds
 (Marius)
 ## License
