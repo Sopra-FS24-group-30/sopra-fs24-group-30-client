@@ -27,8 +27,7 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children, u
         const newClient = new Client({
             webSocketFactory: () => socket,
             onConnect: () =>{
-                console.log("Connected to WS");
-                setIsConnected(true);
+                                setIsConnected(true);
             },
             onStompError: (frame: IFrame) =>{
                 console.error("Broker reported error: " + frame.headers["message"]);
@@ -50,15 +49,13 @@ export const WebsocketProvider: React.FC<WebsocketProviderProps> = ({children, u
         if (isConnected) {
             client?.publish({destination, body: JSON.stringify(body)});
         } else {
-            console.log("Attempted to send message without a connection.");
-        }
+                    }
     };
 
     const disconnect = () =>{
         client?.deactivate();
         setClient(null);
-        console.log("Correctly disconnected");
-    }
+            }
 
     return (
         <Websockets.Provider value = {{client, sendMessage, isConnected, disconnect}}>

@@ -23,8 +23,7 @@ const SelectTeam : React.FC = () => {
                 if(client && isConnected){
                     const subscriptionPlayers = client.subscribe(`/topic/game/players/${gameId}`, (message) => {
                         const data = JSON.parse(message.body);
-                        console.log(data.players);
-                        setPlayers(data.players);
+                                                setPlayers(data.players);
                     });
 
                     sendMessage(`/app/game/${gameId}/players`, {host});
@@ -42,8 +41,7 @@ const SelectTeam : React.FC = () => {
     }, [client, isConnected, sendMessage, disconnect]);
 
     const setTeammate = (teammate) =>{
-        console.log("setTeam");
-        sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
+                sendMessage(`/app/game/${gameId}/setTeammate`, {host, teammate});
         //TODO: when app router is changed, also change the url here
         navigate(`/game/${gameId}/loading`);
     }

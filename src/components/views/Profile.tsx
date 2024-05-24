@@ -59,11 +59,7 @@ const Profile = () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
                 setUser(response.data);
 
-                console.log("request to:", response.request.responseURL);
-                console.log("status code:", response.status);
-                console.log("status text:", response.statusText);
-                console.log("requested data:", response.data);
-
+                                                                
             } catch (error) {
                 console.error(`something went wrong while fetching the user:${handleError(error)}`);
             }
