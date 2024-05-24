@@ -2,7 +2,6 @@
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Technologies](#technologies)
   - [Voice Chat API](#voice-chat-api)
@@ -19,7 +18,7 @@
   - [Development Mode](#development-mode)
 - [Illustrations](#illustrations)
   - [User oversight](#user-oversight)
-  - [Game](#game)
+  - [Gameplay](#gameplay)
 - [Roadmap](#roadmap)
 - [Game Wiki](#game-wiki)
   - [Win Conditions](#win-conditions)
@@ -31,7 +30,6 @@
   - [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Authors and Acknowledgement](#authors-and-acknowledgement)
 - [License](#license)
-
 
 ## Introduction
 
@@ -61,7 +59,7 @@ and the lobbyId. This ensures that all players which are in a different game hav
 ### Websockets
 
 We integrated websockets in our web game, to ensure real-time communication between the client and the server.
-The, by SPRING boot provided, websockets create a state or a connection between the client and backend. 
+The, by SPRING boot provided, websockets create a state or a connection between the client and backend.
 Compared to REST APIs which needs to send a request to get a response from the backend, by using websockets it is possible to
 send responses from the backend without necessarilly being called upon. Furthermore, the user can receive userscpecific information
 which is not only important to send different winconditions to different clients, but also because strengthens our system.
@@ -200,7 +198,7 @@ Additionally, when the user clicks on his own profile, he is able to edit his pr
 
 <img src="Pictures_README/Edit.png" width="250"/>
 
-### Game
+### Gameplay
 
 To play Mario After Party there are 4 users needed. One user has to create the game and then share the provided game pin with 3 other friends.
 Which have to click on the join game button in home. To join the game they have to enter the game pin and click on join.
