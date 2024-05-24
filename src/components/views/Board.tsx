@@ -754,11 +754,6 @@ const Board = () => { //NOSONAR
             return [
                 stuff,
                 () => {
-                    console.log("used: " + usable)
-                    if(!stuff){
-                        stuff = {}
-                    }
-                    console.log("choice: " + stuff)
                     sendMessage(address, {"used": usable, "choice": stuff });
                     setChoiceMessage(["", "", "", ""])
                 }
@@ -789,9 +784,6 @@ const Board = () => { //NOSONAR
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3])])
                         break;
                     default:
-                        console.log("we're defaulting baby");
-                        console.log("the address is: " + address);
-                        console.log("sending: " + usable);
                         sendMessage(address, {"used": usable, "choice": {}})
 
 
