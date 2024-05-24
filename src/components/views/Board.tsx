@@ -603,10 +603,11 @@ const Board = () => { //NOSONAR
                         [usable]: numberOfNew
                     }
                 }));
-                
-                for (let i=0; i<change; i++){
-                        deltas[player][numberOfOld>numberOfNew ? 1 : 0].push(allData[usable].DisplayName)
-                }
+
+                if (change<5){
+                    for (let i=0; i<change; i++){
+                            deltas[player][numberOfOld>numberOfNew ? 1 : 0].push(allData[usable].DisplayName)
+                    }}
 
             }
         }
