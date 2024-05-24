@@ -754,7 +754,12 @@ const Board = () => { //NOSONAR
             return [
                 stuff,
                 () => {
-                    sendMessage(address, {"used": usable, "choice": stuff});
+                    console.log("used: " + usable)
+                    if(!stuff){
+                        stuff = {}
+                    }
+                    console.log("choice: " + stuff)
+                    sendMessage(address, {"used": usable, "choice": stuff });
                     setChoiceMessage(["", "", "", ""])
                 }
             ]
@@ -784,7 +789,11 @@ const Board = () => { //NOSONAR
                         setChoiceMessage([gen(allData[usable]["Choice"][0]), gen(allData[usable]["Choice"][1]), gen(allData[usable]["Choice"][2]), gen(allData[usable]["Choice"][3])])
                         break;
                     default:
+                        console.log("we're defaulting baby");
+                        console.log("the address is: " + address);
+                        console.log("sending: " + usable);
                         sendMessage(address, {"used": usable, "choice": {}})
+
 
                 }
                 
@@ -796,9 +805,9 @@ const Board = () => { //NOSONAR
     //#endregion
 
     const sendMessageWeb = () => {
-        console.log("sending msg");
+        console.log("sending to");
         console.log("the state of mute is: " + mute);
-        sendMessage(`/app/game/${gameId}/board/test`, {text:"hello world"});
+        sendMessage(`/app/game/${gameId}/board/ultimate`, {"used":"Tp","choice":{}});
     }
 
     useEffect(() => {
@@ -1526,9 +1535,9 @@ const Board = () => { //NOSONAR
                             >
                                 {mute ? "Unmute" : "Mute"}
                             </button><br/></div>
-                            {/* <button onClick={() => {sendMessageWeb()}}>
+                            {<button onClick={() => {sendMessageWeb()}}>
                                 sendMessage
-                            </button> */}
+                            </button>}
                         </div>
                     </div>
                 </div>
