@@ -6,7 +6,7 @@
     },
     "Ship": {
         "DisplayName": "🛥️ ← this is a ship (it goes Zvvvvvvvvvvv or blubblub)",
-        "Description": "Move 15 Spaces in one turn, or move 0 Spaces twice in a row.",
+        "Description": "Move 15 Spaces in one turn.",
         "Activation": ""
     },
     "Shiny": {
@@ -41,7 +41,7 @@
     },
     "Company": {
         "DisplayName": "East Indian Trading Company",
-        "Description": "As long as you have at least 60 Coins, the Win Condition is fulfilled. If you have less than 60 Coins at any point in time, your Wincondition is no longer fulfilled.",
+        "Description": "As long as you have at least 60 Coins, the Win Condition is fulfilled. If you have less than 60 Coins at any point in time, your Win Condition is no longer fulfilled.",
         "Activation": "Can be deactivated if the condition isn't met anymore."
     },
     "Marooned": {
