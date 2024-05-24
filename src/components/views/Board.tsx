@@ -572,10 +572,15 @@ const Board = () => { //NOSONAR
     }
 
     const winCondition = (data) => {
-        setCurrWinCondition(data["name"])
-        setWinConditionProgress([data["progress"], data["total"]])
-    }
-
+        return new Promise(async (resolve, reject) => { //NOSONAR
+            setCurrWinCondition(data["name"])
+            setWinConditionProgress([data["progress"], data["total"]])
+            if (data["name"]!=currWinCondition){
+                await timerMsg("New Win Condition", `Your Win Condition changed to ${allData[data["name"]]["DisplayName"]}.`, 3000)
+            }
+            resolve(null)
+    })}
+    
     const ultimate = (data) => { //NOSONAR
         setUltimateName(data["name"])
         setUltimateState(data["active"])
@@ -1572,9 +1577,12 @@ const Board = () => { //NOSONAR
                             >
                                 {mute ? "Unmute" : "Mute"}
                             </button><br/></div>
-                            {<button onClick={() => {sendMessageWeb()}}>
-                                sendMessage
-                            </button>}
+                            <div><button
+                                onClick={() => {timerMsg("Leave", "You're stuck here forever", 3000)}}
+                                className="pretty-button"
+                            >
+                                Home
+                            </button><br/></div>
                         </div>
                     </div>
                 </div>
