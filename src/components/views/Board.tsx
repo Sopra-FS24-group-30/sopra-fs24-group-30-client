@@ -734,7 +734,7 @@ const Board = () => { //NOSONAR
                 }
                 address=`/app/game/${gameId}/board/items`
                 break;
-            case "Ultimate":
+            case "Ultimate Attack":
                 address=`/app/game/${gameId}/board/ultimate`
                 break;
         }
