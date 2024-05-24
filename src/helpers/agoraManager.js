@@ -71,6 +71,7 @@ const agoraRTCManager = async (eventsCallback) => {
         if(channelParameters.localAudioTrack){
             // Destroy the local audio and video tracks.
             channelParameters.localAudioTrack.close();
+            delete channelParameters.localAudioTrack;
             // Remove the containers you created for the local video and remote video.
         }else{
             console.log("already out of channel")

@@ -41,7 +41,9 @@ const ACHIEVEMENTS ={
     "gamer": ["Gamer", "Win 3 games in a row"],
     "doingYourBest": ["Tried your best", "Lost 3 games in a row"],
     "noUltimate": ["Amateur", "Win one game without using your ultimate attack"],
-    "noMoney": ["Pro", "Win one game with 0 coins"]
+    "noMoney": ["Pro", "Win one game with 0 coins"],
+    "noWinner": ["We're all in this together","noone won the game"],
+    "backStabber": ["Backstabber", "win without your teammate"]
 };
 
 const Profile = () => {

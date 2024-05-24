@@ -9,10 +9,13 @@ import PropTypes from "prop-types";
 import {useWebsocket} from "./Websockets";
 import {Spinner} from "../ui/Spinner";
 
-const Player = ({player}: {player: User}) => {
+const Player = ({player}: { player: User }) => {
+    console.log(player)
+
     return (
         <div className="player container">
-            <div className="player username">{player.id}</div>
+            <div className="player username">{player.username}</div>
+            <div className="player id">id: {player.id}</div>
         </div>
     );
 }
@@ -26,8 +29,8 @@ const CreateGame:  React.FC = () =>{
     const navigate = useNavigate();
     const playerId = localStorage.getItem("userId");
     const [gameId, setGameId] = useState(localStorage.getItem("gameId") || null);
-    const [players, setPlayers] = useState<User[]>(null);
-    const [gameReady, setGameReady] = useState<boolean>(false);
+    const [players, setPlayers] = useState<User[]>([]);
+    const [gameReady, setGameReady] = useState<Boolean>(false);
 
     localStorage.setItem("host", "true");
     console.log("playerId create: ", playerId);
@@ -47,13 +50,15 @@ const CreateGame:  React.FC = () =>{
 
             const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
-                console.log(data);
                 setPlayers(data);
+                console.log(players);
             });
 
             const subscriptionGameReady = client.subscribe(`/topic/gameReady/${gameId}`, (message) =>{
                 const data = JSON.parse(message.body);
                 setGameReady(data.gameReady);
+                console.log("data", data);
+                console.log("gameReady", gameReady);
             })
 
             console.log("GameId: ", gameId);
@@ -111,11 +116,14 @@ const CreateGame:  React.FC = () =>{
         content = (
             <div className="lobby">
                 <ul className="lobby player-list">
-                    {players.map((player: String) =>(
+                    {players.map((player: User) =>(
                         <li key={player}>
                             <div className="player container">
+                                <div className="player name">
+                                    {player.username}
+                                </div>
                                 <div className="player id">
-                                    {player}
+                                    {player.id}
                                 </div>
                             </div>
                         </li>
@@ -134,8 +142,8 @@ const CreateGame:  React.FC = () =>{
                         <div className="Game text">
                             This is a 2 vs 2 board game, where you can use items, cards and a one time only ultimate
                             attack.
-                            Your goal is to win the game by either fulfilling your wincondition or accumulating the
-                            highest amount of money.
+                            Your goal is to win the game by either fulfilling your wincondition and passing the goal, or accumulating the
+                            highest amount of money, by the end of the game.
                         </div>
                     </div>
                 </div>
@@ -154,7 +162,7 @@ const CreateGame:  React.FC = () =>{
                             disabled={!gameReady}
                             onClick={() => startGame()}
                         >
-                            Game ready
+                            Start Game
                         </Button>
                     </div>
                 </div>

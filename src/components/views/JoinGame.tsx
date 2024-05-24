@@ -30,16 +30,20 @@ const JoinGame: React.FC = () => {
     const navigate = useNavigate();
     const [gameId, setgameId] = useState<string>("");
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
-    const playerId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
     const [joined, setJoined] = useState(false);
 
-    console.log("playerId join: ", playerId);
+    console.log("playerId join: ", userId);
 
     useEffect(() =>{
         if (client && isConnected){
-            const subscription = client.subscribe("/topic/gameJoined", (message) => {
+            const subscription = client.subscribe("/user/queue/gameJoined", (message) => {
                 const data= JSON.parse(message.body);
                 setJoined(data.joined);
+                if (data.joined){
+                    localStorage.setItem("gameId", gameId);
+                    navigate(`/game/${gameId}/lobby`);
+                }
                 console.log(joined);
             });
 
@@ -51,17 +55,13 @@ const JoinGame: React.FC = () => {
         }
     }, [client, isConnected, gameId]);
 
-    const joinGame = async () => {
+    const joinGame = () => {
         if (client && isConnected && gameId){
             try{
                 console.log("Attempting to join game with ID:", gameId);
-                const msg = {gameId, playerId}
-                if (joined){
-                    localStorage.setItem("gameId", gameId);
-                    navigate(`/game/${gameId}/lobby`);
-                }else if(!joined){
+                if(!joined){
                     console.log("Here");
-                    sendMessage("/app/game/join", JSON.stringify(msg));
+                    sendMessage("/app/game/join", {gameId, userId});
                 }
             }catch (error){
                 alert(`Something went wrong while trying to join the game: \n${handleError(error)}`);

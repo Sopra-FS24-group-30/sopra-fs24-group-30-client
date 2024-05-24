@@ -1,153 +1,153 @@
 {
     "B14": {
-        "DisplayName": "1/4 (Bronze)",
+        "DisplayName": "1/4 (Bronze)",
         "Description": "Instead of rolling, randomly move 1 or 4 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B26": {
-        "DisplayName": "2/6 (Bronze)",
+        "DisplayName": "2/6 (Bronze)",
         "Description": "Instead of rolling, randomly move 2 or 6 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B35": {
-        "DisplayName": "3/5 (Bronze)",
+        "DisplayName": "3/5 (Bronze)",
         "Description": "Instead of rolling, randomly move 3 or 5 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B135": {
-        "DisplayName": "1/3/5 (Bronze)",
+        "DisplayName": "1/3/5 (Bronze)",
         "Description": "Instead of rolling, randomly move 1, 3 or 5 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B246": {
-        "DisplayName": "2/4/6 (Bronze)",
+        "DisplayName": "2/4/6 (Bronze)",
         "Description": "Instead of rolling, randomly move 2, 4 or 6 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B123": {
-        "DisplayName": "1/2/3 (Bronze)",
+        "DisplayName": "1/2/3 (Bronze)",
         "Description": "Instead of rolling, randomly move 1, 2 or 3 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B456": {
-        "DisplayName": "4/5/6 (Bronze)",
+        "DisplayName": "4/5/6 (Bronze)",
         "Description": "Instead of rolling, randomly move 4, 5 or 6 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "B07": {
-        "DisplayName": "0/7 (Bronze)",
+        "DisplayName": "0/7 (Bronze)",
         "Description": "Instead of rolling, randomly move 1 or 4 spaces.",
         "Category": "Bronze",
         "Type": "Card",
         "Choice": []
     },
     "S0": {
-        "DisplayName": "0 (Silver)",
+        "DisplayName": "0 (Silver)",
         "Description": "Instead of rolling, move 0 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S1": {
-        "DisplayName": "1 (Silver)",
+        "DisplayName": "1 (Silver)",
         "Description": "Instead of rolling, move 1 space(s).",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S2": {
-        "DisplayName": "2 (Silver)",
+        "DisplayName": "2 (Silver)",
         "Description": "Instead of rolling, move 2 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S3": {
-        "DisplayName": "3 (Silver)",
+        "DisplayName": "3 (Silver)",
         "Description": "Instead of rolling, move 3 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S4": {
-        "DisplayName": "4 (Silver)",
+        "DisplayName": "4 (Silver)",
         "Description": "Instead of rolling, move 4 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S5": {
-        "DisplayName": "5 (Silver)",
+        "DisplayName": "5 (Silver)",
         "Description": "Instead of rolling, move 5 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S6": {
-        "DisplayName": "6 (Silver)",
+        "DisplayName": "6 (Silver)",
         "Description": "Instead of rolling, move 6 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "S7": {
-        "DisplayName": "7 (Silver)",
+        "DisplayName": "7 (Silver)",
         "Description": "Instead of rolling, move 7 spaces.",
         "Category": "Silver",
         "Type": "Card",
         "Choice": []
     },
     "G13": {
-        "DisplayName": "1/3 (Gold)",
+        "DisplayName": "1/3 (Gold)",
         "Description": "Instead of rolling, move either\n1 or 3 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",
         "Choice": [1,3]
     },
     "G26": {
-        "DisplayName": "2/6 (Gold)",
+        "DisplayName": "2/6 (Gold)",
         "Description": "Instead of rolling, move either\n2 or 6 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",
         "Choice": [2,6]
     },
     "G45": {
-        "DisplayName": "4/5 (Gold)",
+        "DisplayName": "4/5 (Gold)",
         "Description": "Instead of rolling, move either\n4 or 5 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",
         "Choice": [4,5]
     },
     "G04": {
-        "DisplayName": "0/4 (Gold)",
+        "DisplayName": "0/4 (Gold)",
         "Description": "Instead of rolling, move either\n0 or 4 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",
         "Choice": [0,4]
     },
     "G37": {
-        "DisplayName": "3/7 (Gold)",
+        "DisplayName": "3/7 (Gold)",
         "Description": "Instead of rolling, move either\n3 or 7 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",
         "Choice": [3,7]
     },
     "G1256": {
-        "DisplayName": "1/2/5/6 (Gold)",
+        "DisplayName": "1/2/5/6 (Gold)",
         "Description": "Instead of rolling, move either 1, 2, 5 or 6 spaces (your choice).",
         "Category": "Gold",
         "Type": "Card",

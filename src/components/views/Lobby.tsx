@@ -9,22 +9,26 @@ import PropTypes from "prop-types";
 import {useWebsocket} from "./Websockets";
 import {Spinner} from "components/ui/Spinner";
 
-const Player = ({user}: {user: User}) => {
+const Player = ({player}: { player: User }) => {
+    console.log(player)
+
     return (
         <div className="player container">
-            <div className="player username">{user.id}</div>
+            <div className="player username">{player.username}</div>
+            <div className="player id">id: {player.id}</div>
         </div>
     );
 }
 
 Player.propTypes = {
-    user: PropTypes.object,
+    player: PropTypes.object,
 };
+
 
 const Lobby: React.FC = () =>{
     const gameId = localStorage.getItem("gameId");
     const navigate = useNavigate();
-    const [users, setUsers] = useState<User[]>(null);
+    const [players, setPlayers] = useState<User[]>(null);
     const [gameStatus, setGameStatus] = useState<String>(null);
     const {client, sendMessage, isConnected, disconnect} = useWebsocket();
 
@@ -33,7 +37,7 @@ const Lobby: React.FC = () =>{
             const subscriptionPlayers = client.subscribe(`/topic/players/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
                 console.log(data);
-                setUsers(data);
+                setPlayers(data);
             });
             const subscriptionStatus = client.subscribe(`/topic/game/status/${gameId}`, (message) => {
                 const data = JSON.parse(message.body);
@@ -62,7 +66,6 @@ const Lobby: React.FC = () =>{
             checkStatus();
 
             const intervalId = setInterval(checkStatus, 5000);
-
             return () => clearInterval(intervalId);
         }
     }, [client, isConnected, gameStatus, gameId, navigate]);
@@ -92,15 +95,18 @@ const Lobby: React.FC = () =>{
 
     let content = <Spinner/>
 
-    if (users){
+    if (players){
         content = (
             <div className="lobby">
                 <ul className="lobby player-list">
-                    {users.map((user: String) =>(
-                        <li key={user}>
+                    {players.map((player: User) =>(
+                        <li key={player}>
                             <div className="player container">
+                                <div className="player name">
+                                    {player.username}
+                                </div>
                                 <div className="player id">
-                                    {user}
+                                    {player.id}
                                 </div>
                             </div>
                         </li>
@@ -119,8 +125,8 @@ const Lobby: React.FC = () =>{
                         <div className="Game text">
                             This is a 2 vs 2 board game, where you can use items, cards and a one time only ultimate
                             attack.
-                            Your goal is to win the game by either fulfilling your wincondition or accumulating the
-                            highest amount of money.
+                            Your goal is to win the game by either fulfilling your wincondition and passing the goal, or accumulating the
+                            highest amount of money, by the end of the game.
                         </div>
                     </div>
                 </div>
