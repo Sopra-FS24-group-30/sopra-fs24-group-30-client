@@ -36,7 +36,7 @@ const {ceil, floor, min, max, round, abs} = Math; //NOSONAR this is way more con
 const colours={"yellow": "#fff155", "green": "#82ff55", "blue": "#55d9ff", "red": "#ff555d", "pink": "#ff8db2", "orange": "#ff8701", "white": "#ffffff", "purple": "#9500e5"}
 const cardColours={"Gold": ["#ffdd00", "#000"], "Silver": ["#898989", "#fff"], "Bronze": ["#e48518", "#fff"], "Ultimate": ["#b1001d", "#fff"], "WinCondition": ["#be8f3c", "#fff"]}
 
-const landOnMsg={"blue": " a blue Space", "yellow": " a yellow Space", "item": " an Item Space", "card": " a Card Space", "black": " a big oops Space", "red": " a small oops Space", "gambling": " a gambling Space", "catnami": " a Catnami Space"}
+const landOnMsg={"blue": " a blue Space", "yellow": " a yellow Space", "item": " an Item Space", "card": " a Card Space", "black": " a big oops Space", "red": " a small oops Space", "gambling": " a gambling Space", "catnami": " a Catnami Space, something fun might've happened."}
 
 const lost="<font color=#de1313>lost</font>"
 const gained="<font color=#18c92a>gained</font>"
@@ -455,7 +455,7 @@ const Board = () => { //NOSONAR
                     case "simultaneous":
                     case "tp":
                     case "teleport":
-                        let message="" //NOSONAR
+                        var message="" //NOSONAR
                         for (const [playerId, val] of Object.entries(toRead)) {
                             message+=`${userNames[playerId]} teleported.\n`
                             let space = val["spaces"][val["spaces"].length - 1];
@@ -464,7 +464,7 @@ const Board = () => { //NOSONAR
                                 [playerId]: space
                             }));
                         }
-                        if(message==="") await timerMsg("Teleportation", message, 3000)
+                        if(message!=="") await timerMsg("Teleportation", message, 3000)
                         resolve(null)
                         break;
                     case "start":
@@ -588,22 +588,24 @@ const Board = () => { //NOSONAR
             //Combining items and cards into usables
             data[player]["combined"] = [...(Array.isArray(data[player]["items"]) ? data[player]["items"] : []), ...(Array.isArray(data[player]["cards"]) ? data[player]["cards"] : [])];
             console.log(`il combined: ${data[player]["combined"]}`)
-            for (const item in res[player]) {
+            for (const usable in res[player]) {
 
-                let numberOfNew=data[player]["combined"].filter((i: string) => i === item).length
-                let numberOfOld=res[player][item]
+                let numberOfNew=data[player]["combined"].filter((i: string) => i === usable).length
+                let numberOfOld=playerUsables[player][usable]
                 let change=abs(numberOfNew-numberOfOld)
+
+                if (change!==0) console.log(userNames[player]+": "+usable+" → "+ (numberOfNew-numberOfOld))
 
                 setPlayerUsables(prevUsables => ({
                     ...prevUsables,
                     [player]: {
                         ...prevUsables[player],
-                        [item]: numberOfNew
+                        [usable]: numberOfNew
                     }
                 }));
                 
                 for (let i=0; i<change; i++){
-                        deltas[player][numberOfOld>numberOfNew ? 1 : 0].push(allData[item].DisplayName)
+                        deltas[player][numberOfOld>numberOfNew ? 1 : 0].push(allData[usable].DisplayName)
                 }
 
             }
@@ -1489,8 +1491,7 @@ const Board = () => { //NOSONAR
                         <div className="ultimate-box" //NOSONAR
                             onMouseEnter={() => setPreviewImage(ultimateName)}
                             onMouseLeave={() => setPreviewImage("")}
-                            disabled = {true || usablesIsDisabled || ultimateState}
-                            //TODO cheu eisi da merar damaun
+                            disabled = {usablesIsDisabled || !ultimateState}
                             onClick={() => (ultimateState===true && activePlayer===localStorage.getItem("playerId") ? sendUsable(ultimateName) : console.log("Ultimate already used."))}
                             style={{cursor: ultimateState===true && activePlayer===localStorage.getItem("playerId")  ? "cursor" : "default"}}
                             >
