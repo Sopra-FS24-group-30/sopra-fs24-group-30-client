@@ -754,7 +754,7 @@ const Board = () => { //NOSONAR
             return [
                 id,
                 () => {
-                    sendMessage(address, {"used": usable, "choice": {"playerId": id}});
+                    sendMessage(address, {"used": usable, "choice": {"playerId": displayPlayerIds[stuff].toString()}});
                     setChoiceMessage(["", "", "", ""])
                 }
             ]
@@ -808,7 +808,7 @@ const Board = () => { //NOSONAR
     const sendMessageWeb = () => {
         console.log("sending to");
         console.log("the state of mute is: " + mute);
-        sendMessage(`/app/game/${gameId}/board/ultimate`, {"used":"Tp","choice":{}});
+        sendMessage(`/app/game/${gameId}/board/test`, {"player":localStorage.getItem("playerId"),"item":"TreasureChest"});
     }
 
     useEffect(() => {

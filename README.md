@@ -19,6 +19,10 @@ Click [here](https://github.com/Sopra-FS24-group-30/sopra-fs24-group-30-server) 
 ## Technologies
 
 ### Voice Chat API
+The voice chat lets people communicate in realtime. It features a global and a team chat. In the global chat everyone can hear each
+other while the team chat is exclusive for the team. The voice chat was implemented with an external api called [agora](https://www.agora.io/en/).
+It uses websockets for the connection. To ensure no conflicts the userId is used for the userId and the channels are made up of a combination of words
+and the lobbyId. This ensures that all players which are in a different game have unique channels.
 
 ### Websockets
 
