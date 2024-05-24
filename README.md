@@ -121,7 +121,10 @@ To see the information about an item, wincondition or ultimate attack the player
 
 <img height="180" src="Pictures_README/Message_RollDice.png"/>
 
-After every action, a message pops up to inform the player what is happening.
+After each action, a message pops up to let the player know what is happening.
+The screen will also darken and the name of the new active player will be displayed on the screen for a few seconds to let the players know who can now play.
+
+<img height="300" src="Pictures_README/Turn.png"/>
 
 Finally, when the game ends, all the players are being redirected to the ranking page.
 <img height="300" src="Pictures_README/Ranking.png"/>
