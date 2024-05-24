@@ -53,8 +53,79 @@ connected with the websockets, and his session as well as user ID is being safed
 
 ## Launch and Deployment
 (Carlos)
+
 ## Illustrations
-(Céline)
+The following picture illustrates how all sites interact with each other. The user starts by either signing or loging in.
+As soon as the user is on the home site he has the choice between creating or joining a game, look at all the users or logout.
+
+![](Pictures_README/Flow.png "Flow")
+
+<img alt="Login.png" src="Pictures_README/Login.png" width="350" height="" title="Login Site"/>
+
+<img src="Pictures_README/Homepage.png" width="350"/>
+
+### User oversight
+To see all the users of a game the user has to click on the see all users button. After being redirected the user can see a list
+of all the registered users. To search for a specific person, he can use the searchbar and enter the name of the desired user.
+
+<img src="Pictures_README/Useroverview.png" width="350"/>
+
+By clicking on a user box, the profile of him pops up and shows various information about him.
+An important note is that by hovering over the achievement circles, the user is able to see, which achievements there are. 
+If an achievement is red it means, that the user hasn't unlocked the achievement yet. As soon as one is unlocked the inner circle changes to yellow.
+
+<img src="Pictures_README/Profile.png" width="350" title="Profile"/>
+
+Additionally, when the user clicks on his own profile, he is able to edit his profile to a certain extend, like changing the username and adding the birthday.
+
+<img src="Pictures_README/OwnProfile.png" width="250"/>
+
+<img src="Pictures_README/Edit.png" width="250"/>
+
+### Game
+To play Mario After Party there are 4 users needed. One user has to create the game and then share the provided game pin with 3 other friends.
+Which have to click on the join game button in home. To join the game they have to enter the game pin and click on join.
+If the game pin is correct, they will be immediately redirected to the lobby site, where they can see all the players in the game.
+
+<img src="Pictures_README/CreateGame.png" width="" height="250"/>
+<img height="250" src="Pictures_README/JoinGame.png"/>
+<img height="250" src="Pictures_README/Lobby.png"/>
+
+As soon as all four players have successfully joined the game, the host can click on the "Start Game" button to start the game.
+The players can choose a wincondition by clicking on one of the three cards after being slid in. The same procedure also applies for the ultimate attack selection.
+
+<img height="200" src="Pictures_README/Wincondition_Back.png"/>
+<img height="200" src="Pictures_README/Wincondition_Flipping.png"/>
+<img height="200" src="Pictures_README/Wincondition_Front.png"/>
+
+Afterward every player is being redirected to the loading site, and as soon as all players arrive, the host will be redirected to select his desired teammate. And as soon as 
+he has clicked on one player, everyone is being redirected to the board site, where the game starts.
+
+<img height="280" src="Pictures_README/Loading.png"/>
+<img height="280" src="Pictures_README/TeamSelection.png"/>
+
+This game is a typical board game, except that everything can and will happen.
+Each player can play once in a turn and use different objects to win the game.
+A player is able to either use an item, a card or the ultimate attack, which can be used exactly once in the whole game. In each turn the player can roll the dice to move its figure on the board. 
+If a player used a card however he may not use the dice as the card replaces it. 
+To win the game a player can either fulfill their win condition and pass the goal field to end the game prematurely, or have the maximum amount of money as a team combined when the turn limit is being met.
+Each player can see how far they are away from achieving their win condition, by the circle next to the wincondition information box.
+
+<img height="500" src="Pictures_README/Board.png"/>
+
+<img height="180" src="Pictures_README/PopUp_Ultimate.png"/>
+<img height="180" src="Pictures_README/Popup_Wincondition.png"/>
+
+
+To see the information about an item, wincondition or ultimate attack the player can hover over the according box.
+
+<img height="180" src="Pictures_README/Message_RollDice.png"/>
+
+After every action, a message pops up to inform the player what is happening.
+
+Finally, when the game ends, all the players are being redirected to the ranking page.
+<img height="300" src="Pictures_README/Ranking.png"/>
+
 ## Roadmap
 (Ambros)
 ## Items, Cards, Spaces, Effects, etc.
