@@ -308,8 +308,6 @@ If any Player has Jack Sparrow, CAPTAIN Jack Sparrow
 | East Indian Trading Company | As long as you have at least 60 Coins, the Win Condition is fulfilled. If you have less than 60 Coins at any point in time, your Wincondition is no longer fulfilled. |
 | The Marooned | As long as you have exactly 0 Coins, 0 [Items](#items-phase-1) and 0 [Cards](#cards-phase-2) the Win Condition is fulfilled. If you gain any Coins, [Items](#items-phase-1) or [Cards](#cards-phase-2) at any point in time, your Win Condition is no longer fulfilled. |
 | Jack Sparrow, CAPTAIN Jack Sparrow | You win if the other Team wins, and you lose if your Partner wins. If the game ends after 20 Turns, everyone except for your Partner loses. |
-<!-- | Third time's the charm | Pass the goal twice | -->
-<!-- | Ohh shiny | Use one Bronze, Silver and Gold [Item](#items-phase-1), and one Bronze, Silver and Gold [Card](#cards-phase-2). | -->
 
 ### Usables
 
@@ -331,8 +329,6 @@ The starting Player may not use their [Ultimate Attack](#ultimate-attack-phase-1
 | Fresh start :) | All other Players get teleported back to their starting [Space](#spaces-phase-3). |
 | /tp | Move to a random [Space](#spaces-phase-3) on the board (fun). |
 | Nothing (Maybe you should've taken another Card?) | Nothing happens (still prevents using an [Item](#items-phase-1)). |
-<!-- | Chameleon | Use the effect of any [Item](#items-phase-1) in the game. | -->
-<!-- | Stop? | The game terminates after 5 more turns. (Round Counter gets set to 15 after this turn ends) | -->
 
 #### Items (Phase 1)
 
@@ -356,12 +352,6 @@ Some [Items](#items-phase-1) cause the Player to automatically skip the second P
 | (Almost) all your Items are belong to mine | Steal 4 random [Items](#items-phase-1) from a player of your choice. | |
 | Only-Fans Subscription | Steal 7 Coins from every other player (even your Teammate) | |
 | Dino Chicky Nuggie | −20 Coins, your ultimate becomes usable again. | |
-<!-- | Two (Regular) Mushrooms | This turn you move twice as many [Spaces](#spaces-phase-3). | -->
-<!-- | Stick | If you pass a player this turn, steal 15 Coins from them. | -->
-<!-- | Meow it I'm out | Switch places with a random other player. | -->
-<!-- | Bad Wifi | Chose a player, they get muted for 1 turn (2 if it was your teammate) | -->
-<!-- | I am confusion | This turn you move backwards instead of forwards. | -->
-<!-- | Golden Snitch | A Player of your choice has to roll the Big Oops Roulette. +10 Coins if it was your teammate. | -->
 
 #### Cards (Phase 2)
 
