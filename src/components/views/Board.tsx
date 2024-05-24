@@ -741,6 +741,7 @@ const Board = () => { //NOSONAR
         
         const genPlayer = (stuff) => {
             const id=userNames[displayPlayerIds[stuff]]
+            
             return [
                 stuff,
                 () => {
